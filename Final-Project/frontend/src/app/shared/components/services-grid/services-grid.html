@@ -1,0 +1,19 @@
+<section class="services page-shell" id="consultation">
+  <div class="section-heading">
+    <span class="section-label">What we do</span>
+    <h2 class="section-title">Helping you choose the right path to study abroad with confidence.</h2>
+    <p class="section-copy">
+      We simplify your journey by guiding you through country selection, visa processes, and university options—so you can focus on your future, not the confusion.
+    </p>
+  </div>
+
+  <div class="service-grid">
+    @for (service of services; track service.title) {
+      <article class="service-card">
+        <span class="service-number">0{{ $index + 1 }}</span>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </article>
+    }
+  </div>
+</section>

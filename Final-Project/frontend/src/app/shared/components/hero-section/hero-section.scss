@@ -1,0 +1,140 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
+  gap: 2rem;
+  padding: 4.5rem 0 3rem;
+  align-items: center;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.proof-list {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.proof-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--color-ink-soft);
+}
+
+.proof-list li::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-accent));
+}
+
+.hero-panel {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 241, 224, 0.92));
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: -15% auto auto 60%;
+  width: 14rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(15, 118, 110, 0.1);
+}
+
+.hero-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+}
+
+.hero-card-primary {
+  display: grid;
+  gap: 0.7rem;
+  background: #172033;
+  color: white;
+}
+
+.hero-card-primary p,
+.hero-card-primary span {
+  margin: 0;
+}
+
+.hero-card-primary p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-card-primary strong {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.hero-card-primary span {
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.7;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.hero-card-stat {
+  background: rgba(255, 255, 255, 0.72);
+  color: black;
+  border: 1px solid rgba(23, 32, 51, 0.08);
+}
+
+.hero-card-stat strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+}
+
+.hero-card-stat span {
+  color: var(--color-ink-soft);
+  line-height: 1.5;
+}
+
+@media (max-width: 920px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 3rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.app-hero-section-bg{
+  background: #1a2744;
+}
+.hero-titles {
+  color:white;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}

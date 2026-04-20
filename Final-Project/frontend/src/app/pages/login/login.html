@@ -1,0 +1,32 @@
+<app-layout>
+
+<div class="login-page">
+
+  <div class="login-card">
+
+    <h2>{{ isLoginMode ? 'Login' : 'Sign Up' }}</h2>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+
+      <div *ngIf="!isLoginMode">
+        <input type="text" formControlName="name" placeholder="Full Name" />
+      </div>
+
+      <input type="email" formControlName="email" placeholder="Email" />
+      <input type="password" formControlName="password" placeholder="Password" />
+
+      <button type="submit">
+        {{ isLoginMode ? 'Login' : 'Create Account' }}
+      </button>
+
+    </form>
+
+    <p (click)="toggleMode()" class="toggle">
+      {{ isLoginMode ? 'No account? Sign up' : 'Already have an account? Login' }}
+    </p>
+
+  </div>
+
+</div>
+
+</app-layout>

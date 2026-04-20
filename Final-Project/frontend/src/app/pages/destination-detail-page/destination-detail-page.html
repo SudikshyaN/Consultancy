@@ -1,0 +1,108 @@
+@if (country) {
+<div class="detail-page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <button routerLink="/">← Choose destination</button>
+    <span>/ {{ country.name }}</span>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+
+    <!-- LEFT CONTENT -->
+    <div class="hero-left">
+      <div class="flag">{{ country.flag }}</div>
+      <p class="label">STUDY IN</p>
+      <h1>{{ country.name }}</h1>
+      <p class="overview">{{ country.overview }}</p>
+
+      <div class="tags">
+        <span>{{ country.visaType }}</span>
+        <span>{{ country.universities || 'Many universities' }}</span>
+        <span>{{ country.work || 'Work opportunities' }}</span>
+        <span>{{ country.intakes }}</span>
+      </div>
+    </div>
+
+    <!-- RIGHT CARDS -->
+    <div class="hero-right">
+
+      <div class="info-card">
+        <p>Average Tuition</p>
+        <h2>{{ country.tuition || '$20,000+' }}</h2>
+      </div>
+
+      <div class="info-card">
+        <p>Visa Processing</p>
+        <h2>{{ country.processingTime }}</h2>
+      </div>
+
+      <div class="info-card">
+        <p>IELTS Requirement</p>
+        <h2>{{ country.ielts || '6.0 - 7.0' }}</h2>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- DETAILS SECTIONS -->
+  <div class="content">
+
+    <!-- STEPS -->
+    <section>
+      <h2>Application Steps</h2>
+      @for (step of country.applicationSteps; track step.step) {
+        <div class="card">
+          <h3>Step {{ step.step }}: {{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+          <small>{{ step.duration }}</small>
+        </div>
+      }
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section>
+      <h2>Required Documents</h2>
+      <ul>
+        @for (doc of country.documents; track doc) {
+          <li>{{ doc }}</li>
+        }
+      </ul>
+    </section>
+
+    <!-- FINANCE -->
+    <section>
+      <h2>Financial Requirement</h2>
+      <p>{{ country.financialRequirement }}</p>
+    </section>
+
+    <!-- TIPS -->
+    <section>
+      <h2>Tips</h2>
+      <ul>
+        @for (tip of country.tips; track tip) {
+          <li>{{ tip }}</li>
+        }
+      </ul>
+    </section>
+
+    <!-- AFTER ARRIVAL -->
+    <section>
+      <h2>After Arrival</h2>
+      <ul>
+        @for (item of country.postArrival; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </section>
+
+  </div>
+
+</div>
+} @else {
+<div class="loading">
+  <p>Loading destination details...</p>
+</div>
+}

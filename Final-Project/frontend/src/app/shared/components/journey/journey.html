@@ -1,0 +1,35 @@
+<div class="journey">
+  <h1>{{ countryName }} Study Plan</h1>
+  <p>
+    {{ countryOverview }}
+  </p>
+
+  <div class="tabs">
+    @for (highlight of highlights; track highlight) {
+      <button [class.active]="$index === 0">{{ highlight }}</button>
+    }
+  </div>
+
+  <div class="timeline">
+    @for (step of steps; track $index) {
+      <div class="step-card">
+        <div class="line"></div>
+
+        <div class="icon">
+          {{ step.icon }}
+        </div>
+
+        <div class="content">
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.subtitle }}</p>
+        </div>
+
+        <div class="tag" [ngClass]="step.tagColor">
+          {{ step.tag }}
+        </div>
+      </div>
+    } @empty {
+      <p>No steps available</p>
+    }
+  </div>
+</div>

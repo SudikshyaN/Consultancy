@@ -1,0 +1,67 @@
+<app-layout>
+
+<section class="blog-page">
+
+  <div class="blog-header">
+    <div class="badge">RESOURCES & GUIDES</div>
+
+    <h1>
+      The Bidesh Padhna <span>Blog</span>
+    </h1>
+
+    <p>
+      Visa guides, SOP tips, finance breakdowns, and real student stories.
+      Written for Nepali students, by Nepali students.
+    </p>
+  </div>
+
+  <div class="filter-tabs">
+    <button>All</button>
+    <button>Visa guides</button>
+    <button>SOP tips</button>
+    <button>Finance</button>
+    <button>Universities</button>
+    <button>Student life</button>
+  </div>
+
+  <div class="featured-card">
+    <div class="featured-content">
+      <span class="tag">FEATURED • VISA GUIDE</span>
+
+      <h2>
+        The complete guide to Australia Subclass 500 student visa for Nepali students in 2025
+      </h2>
+
+      <p class="meta">Rohan KC • Apr 8, 2025 • 12 min read</p>
+    </div>
+
+    <div class="arrow">→</div>
+  </div>
+
+  <div class="blog-list">
+
+    <div class="blog-item" *ngFor="let blog of blogs">
+
+      <div class="left">
+        <span class="category">{{ blog.category }}</span>
+
+        <h3>{{ blog.title }}</h3>
+
+        <p class="desc">{{ blog.description }}</p>
+
+        <div class="meta">
+          {{ blog.author }} • {{ blog.date }}
+        </div>
+      </div>
+
+      <div class="right">
+        <span class="time">{{ blog.time }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</app-layout>

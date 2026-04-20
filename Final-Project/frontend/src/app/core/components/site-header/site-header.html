@@ -1,0 +1,27 @@
+<header class="site-header">
+  <div class="page-shell header-inner">
+    <a class="brand-mark" routerLink="/">
+      <span class="brand-emblem">BP</span>
+      <span class="brand-copy">
+        <strong>Bidesh Padhna</strong>
+        <small>Foreign Education Consultancy</small>
+      </span>
+    </a>
+
+
+    <nav class="nav-links" aria-label="Primary">
+      @for (item of navItems; track item.path) {
+      <a (click)="routes(item.path)" >
+        {{ item.label }}
+      </a>
+      }
+    </nav>
+
+    <button type="" class="lang-toggle">
+      <!-- <span class="en">Login/Signup</span> -->
+      <a href="/login">
+        Login/Signup </a>
+    </button>
+  </div>
+
+</header>
