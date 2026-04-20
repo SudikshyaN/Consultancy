@@ -1,38 +1,103 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest extends LoginRequest {
+  name: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+  user: AuthUser;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly authUrl = `${environment.apiBaseUrl}/api/auth`;
+  private readonly tokenKey = 'token';
+  private readonly userKey = 'user';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
-  register(data: { name: string; email: string; password: string }) {
-    return this.http.post<any>(`${this.apiUrl}/register`, data).pipe(
-      tap(res => this.saveSession(res))
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/register`, data).pipe(
+      tap((res) => this.saveSession(res))
     );
   }
 
-  login(data: { email: string; password: string }) {
-    return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
-      tap(res => this.saveSession(res))
+  login(data: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/login`, data).pipe(
+      tap((res) => this.saveSession(res))
     );
   }
 
-  private saveSession(res: any) {
-    localStorage.setItem('token', res.token);
-    localStorage.setItem('user', JSON.stringify(res.user));
+  getProfile(): Observable<{ user: AuthUser }> {
+    return this.http.get<{ user: AuthUser }>(`${this.authUrl}/me`);
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+  getToken(): string | null {
+    if (!this.isBrowser()) {
+      return null;
+    }
+
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  getUser(): AuthUser | null {
+    if (!this.isBrowser()) {
+      return null;
+    }
+
+    const user = localStorage.getItem(this.userKey);
+
+    return user ? JSON.parse(user) : null;
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
+  }
+
+  logout(): void {
+    if (this.isBrowser()) {
+      localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem(this.userKey);
+    }
+
+    this.router.navigate(['/login']);
+  }
+
+  private saveSession(res: AuthResponse): void {
+    if (!this.isBrowser()) {
+      return;
+    }
+
+    localStorage.setItem(this.tokenKey, res.token);
+    localStorage.setItem(this.userKey, JSON.stringify(res.user));
+  }
+
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
   }
 }

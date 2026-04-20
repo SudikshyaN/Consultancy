@@ -1,32 +1,37 @@
 <app-layout>
+  <div class="login-page">
+    <div class="login-card">
+      <h2>{{ isLoginMode ? 'Login' : 'Sign Up' }}</h2>
 
-<div class="login-page">
+      <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" class="form-message success">{{ successMessage }}</p>
 
-  <div class="login-card">
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="!isLoginMode">
+          <input type="text" formControlName="name" placeholder="Full Name" />
+          <small *ngIf="authForm.get('name')?.touched && authForm.get('name')?.invalid">
+            Name must be at least 2 characters.
+          </small>
+        </div>
 
-    <h2>{{ isLoginMode ? 'Login' : 'Sign Up' }}</h2>
+        <input type="email" formControlName="email" placeholder="Email" />
+        <small *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid">
+          Enter a valid email address.
+        </small>
 
-    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <input type="password" formControlName="password" placeholder="Password" />
+        <small *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid">
+          Password must be at least 6 characters.
+        </small>
 
-      <div *ngIf="!isLoginMode">
-        <input type="text" formControlName="name" placeholder="Full Name" />
-      </div>
+        <button type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Create Account') }}
+        </button>
+      </form>
 
-      <input type="email" formControlName="email" placeholder="Email" />
-      <input type="password" formControlName="password" placeholder="Password" />
-
-      <button type="submit">
-        {{ isLoginMode ? 'Login' : 'Create Account' }}
+      <button type="button" (click)="toggleMode()" class="toggle">
+        {{ isLoginMode ? 'No account? Sign up' : 'Already have an account? Login' }}
       </button>
-
-    </form>
-
-    <p (click)="toggleMode()" class="toggle">
-      {{ isLoginMode ? 'No account? Sign up' : 'Already have an account? Login' }}
-    </p>
-
+    </div>
   </div>
-
-</div>
-
 </app-layout>

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Layout } from '../layout/layout';
-import{AuthService}from '../../services/auth.services'
+import { AuthService } from '../../services/auth.services';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +13,10 @@ import{AuthService}from '../../services/auth.services'
   styleUrls: ['./login.scss']
 })
 export class LoginComponent {
-
   isLoginMode = true;
   authForm: FormGroup;
   errorMessage = '';
+  successMessage = '';
   isLoading = false;
 
   constructor(
@@ -34,21 +34,37 @@ export class LoginComponent {
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
     this.errorMessage = '';
+    this.successMessage = '';
     this.authForm.reset();
+
+    const nameControl = this.authForm.get('name');
+
+    if (this.isLoginMode) {
+      nameControl?.clearValidators();
+    } else {
+      nameControl?.setValidators([Validators.required, Validators.minLength(2)]);
+    }
+
+    nameControl?.updateValueAndValidity();
   }
 
   onSubmit() {
-    if (this.authForm.invalid) return;
+    if (this.authForm.invalid) {
+      this.authForm.markAllAsTouched();
+      return;
+    }
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.successMessage = '';
 
     const { name, email, password } = this.authForm.value;
 
     if (this.isLoginMode) {
       this.authService.login({ email, password }).subscribe({
-        next: () => {
+        next: (res) => {
           this.isLoading = false;
+          this.successMessage = res.message;
           this.router.navigate(['/']);
         },
         error: (err: any) => {
@@ -58,8 +74,9 @@ export class LoginComponent {
       });
     } else {
       this.authService.register({ name, email, password }).subscribe({
-        next: () => {
+        next: (res) => {
           this.isLoading = false;
+          this.successMessage = res.message;
           this.router.navigate(['/']);
         },
         error: (err: any) => {
