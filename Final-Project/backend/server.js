@@ -1,12 +1,18 @@
-import {express} from 'express'
+const app = require('./src/app');
+const connectDB = require('./src/config/db');
+const { PORT } = require('./src/config/env');
 
-const app = express()
-const port = 3000
+async function startServer() {
+  try {
+    await connectDB();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err.message);
+    process.exit(1);
+  }
+}
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+startServer();
