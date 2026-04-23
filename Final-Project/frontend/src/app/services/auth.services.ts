@@ -58,19 +58,11 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    if (!this.isBrowser()) {
-      return null;
-    }
-
-    return localStorage.getItem(this.tokenKey);
+    return this.getStorageItem(this.tokenKey);
   }
 
   getUser(): AuthUser | null {
-    if (!this.isBrowser()) {
-      return null;
-    }
-
-    const user = localStorage.getItem(this.userKey);
+    const user = this.getStorageItem(this.userKey);
 
     return user ? JSON.parse(user) : null;
   }
@@ -81,8 +73,8 @@ export class AuthService {
 
   logout(): void {
     if (this.isBrowser()) {
-      localStorage.removeItem(this.tokenKey);
-      localStorage.removeItem(this.userKey);
+      sessionStorage.removeItem(this.tokenKey);
+      sessionStorage.removeItem(this.userKey);
     }
 
     this.router.navigate(['/login']);
@@ -93,8 +85,16 @@ export class AuthService {
       return;
     }
 
-    localStorage.setItem(this.tokenKey, res.token);
-    localStorage.setItem(this.userKey, JSON.stringify(res.user));
+    sessionStorage.setItem(this.tokenKey, res.token);
+    sessionStorage.setItem(this.userKey, JSON.stringify(res.user));
+  }
+
+  private getStorageItem(key: string): string | null {
+    if (!this.isBrowser()) {
+      return null;
+    }
+
+    return sessionStorage.getItem(key);
   }
 
   private isBrowser(): boolean {

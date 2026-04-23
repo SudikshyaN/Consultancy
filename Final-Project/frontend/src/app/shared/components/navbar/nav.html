@@ -1,0 +1,13 @@
+<header class="dashboard-topbar">
+  <div class="topbar-copy">
+    <div class="topbar-title">
+      Good morning, {{ user?.name || 'Student' }}
+      <span class="wave">👋</span>
+    </div>
+    <div class="topbar-subtitle">{{ todayLabel }}</div>
+  </div>
+
+  <div class="right-tools">
+    <div class="user-badge">{{ user?.name?.charAt(0) || 'S' }}</div>
+  </div>
+</header>

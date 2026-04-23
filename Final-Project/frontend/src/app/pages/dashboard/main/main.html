@@ -1,0 +1,13 @@
+<section class="dashboard-card-content">
+  <div class="stats-grid">
+    @for (card of statCards; track index; let index = $index) {
+      <button
+        type="button"
+        class="stat-card"
+        [class.active]="activeCard === index"
+        (click)="setActiveCard(index)"
+      >
+      </button>
+    }
+  </div>
+</section>

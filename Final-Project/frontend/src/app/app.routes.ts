@@ -6,6 +6,12 @@ import { AboutComponent } from './pages/about /about';
 import { BlogComponent } from './pages/blog/blog';
 import { LoginComponent } from './pages/login/login';
 import { FinanceComponent } from './pages/finance/finance';
+import { DashboardComponent } from './pages/dashboard/dashboard';
+import { AuthGuard } from './pages/login/auth.guard';
+import { DashboardMainComponent } from './pages/dashboard/main/main';
+import { DashboardProfileComponent } from './pages/dashboard/profile/profile';
+import { DashboardWishlistComponent } from './pages/dashboard/wishlist/wishlist';
+import { DashboardCommunityComponent } from './pages/dashboard/community/community';
 
 
 export const routes: Routes = [
@@ -30,13 +36,40 @@ export const routes: Routes = [
     path: 'blog',
     component: BlogComponent
   },
+    {
+    path: 'finance',
+    component: FinanceComponent
+  },
+
+
+
   {
     path: 'login',
     component : LoginComponent
   },
   {
-    path: 'finance',
-    component: FinanceComponent
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: DashboardMainComponent
+      },
+      {
+        path: 'profile',
+        component: DashboardProfileComponent
+      },
+      {
+        path: 'wishlist',
+        component: DashboardWishlistComponent
+      },
+      {
+        path: 'community',
+        component: DashboardCommunityComponent
+      }
+    ]
   },
+
   
 ];
