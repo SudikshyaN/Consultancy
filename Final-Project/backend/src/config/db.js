@@ -7,6 +7,7 @@ async function connectDB() {
   }
 
   mongoose.set('strictQuery', true);
+  mongoose.set('bufferCommands', false);
 
   let connection;
 
@@ -24,7 +25,20 @@ async function connectDB() {
       );
     }
 
-    throw err;
+    if (
+      err.message.includes('Could not connect to any servers in your MongoDB Atlas cluster') ||
+      err.message.includes('IP that isn\'t whitelisted') ||
+      err.message.includes('querySrv') ||
+      err.message.includes('ECONNREFUSED') ||
+      err.message.includes('ENOTFOUND') ||
+      err.message.includes('ETIMEOUT')
+    ) {
+      throw new Error(
+        'MongoDB Atlas connection failed. Add your current IP address to Atlas Network Access, confirm your cluster is running, and verify MONGODB_URI in backend/.env.'
+      );
+    }
+
+    throw new Error(`MongoDB connection failed: ${err.message}`);
   }
 
   console.log(`MongoDB connected: ${connection.connection.host}`);

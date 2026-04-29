@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "seed:universities": "node scripts/seed-universities.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "mongodb": "^7.2.0",
     "mongoose": "^9.4.1"
   }
 }

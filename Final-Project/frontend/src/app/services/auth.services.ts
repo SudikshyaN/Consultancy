@@ -10,6 +10,7 @@ export interface AuthUser {
   name: string;
   email: string;
   role: string;
+  profile?: any;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -47,14 +48,36 @@ export class AuthService {
     );
   }
 
+  registerAdmin(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/admin/register`, data).pipe(
+      tap((res) => this.saveSession(res))
+    );
+  }
+
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.authUrl}/login`, data).pipe(
       tap((res) => this.saveSession(res))
     );
   }
 
+  loginAdmin(data: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/admin/login`, data).pipe(
+      tap((res) => this.saveSession(res))
+    );
+  }
+
   getProfile(): Observable<{ user: AuthUser }> {
     return this.http.get<{ user: AuthUser }>(`${this.authUrl}/me`);
+  }
+
+  updateProfile(data: any): Observable<{ message: string, user: AuthUser }> {
+    return this.http.put<{ message: string, user: AuthUser }>(`${this.authUrl}/profile`, data).pipe(
+      tap((res) => {
+        if (this.isBrowser()) {
+          sessionStorage.setItem(this.userKey, JSON.stringify(res.user));
+        }
+      })
+    );
   }
 
   getToken(): string | null {

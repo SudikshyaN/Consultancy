@@ -1,0 +1,33 @@
+<section class="admin-auth-page">
+  <div class="admin-auth-card">
+    <div class="admin-auth-brand">
+      <h1>Bidesh Padhna</h1>
+      <p>Admin panel</p>
+    </div>
+
+    <div class="admin-auth-form">
+      <h2>{{ isLoginMode ? 'Admin login' : 'Admin signup' }}</h2>
+
+      <p *ngIf="errorMessage" class="admin-auth-error">{{ errorMessage }}</p>
+
+      <form [formGroup]="authForm" (ngSubmit)="submit()">
+        <input
+          *ngIf="!isLoginMode"
+          type="text"
+          formControlName="name"
+          placeholder="Admin name"
+        />
+        <input type="email" formControlName="email" placeholder="Email" />
+        <input type="password" formControlName="password" placeholder="Password" />
+
+        <button type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Create account') }}
+        </button>
+      </form>
+
+      <button type="button" class="admin-auth-toggle" (click)="toggleMode()">
+        {{ isLoginMode ? 'Need an admin account?' : 'Already have an admin account?' }}
+      </button>
+    </div>
+  </div>
+</section>

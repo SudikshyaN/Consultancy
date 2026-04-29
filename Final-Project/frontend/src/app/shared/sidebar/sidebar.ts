@@ -13,6 +13,9 @@ export class DashboardSidebarComponent {
   @Output() logoutClicked = new EventEmitter<void>();
 
   protected readonly items = [
+
+    { label: 'Main', path: '/dashboard/main' },
+    
     { label: 'Profile', path: '/dashboard/profile' },
     { label: 'Wishlist', path: '/dashboard/wishlist' },
     { label: 'Community', path: '/dashboard/community' },

@@ -1,0 +1,27 @@
+<div class="applications-card">
+  <div class="header">
+    <h2>My applications</h2>
+    <a class="view-all">View all →</a>
+  </div>
+
+  <div class="application-list">
+
+    <div class="app-item" *ngFor="let app of applications">
+
+      <div class="left">
+        <div class="logo">{{ app.short }}</div>
+
+        <div class="info">
+          <h3>{{ app.university }}</h3>
+          <p>{{ app.course }}</p>
+        </div>
+      </div>
+
+      <div class="status" [ngClass]="app.status">
+        {{ app.status }}
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,4 +1,178 @@
-<section class="dashboard-card-content flex ">
-  <h1>Profile</h1>
- 
+<section class="dashboard-page profile-page">
+  <div class="stats-grid">
+    <button
+      *ngFor="let card of statCards; let i = index"
+      type="button"
+      class="stat-card"
+    >
+      <span class="stat-icon" [class]="'stat-icon tone-' + card.iconTone">
+        {{ card.icon }}
+      </span>
+      <div class="stat-copy">
+        <strong class="stat-value">{{ card.value }}</strong>
+        <span class="stat-title">{{ card.title }}</span>
+      </div>
+    </button>
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-content-grid">
+    <!-- Left Column -->
+    <div class="profile-col main-col">
+      <div class="profile-card">
+        <div class="card-header">
+          <span class="header-icon">👤</span>
+          <h2>Personal information</h2>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>FULL NAME</label>
+            <input type="text" formControlName="name" placeholder="E.g. John Doe" />
+          </div>
+
+          <div class="form-group">
+            <label>DATE OF BIRTH</label>
+            <input type="date" formControlName="dob" />
+          </div>
+
+          <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" formControlName="email" />
+          </div>
+
+          <div class="form-group">
+            <label>PHONE</label>
+            <input type="text" formControlName="phone" placeholder="+1 234 567 8900" />
+          </div>
+
+          <div class="form-group">
+            <label>NATIONALITY</label>
+            <input type="text" formControlName="nationality" placeholder="E.g. Nepali" />
+          </div>
+
+          <div class="form-group">
+            <label>CITY</label>
+            <input type="text" formControlName="city" placeholder="E.g. Kathmandu" />
+          </div>
+
+          <div class="form-group full-width">
+            <label>ABOUT YOU</label>
+            <textarea formControlName="about" rows="3" placeholder="Tell us about your background and goals..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="profile-card mt-16">
+        <div class="card-header">
+          <span class="header-icon">💡</span>
+          <h2>Interests & preferences</h2>
+        </div>
+        
+        <div class="preferences-section">
+          <h3>STUDY FIELDS</h3>
+          <div class="pills-container">
+            <button 
+              type="button" 
+              class="pill-btn" 
+              *ngFor="let field of availableStudyFields"
+              [class.active]="profileForm.get('studyFields')?.value?.includes(field)"
+              (click)="toggleSelection('studyFields', field)">
+              {{ field }}
+            </button>
+          </div>
+        </div>
+
+        <div class="preferences-section mt-16">
+          <h3>PREFERRED COUNTRIES</h3>
+          <div class="pills-container">
+            <button 
+              type="button" 
+              class="pill-btn" 
+              *ngFor="let country of availableCountries"
+              [class.active]="profileForm.get('preferredCountries')?.value?.includes(country.name)"
+              (click)="toggleSelection('preferredCountries', country.name)">
+              {{ country.flag }} {{ country.name }}
+            </button>
+          </div>
+        </div>
+
+        <div class="preferences-section mt-16">
+          <h3>INTAKE YEAR</h3>
+          <div class="pills-container">
+            <button 
+              type="button" 
+              class="pill-btn" 
+              *ngFor="let year of availableIntakeYears"
+              [class.active]="profileForm.get('intakeYear')?.value?.includes(year)"
+              (click)="toggleSelection('intakeYear', year)">
+              {{ year }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="profile-col side-col">
+      <div class="profile-card">
+        <div class="card-header">
+          <span class="header-icon">🎓</span>
+          <h2>Academic background</h2>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>DEGREE</label>
+            <input type="text" formControlName="degree" placeholder="E.g. BSc Computer Science" />
+          </div>
+
+          <div class="form-group">
+            <label>GPA / CGPA</label>
+            <input type="text" formControlName="gpa" placeholder="E.g. 3.8 / 4.0" />
+          </div>
+
+          <div class="form-group">
+            <label>UNIVERSITY</label>
+            <input type="text" formControlName="university" placeholder="E.g. Tribhuvan University" />
+          </div>
+
+          <div class="form-group">
+            <label>GRADUATION YEAR</label>
+            <input type="text" formControlName="graduationYear" placeholder="E.g. 2025" />
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-card mt-16">
+        <div class="card-header">
+          <span class="header-icon">📊</span>
+          <h2>Test scores</h2>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>IELTS (Overall Band)</label>
+            <input type="text" formControlName="ielts" placeholder="E.g. 7.5" />
+          </div>
+
+          <div class="form-group">
+            <label>GMAT</label>
+            <input type="text" formControlName="gmat" placeholder="E.g. 720" />
+          </div>
+
+          <div class="form-group">
+            <label>TOEFL</label>
+            <input type="text" formControlName="toefl" placeholder="E.g. 105" />
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <button type="submit" class="save-btn" [disabled]="isSaving || profileForm.invalid">
+          {{ isSaving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </div>
+  </form>
 </section>

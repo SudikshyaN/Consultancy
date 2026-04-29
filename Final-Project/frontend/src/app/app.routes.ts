@@ -9,9 +9,15 @@ import { FinanceComponent } from './pages/finance/finance';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { AuthGuard } from './pages/login/auth.guard';
 import { DashboardMainComponent } from './pages/dashboard/main/main';
-import { DashboardProfileComponent } from './pages/dashboard/profile/profile';
+import { ProfileComponent } from './pages/dashboard/profile/profile';
 import { DashboardWishlistComponent } from './pages/dashboard/wishlist/wishlist';
 import { DashboardCommunityComponent } from './pages/dashboard/community/community';
+import { DashboardUniversitiesComponent } from './pages/dashboard/universities/universities';
+import { DashboardFreeToolsComponent } from './pages/dashboard/free-tools/free-tools';
+import { AdminAuthComponent } from './pages/admin/auth/admin-auth';
+import { AdminShellComponent } from './pages/admin/admin-shell/admin-shell';
+import { BlankAdminPageComponent } from './pages/admin/blank/blank-admin';
+import { AdminUniversitiesComponent } from './pages/admin/universities/admin-universities';
 
 
 export const routes: Routes = [
@@ -48,17 +54,33 @@ export const routes: Routes = [
     component : LoginComponent
   },
   {
+    path: 'admin/login',
+    component: AdminAuthComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
+        path: 'main',
+        
         component: DashboardMainComponent
       },
       {
         path: 'profile',
-        component: DashboardProfileComponent
+        component: ProfileComponent,
+        title: 'Profile | Dashboard',
+      },
+      {
+        path: 'universities',
+        component: DashboardUniversitiesComponent,
+        title: 'Universities | Dashboard',
+      },
+      {
+        path: 'free-tools',
+        component: DashboardFreeToolsComponent,
+        title: 'Free Tools | Dashboard',
       },
       {
         path: 'wishlist',
@@ -67,6 +89,42 @@ export const routes: Routes = [
       {
         path: 'community',
         component: DashboardCommunityComponent
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: AdminShellComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview'
+      },
+      {
+        path: 'overview',
+        component: BlankAdminPageComponent
+      },
+      {
+        path: 'universities',
+        component: AdminUniversitiesComponent
+      },
+      {
+        path: 'users',
+        component: BlankAdminPageComponent
+      },
+      {
+        path: 'visa-guides',
+        component: BlankAdminPageComponent
+      },
+      {
+        path: 'community',
+        component: BlankAdminPageComponent
+      },
+      {
+        path: 'settings',
+        component: BlankAdminPageComponent
       }
     ]
   },

@@ -28,7 +28,7 @@ export class LoginComponent {
     this.authForm = this.fb.group({
       firstName: [''],
       lastName: ['', []],
-      email:    ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       terms: [false],
     });
@@ -76,7 +76,7 @@ export class LoginComponent {
         next: (res) => {
           this.isLoading = false;
           this.successMessage = res.message;
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard/main']);
         },
         error: (err: any) => {
           this.isLoading = false;
