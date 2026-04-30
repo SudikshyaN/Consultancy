@@ -1,0 +1,102 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.services';
+import { Layout } from '../layout/layout';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, Layout],
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss']
+})
+export class LoginComponent {
+  imageUrl = "login.jpg"
+  isLoginMode = true;
+  authForm: FormGroup;
+  errorMessage = '';
+  successMessage = '';
+  isLoading = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.authForm = this.fb.group({
+      firstName: [''],
+      lastName: ['', []],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      terms: [false],
+    });
+  }
+
+  toggleMode() {
+    this.isLoginMode = !this.isLoginMode;
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.authForm.reset();
+
+    const firstNameControl = this.authForm.get('firstName');
+    const lastNameControl = this.authForm.get('lastName');
+    const termsControl = this.authForm.get('terms');
+
+    if (this.isLoginMode) {
+      firstNameControl?.clearValidators();
+      lastNameControl?.clearValidators();
+      termsControl?.clearValidators();
+    } else {
+      firstNameControl?.setValidators([Validators.required, Validators.minLength(2)]);
+      lastNameControl?.setValidators([Validators.required, Validators.minLength(2)]);
+      termsControl?.setValidators([Validators.requiredTrue]);
+    }
+
+    firstNameControl?.updateValueAndValidity();
+    lastNameControl?.updateValueAndValidity();
+    termsControl?.updateValueAndValidity();
+  }
+
+  onSubmit() {
+    if (this.authForm.invalid) {
+      this.authForm.markAllAsTouched();
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const { firstName, lastName, email, password } = this.authForm.value;
+
+    if (this.isLoginMode) {
+      this.authService.login({ email, password }).subscribe({
+        next: (res) => {
+          this.isLoading = false;
+          this.successMessage = res.message;
+          this.router.navigate(['/dashboard/main']);
+        },
+        error: (err: any) => {
+          this.isLoading = false;
+          this.errorMessage = err.error?.message || 'Login failed. Please try again.';
+        }
+      });
+    } else {
+      const name = `${firstName} ${lastName}`.trim();
+
+      this.authService.register({ name, email, password }).subscribe({
+        next: (res) => {
+          this.isLoading = false;
+          this.successMessage = res.message;
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err: any) => {
+          this.isLoading = false;
+          this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+        }
+      });
+    }
+  }
+}

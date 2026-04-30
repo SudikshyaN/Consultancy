@@ -1,0 +1,635 @@
+{
+  "countries": [
+    {
+      "id": "usa",
+      "name": "United States",
+      "flag": "🇺🇸",
+      "visaType": "F-1 Visa",
+      "color": "#B22234",
+      "overview": "The F-1 is a non-immigrant student visa that allows foreign nationals to pursue academic studies at a SEVP-approved US institution. It is one of the most common student visas in the world.",
+      "processingTime": "3–5 weeks",
+      "visaFee": "$185 (SEVIS fee) + $160 (MRV fee)",
+      "validity": "Duration of Status (D/S)",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Get Accepted to a SEVP-Approved School",
+          "description": "Apply and receive an acceptance letter from a US institution certified by the Student and Exchange Visitor Program (SEVP).",
+          "duration": "Varies"
+        },
+        {
+          "step": 2,
+          "title": "Receive your Form I-20",
+          "description": "Your school issues Form I-20 (Certificate of Eligibility). Review all details carefully — name, program dates, and funding must be accurate.",
+          "duration": "1–2 weeks after acceptance"
+        },
+        {
+          "step": 3,
+          "title": "Pay the SEVIS Fee",
+          "description": "Pay the $350 SEVIS I-901 fee online at fmjfee.com before scheduling your visa interview. Keep the receipt.",
+          "duration": "Immediate"
+        },
+        {
+          "step": 4,
+          "title": "Complete the DS-160 Form",
+          "description": "Fill out the Online Nonimmigrant Visa Application (DS-160) on the US Department of State website. Upload a compliant photo.",
+          "duration": "1–2 hours"
+        },
+        {
+          "step": 5,
+          "title": "Schedule Visa Interview",
+          "description": "Book an interview appointment at the nearest US Embassy or Consulate. Wait times vary by location and season.",
+          "duration": "Days to months depending on location"
+        },
+        {
+          "step": 6,
+          "title": "Attend Visa Interview",
+          "description": "Appear at the consulate with all documents. The officer will assess your intent to return home after studies and your financial ability.",
+          "duration": "30–60 minutes"
+        },
+        {
+          "step": 7,
+          "title": "Receive Visa & Travel",
+          "description": "If approved, your passport is returned with the F-1 visa stamp. You may enter the US up to 30 days before your program start date.",
+          "duration": "3–10 business days after interview"
+        }
+      ],
+      "documents": [
+        "Valid passport (valid for at least 6 months beyond your stay)",
+        "Form I-20 from your school",
+        "DS-160 confirmation page",
+        "SEVIS fee payment receipt (I-901)",
+        "Visa application fee (MRV) receipt",
+        "Passport-sized photo (US visa standards)",
+        "Academic transcripts and diplomas",
+        "Proof of English proficiency (TOEFL/IELTS scores)",
+        "Financial evidence (bank statements, sponsor letters, scholarships)",
+        "Standardized test scores (SAT, GRE, GMAT if applicable)",
+        "Ties to home country (property, family, job offer)"
+      ],
+      "financialRequirement": "Must demonstrate sufficient funds to cover tuition + living expenses for the entire program (typically $20,000–$60,000/year depending on institution and location).",
+      "tips": [
+        "Apply for your visa at least 3 months before your program start date.",
+        "Consulate officers look for strong ties to your home country to ensure you'll return.",
+        "Bring organized originals AND copies of all documents.",
+        "Be honest and concise in your interview answers.",
+        "F-1 students can work on-campus up to 20 hours/week and may apply for OPT after graduation."
+      ],
+      "postArrival": [
+        "Register with your DSO (Designated School Official) within the first week",
+        "Get your Social Security Number (SSN) if eligible",
+        "Open a US bank account",
+        "Understand your visa status maintenance rules"
+      ]
+    },
+    {
+      "id": "uk",
+      "name": "United Kingdom",
+      "flag": "🇬🇧",
+      "visaType": "Student Visa",
+      "color": "#012169",
+      "overview": "The UK Student Visa (formerly Tier 4) allows international students to study at a UK Higher Education institution with a Confirmation of Acceptance for Studies (CAS) from a licensed sponsor.",
+      "processingTime": "3 weeks",
+      "visaFee": "£363 (outside UK)",
+      "validity": "Duration of course + extra time",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Receive University Offer & CAS",
+          "description": "Accept your unconditional offer from a UKVI-licensed sponsor institution. They will issue a Confirmation of Acceptance for Studies (CAS) number.",
+          "duration": "After meeting all conditions"
+        },
+        {
+          "step": 2,
+          "title": "Check Eligibility",
+          "description": "Confirm you meet the English language requirement (B2 CEFR), financial requirements, and that your course is at RQF Level 6 or above for degree programs.",
+          "duration": "Self-assessment"
+        },
+        {
+          "step": 3,
+          "title": "Apply Online",
+          "description": "Submit your Student Visa application on the UK Visas and Immigration (UKVI) portal. You can apply up to 6 months before your course start date.",
+          "duration": "1–2 hours"
+        },
+        {
+          "step": 4,
+          "title": "Pay Visa Fee & Immigration Health Surcharge",
+          "description": "Pay the £363 visa fee and the Immigration Health Surcharge (IHS) — currently £776/year, giving access to NHS services.",
+          "duration": "At time of application"
+        },
+        {
+          "step": 5,
+          "title": "Book Biometrics Appointment",
+          "description": "Attend a Visa Application Centre (VAC) to provide fingerprints and a photo. Some countries allow document upload instead.",
+          "duration": "Within 45 days of submitting application"
+        },
+        {
+          "step": 6,
+          "title": "Submit Documents",
+          "description": "Upload supporting documents online or submit in person at the VAC. Await a decision.",
+          "duration": "Varies"
+        },
+        {
+          "step": 7,
+          "title": "Collect BRP & Travel",
+          "description": "If approved, travel to the UK within the vignette dates. Collect your Biometric Residence Permit (BRP) within 10 days of arrival.",
+          "duration": "3 weeks processing"
+        }
+      ],
+      "documents": [
+        "Valid passport",
+        "CAS number from your university",
+        "Bank statements showing required funds (28 consecutive days)",
+        "English language test results (IELTS, TOEFL, etc.)",
+        "Academic qualifications (transcripts, degrees)",
+        "ATAS certificate (if your subject requires it)",
+        "Parental consent letter (if under 18)",
+        "TB test results (if from a listed country)"
+      ],
+      "financialRequirement": "£1,334/month for courses in London, £1,023/month outside London. Must be held for 28 consecutive days before application.",
+      "tips": [
+        "Apply as early as possible — up to 6 months before your course.",
+        "Ensure your 28-day bank statement window is timed correctly.",
+        "The IHS fee is substantial — budget for it separately.",
+        "ATAS clearance can take 20+ working days — apply early if needed.",
+        "You can work up to 20 hours/week during term time."
+      ],
+      "postArrival": [
+        "Collect your BRP from the designated Post Office within 10 days",
+        "Register with a GP (doctor) for NHS access",
+        "Open a UK bank account (many require proof of address)",
+        "Register with your university's international student office"
+      ]
+    },
+    {
+      "id": "australia",
+      "name": "Australia",
+      "flag": "🇦🇺",
+      "visaType": "Subclass 500",
+      "color": "#00008B",
+      "overview": "The Student Visa (Subclass 500) allows international students to study a full-time registered course in Australia. It replaced the previous student visa subclasses in 2016.",
+      "processingTime": "4–6 weeks (can vary)",
+      "visaFee": "AUD $710",
+      "validity": "Duration of course + 1–2 months",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Enroll in a CRICOS-Registered Course",
+          "description": "Apply and gain acceptance into a course registered on the Commonwealth Register of Institutions and Courses for Overseas Students (CRICOS).",
+          "duration": "Varies"
+        },
+        {
+          "step": 2,
+          "title": "Receive Confirmation of Enrolment (CoE)",
+          "description": "Once you pay your initial tuition fees, your institution issues a CoE — a unique code required for your visa application.",
+          "duration": "After payment"
+        },
+        {
+          "step": 3,
+          "title": "Obtain Overseas Student Health Cover (OSHC)",
+          "description": "Purchase OSHC for the full duration of your visa. This is mandatory and must be arranged before applying.",
+          "duration": "Can be arranged through university"
+        },
+        {
+          "step": 4,
+          "title": "Create ImmiAccount & Apply Online",
+          "description": "Create an ImmiAccount on the Department of Home Affairs website and submit your Subclass 500 visa application.",
+          "duration": "1–3 hours"
+        },
+        {
+          "step": 5,
+          "title": "Provide Biometrics (if required)",
+          "description": "Some nationalities must provide biometrics at a Visa Application Centre. Check if your country requires this.",
+          "duration": "Scheduled appointment"
+        },
+        {
+          "step": 6,
+          "title": "Health Examination",
+          "description": "Complete an Australian immigration medical exam through an approved panel physician if requested.",
+          "duration": "1–2 days"
+        },
+        {
+          "step": 7,
+          "title": "Await Decision & Travel",
+          "description": "The visa grant is sent electronically to your ImmiAccount. There is no visa stamp — your passport number is linked to the visa.",
+          "duration": "4–6 weeks"
+        }
+      ],
+      "documents": [
+        "Valid passport",
+        "Confirmation of Enrolment (CoE)",
+        "Genuine Temporary Entrant (GTE) statement",
+        "Financial evidence (tuition + AUD 21,041/year living costs)",
+        "English language results (IELTS, TOEFL, PTE)",
+        "Academic transcripts",
+        "OSHC policy documents",
+        "Health examination results (if requested)",
+        "Character documents (police clearances if requested)"
+      ],
+      "financialRequirement": "Must demonstrate funds for: first year tuition + AUD $21,041 (living costs) + AUD $7,362 per accompanying spouse + AUD $3,152 per child.",
+      "tips": [
+        "The GTE statement is crucial — explain why you want to study in Australia and why you'll return home.",
+        "Apply at least 2–3 months before your intended travel date.",
+        "Australia's visa is electronically linked; you won't get a physical stamp.",
+        "Students can work up to 48 hours per fortnight during semester.",
+        "Health insurance (OSHC) can often be arranged through your university at group rates."
+      ],
+      "postArrival": [
+        "Get your Tax File Number (TFN) to work legally",
+        "Open an Australian bank account",
+        "Enroll in your university orientation program",
+        "Familiarize yourself with OSHC and how to use it"
+      ]
+    },
+    {
+      "id": "canada",
+      "name": "Canada",
+      "flag": "🇨🇦",
+      "visaType": "SDS / Regular",
+      "color": "#FF0000",
+      "overview": "Canada offers two pathways: the Student Direct Stream (SDS) for faster processing from select countries, and the regular study permit route. A study permit is required for courses longer than 6 months.",
+      "processingTime": "SDS: 20 days | Regular: 8–12 weeks",
+      "visaFee": "CAD $150",
+      "validity": "Duration of study + 90 days",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Receive Acceptance Letter (LOA)",
+          "description": "Get accepted to a Designated Learning Institution (DLI) in Canada. The Letter of Acceptance is a mandatory document.",
+          "duration": "Varies"
+        },
+        {
+          "step": 2,
+          "title": "Choose SDS or Regular Stream",
+          "description": "SDS is available to students from India, China, Philippines, Vietnam, and other listed countries with IELTS 6.0+ and upfront GIC payment. Others use the regular stream.",
+          "duration": "Assessment"
+        },
+        {
+          "step": 3,
+          "title": "Get a Guaranteed Investment Certificate (GIC)",
+          "description": "For SDS, purchase a GIC of CAD $10,000 from a participating Canadian bank. This proves financial readiness.",
+          "duration": "1–2 weeks"
+        },
+        {
+          "step": 4,
+          "title": "Apply Online via IRCC Portal",
+          "description": "Create a MyCIC account and submit your study permit application with all required documents.",
+          "duration": "2–4 hours"
+        },
+        {
+          "step": 5,
+          "title": "Provide Biometrics",
+          "description": "After application, you'll receive a Biometric Instruction Letter. Visit a VAC within 30 days to provide fingerprints and photo.",
+          "duration": "Scheduled appointment"
+        },
+        {
+          "step": 6,
+          "title": "Medical Exam (if required)",
+          "description": "Some nationalities must complete an upfront medical exam through a Panel Physician. Check IRCC guidelines.",
+          "duration": "1–2 days"
+        },
+        {
+          "step": 7,
+          "title": "Receive PAL / ePAL & Travel",
+          "description": "If approved, you receive a Port of Entry Letter of Introduction (PAL). Your actual study permit is issued at the Canadian border.",
+          "duration": "SDS: ~20 days | Regular: 8–12 weeks"
+        }
+      ],
+      "documents": [
+        "Valid passport",
+        "Letter of Acceptance from a DLI",
+        "Proof of financial support (GIC + tuition proof for SDS)",
+        "Language test results (IELTS for SDS)",
+        "Statement of Purpose (explaining study plans)",
+        "Academic transcripts",
+        "Passport-sized photos",
+        "Medical exam results (if applicable)",
+        "Police certificate (if applicable)",
+        "Custodian declaration (if under 17)"
+      ],
+      "financialRequirement": "Must show: first year tuition + CAD $10,000 (GIC for SDS) or equivalent living funds for regular stream. Additional funds required for family members.",
+      "tips": [
+        "SDS significantly reduces wait times — use it if your country is eligible.",
+        "A strong Statement of Purpose explaining your career goals in Canada is essential.",
+        "Canada allows students to work off-campus up to 20 hours/week.",
+        "Post-Graduation Work Permit (PGWP) allows up to 3 years of work after graduation.",
+        "French language skills can strengthen your application for Quebec institutions."
+      ],
+      "postArrival": [
+        "Get your Social Insurance Number (SIN) for working",
+        "Open a Canadian bank account and access your GIC funds",
+        "Register with provincial health insurance",
+        "Attend international student orientation at your institution"
+      ]
+    },
+    {
+      "id": "germany",
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "visaType": "Student Visa",
+      "color": "#FFCE00",
+      "overview": "Germany offers tuition-free education at public universities for both EU and non-EU students. A national (Type D) student visa is required for non-EU nationals planning to study for more than 90 days.",
+      "processingTime": "6–12 weeks",
+      "visaFee": "€75",
+      "validity": "Usually issued for 3 months to obtain residence permit in Germany",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Apply & Get University Admission",
+          "description": "Apply to a German university (staatliche Universität). Most public universities charge no tuition. Get your official admission letter (Zulassungsbescheid).",
+          "duration": "Varies (uni deadlines: Jan 15 / July 15)"
+        },
+        {
+          "step": 2,
+          "title": "Open Blocked Account (Sperrkonto)",
+          "description": "Open a German blocked account with a minimum of €11,208 (2024 requirement). Providers include Fintiba, Expatrio, Deutsche Bank. Funds are released monthly after arrival.",
+          "duration": "1–2 weeks"
+        },
+        {
+          "step": 3,
+          "title": "Get Health Insurance",
+          "description": "Obtain German statutory health insurance (gesetzliche Krankenversicherung) or recognized private health insurance. TK, AOK, and Barmer are common providers.",
+          "duration": "1 week"
+        },
+        {
+          "step": 4,
+          "title": "Book Visa Appointment at German Embassy",
+          "description": "Schedule an appointment at the German embassy or consulate in your home country. Slots fill up quickly — book months in advance.",
+          "duration": "Appointment wait: 4–12 weeks"
+        },
+        {
+          "step": 5,
+          "title": "Prepare & Submit Documents",
+          "description": "Submit all required documents at your appointment. Documents in languages other than German/English must be officially translated.",
+          "duration": "At appointment"
+        },
+        {
+          "step": 6,
+          "title": "Await Visa Decision",
+          "description": "The consulate processes your application. You may be asked for additional documents.",
+          "duration": "4–8 weeks after appointment"
+        },
+        {
+          "step": 7,
+          "title": "Travel & Register (Anmeldung)",
+          "description": "Travel to Germany. Within 2 weeks of arrival, register your address at the local Bürgeramt (Anmeldung). Then apply for a residence permit at the Ausländerbehörde.",
+          "duration": "Within 2 weeks of arrival"
+        }
+      ],
+      "documents": [
+        "Valid passport (valid 12+ months beyond stay)",
+        "University admission letter (Zulassungsbescheid)",
+        "Blocked account confirmation (€11,208 minimum)",
+        "Health insurance certificate",
+        "Academic transcripts and diplomas (certified translations if needed)",
+        "German language proof (if program is in German — TestDaF, DSH)",
+        "English language proof (for English-taught programs — IELTS/TOEFL)",
+        "APS certificate (mandatory for students from China, India, Vietnam, Mongolia)",
+        "CV / Motivationsschreiben (motivation letter)",
+        "Biometric passport photo",
+        "Completed visa application form"
+      ],
+      "financialRequirement": "Must deposit €11,208 into a German blocked account (Sperrkonto). This covers approximately €934/month for 12 months of living expenses.",
+      "tips": [
+        "Book your embassy appointment as soon as you receive your admission letter — slots fill up fast.",
+        "APS certificate is mandatory for Indian, Chinese, and Vietnamese applicants — this process takes 4–8 weeks alone.",
+        "Public universities charge minimal semester fees (€150–€350) but no tuition.",
+        "Learn basic German — even in English programs, daily life requires it.",
+        "The blocked account is released in monthly installments once you're in Germany."
+      ],
+      "postArrival": [
+        "Complete Anmeldung (address registration) within 2 weeks",
+        "Apply for residence permit at Ausländerbehörde",
+        "Enroll in health insurance if not already active",
+        "Open a German bank account (Girokonto)",
+        "Get a German SIM card and set up university student portal"
+      ]
+    },
+    {
+      "id": "japan",
+      "name": "Japan",
+      "flag": "🇯🇵",
+      "visaType": "Student Visa",
+      "color": "#BC002D",
+      "overview": "Japan's student visa (留学ビザ) is issued for enrollment in Japanese universities, language schools, or vocational colleges. Japan's education system is highly regarded, and the visa process is managed through the institution.",
+      "processingTime": "3 months (Certificate of Eligibility takes 1–3 months)",
+      "visaFee": "¥3,000 (single entry) / ¥6,000 (multiple entry)",
+      "validity": "Matches Certificate of Eligibility period",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Apply to a Japanese Institution",
+          "description": "Apply to a MEXT-recognized university, Japanese language school, or vocational school. Receive your admission letter.",
+          "duration": "Varies"
+        },
+        {
+          "step": 2,
+          "title": "Institution Applies for Certificate of Eligibility (CoE)",
+          "description": "Your school applies to the regional Immigration Bureau on your behalf for a Certificate of Eligibility (在留資格認定証明書). This is the central document.",
+          "duration": "1–3 months"
+        },
+        {
+          "step": 3,
+          "title": "Receive CoE & Apply for Visa",
+          "description": "Once your school sends you the CoE, take it to the Japanese Embassy/Consulate in your country along with other documents to apply for the student visa.",
+          "duration": "5–10 business days"
+        },
+        {
+          "step": 4,
+          "title": "Submit Visa Application",
+          "description": "Submit your visa application form, CoE, passport, photos, and other required documents at the Japanese consulate.",
+          "duration": "1 day"
+        },
+        {
+          "step": 5,
+          "title": "Receive Visa & Travel",
+          "description": "Collect your passport with the student visa sticker. Travel to Japan before the CoE expiry date (within 3 months of issuance).",
+          "duration": "5–10 business days"
+        },
+        {
+          "step": 6,
+          "title": "Residence Card at Airport",
+          "description": "Upon arrival at major airports (Narita, Haneda, Kansai), receive your Residence Card (在留カード). Register your address at the local city hall within 14 days.",
+          "duration": "On arrival"
+        }
+      ],
+      "documents": [
+        "Certificate of Eligibility (CoE) — issued by your school",
+        "Valid passport",
+        "Visa application form (from Japanese consulate website)",
+        "Passport-sized photos (4.5cm x 4.5cm)",
+        "Admission letter from institution",
+        "Financial proof (bank statements, sponsor documents)",
+        "Academic transcripts",
+        "Japanese language proficiency (JLPT if applicable)",
+        "Study plan / Statement of Purpose"
+      ],
+      "financialRequirement": "Must show sufficient funds: approximately ¥1,500,000–¥2,000,000 per year (tuition + living expenses). Language schools may require advance tuition payment.",
+      "tips": [
+        "The CoE application is handled by your institution — follow their specific guidance closely.",
+        "Apply to JASSO (Japan Student Services Organization) scholarships to reduce financial burden.",
+        "MEXT government scholarships are highly competitive but cover full tuition and stipend.",
+        "Students can work up to 28 hours/week with a part-time work permit.",
+        "Learn basic Japanese before arriving — it makes daily life significantly easier."
+      ],
+      "postArrival": [
+        "Register your address at City Hall (市役所) within 14 days",
+        "Obtain your My Number (社会保障・税番号) card",
+        "Enroll in the National Health Insurance (国民健康保険)",
+        "Open a Japanese bank account (Japan Post Bank is easiest for newcomers)",
+        "Get a part-time work permit from your school if you plan to work"
+      ]
+    },
+    {
+      "id": "newzealand",
+      "name": "New Zealand",
+      "flag": "🇳🇿",
+      "visaType": "Student Visa",
+      "color": "#00247D",
+      "overview": "New Zealand's student visa allows international students to study at a New Zealand Qualifications Authority (NZQA)-approved institution. The country is known for its welcoming environment and high quality of life.",
+      "processingTime": "3–4 weeks",
+      "visaFee": "NZD $375 (online)",
+      "validity": "Duration of course",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Enroll in an NZQA-Approved Institution",
+          "description": "Apply and receive an offer of place from a New Zealand university, polytechnic, or private training establishment registered with NZQA.",
+          "duration": "Varies"
+        },
+        {
+          "step": 2,
+          "title": "Purchase Acceptable Travel & Medical Insurance",
+          "description": "Obtain comprehensive health and travel insurance for the duration of your study. Some universities offer group policies.",
+          "duration": "1–2 days"
+        },
+        {
+          "step": 3,
+          "title": "Apply Online via Immigration NZ",
+          "description": "Submit your student visa application through Immigration New Zealand's online portal (RealMe login required).",
+          "duration": "1–2 hours"
+        },
+        {
+          "step": 4,
+          "title": "Provide Biometrics (if required)",
+          "description": "Certain nationalities must provide biometric information. Check INZ guidelines.",
+          "duration": "Scheduled appointment"
+        },
+        {
+          "step": 5,
+          "title": "Medical & Character Checks",
+          "description": "Undergo a medical examination by an INZ-approved physician and obtain police clearance certificates.",
+          "duration": "1–5 days"
+        },
+        {
+          "step": 6,
+          "title": "Await Decision & Travel",
+          "description": "Receive visa decision. Your visa label is placed in your passport. Travel to New Zealand before the visa start date.",
+          "duration": "3–4 weeks"
+        }
+      ],
+      "documents": [
+        "Valid passport",
+        "Offer of place from an approved New Zealand institution",
+        "Evidence of tuition fee payment",
+        "Proof of funds: NZD $15,000/year (or NZD $1,250/month)",
+        "Return travel booking or funds for return travel",
+        "Medical insurance certificate",
+        "Medical certificate (if studying 24+ months)",
+        "Police clearance (if 17+ and lived abroad for 12+ months)",
+        "English language evidence (IELTS 5.5+ typically)"
+      ],
+      "financialRequirement": "NZD $15,000 per year for living expenses, plus tuition fees already paid. Must show sufficient funds through bank statements or a financial sponsor.",
+      "tips": [
+        "New Zealand is one of the easier countries to get a student visa for — maintain clean financials.",
+        "Students can work 20 hours/week during study and full-time during scheduled holidays.",
+        "Post-Study Work Visa available for up to 3 years after graduation.",
+        "New Zealand's points-based immigration system offers a clear pathway to PR.",
+        "Healthcare is partially covered for longer-term students through accident compensation."
+      ],
+      "postArrival": [
+        "Enroll in your institution and confirm studies have commenced",
+        "Get an IRD (tax) number for working",
+        "Open a New Zealand bank account",
+        "Register with a local GP for health services"
+      ]
+    },
+    {
+      "id": "southkorea",
+      "name": "South Korea",
+      "flag": "🇰🇷",
+      "visaType": "D-2 Visa",
+      "color": "#003478",
+      "overview": "The D-2 visa is for foreign students attending degree programs at Korean universities or colleges. South Korea is increasingly popular due to its world-class universities, K-culture, and post-graduation opportunities.",
+      "processingTime": "2–4 weeks",
+      "visaFee": "₩60,000 (single) / ₩90,000 (multiple)",
+      "validity": "Duration of program (usually 2 years, renewable)",
+      "applicationSteps": [
+        {
+          "step": 1,
+          "title": "Get Accepted to a Korean University",
+          "description": "Apply and receive an official admission letter from a recognized Korean university. Top institutions include Seoul National University, Yonsei, KAIST, and POSTECH.",
+          "duration": "Varies (deadlines: March & September semesters)"
+        },
+        {
+          "step": 2,
+          "title": "Prepare Required Documents",
+          "description": "Gather all documents including admission letter, financial proof, academic records, and health certificate. Documents must often be apostilled or notarized.",
+          "duration": "2–4 weeks"
+        },
+        {
+          "step": 3,
+          "title": "Apply at Korean Embassy or Consulate",
+          "description": "Visit the Korean embassy or consulate in your country. Submit the application form with all required documents in person.",
+          "duration": "1 day (appointment)"
+        },
+        {
+          "step": 4,
+          "title": "Await Visa Decision",
+          "description": "Processing takes 2–4 weeks. You may be called for an interview in some cases.",
+          "duration": "2–4 weeks"
+        },
+        {
+          "step": 5,
+          "title": "Collect Visa & Travel",
+          "description": "Collect your passport with D-2 visa stamp. Travel to South Korea and enter before the visa validity starts.",
+          "duration": "After approval"
+        },
+        {
+          "step": 6,
+          "title": "Register as Alien (ARC)",
+          "description": "Within 90 days of arrival, register at the local Immigration Office to get your Alien Registration Card (ARC). This is your ID in Korea.",
+          "duration": "Within 90 days of arrival"
+        }
+      ],
+      "documents": [
+        "Valid passport",
+        "Visa application form",
+        "Official admission letter from Korean university",
+        "Academic transcripts (apostilled)",
+        "Financial proof: minimum ₩10,000,000 (~$7,500 USD) in bank account",
+        "Bank statements (3–6 months)",
+        "Health certificate",
+        "Passport-sized photos",
+        "Enrollment fee payment receipt",
+        "Korean language proficiency (TOPIK) if program is in Korean",
+        "Certificate of family relationship (if sponsored by family)"
+      ],
+      "financialRequirement": "Must demonstrate at least ₩10,000,000 (~USD $7,500) in personal or sponsor funds. Some universities require proof of tuition payment in advance.",
+      "tips": [
+        "Learning basic Korean (Hangul) before arrival will greatly improve daily life quality.",
+        "TOPIK (Test of Proficiency in Korean) Level 3+ is typically required for Korean-medium programs.",
+        "Government of Korea (GKS) scholarships are fully funded — apply through your country's Korean embassy.",
+        "D-2 visa holders can work part-time up to 20 hours/week with a work permit from immigration.",
+        "The ARC card is required to open a bank account and get a phone plan — get it as soon as possible."
+      ],
+      "postArrival": [
+        "Register for Alien Registration Card (ARC) at local immigration office",
+        "Open a Korean bank account (KEB Hana, Shinhan, or KB Kookmin are popular)",
+        "Get a Korean phone number (telecom shops require ARC)",
+        "Register at your university and attend orientation",
+        "Apply for part-time work permit at immigration if you plan to work"
+      ]
+    }
+  ]
+}

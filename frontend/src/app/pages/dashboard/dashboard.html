@@ -1,0 +1,13 @@
+<section class="dashboard-page">
+  <div class="dashboard-layout">
+    <app-dashboard-sidebar (logoutClicked)="logout()"></app-dashboard-sidebar>
+
+    <div class="dashboard-main">
+      <app-dashboard-nav></app-dashboard-nav>
+
+      <div class="dashboard-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

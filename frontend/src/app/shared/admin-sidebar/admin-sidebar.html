@@ -1,0 +1,24 @@
+<aside class="admin-sidebar">
+  <div class="admin-sidebar-brand">
+    <strong>Bidesh Padhna</strong>
+    <span>Admin panel</span>
+  </div>
+
+  <nav class="admin-sidebar-nav" aria-label="Admin">
+    <ul class="admin-sidebar-menu">
+      @for (item of items; track item.path) {
+        <li>
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            class="admin-sidebar-item"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <button type="button" class="admin-logout-button" (click)="logout()">Logout</button>
+</aside>

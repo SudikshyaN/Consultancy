@@ -1,0 +1,133 @@
+<section class="community-page">
+  <div class="community-header">
+    <h1>Community</h1>
+    <p>Real advice from Nepali students abroad</p>
+  </div>
+
+  <!-- Create Post Box -->
+  <div class="post-creator-card">
+    <div class="creator-top">
+      <div class="user-avatar">
+        {{ getInitials(currentUser?.name || '') }}
+      </div>
+      <textarea 
+        placeholder="Share your experience or ask a question..." 
+        [ngModel]="postContent()"
+        (ngModelChange)="postContent.set($event)"
+      ></textarea>
+    </div>
+
+    <div class="creator-bottom">
+      <div class="tag-selector">
+        @for (tag of postTags; track tag) {
+          <button 
+            type="button" 
+            class="tag-pill" 
+            [class.active]="selectedPostTags().includes(tag)"
+            (click)="togglePostTag(tag)"
+          >
+            {{ tag }}
+          </button>
+        }
+      </div>
+      <button 
+        type="button" 
+        class="post-button" 
+        [disabled]="!postContent().trim() || isPosting()"
+        (click)="createPost()"
+      >
+        {{ isPosting() ? 'Posting...' : 'Post' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    @for (filter of filterTags; track filter) {
+      <button 
+        type="button" 
+        class="filter-pill" 
+        [class.active]="activeFilter() === filter"
+        (click)="loadPosts(filter)"
+      >
+        {{ filter }}
+      </button>
+    }
+  </div>
+
+  <!-- Posts Feed -->
+  <div class="posts-feed">
+    @if (isLoading()) {
+      <div class="loading-state">Loading posts...</div>
+    } @else if (communityService.posts().length === 0) {
+      <div class="empty-state">No posts found in this category.</div>
+    } @else {
+      @for (post of communityService.posts(); track post._id) {
+        <div class="post-card">
+          <div class="post-header">
+            <div class="user-avatar small">{{ getInitials(post.author?.name || '') }}</div>
+            <div class="header-main">
+              <div class="name-row">
+                <strong>{{ post.author?.name || 'Anonymous' }}</strong>
+                @if (post.authorMetadata?.status) {
+                  <span class="status-badge" [class.alumni]="post.authorMetadata?.status === 'Alumni'">
+                    {{ post.authorMetadata?.status === 'Alumni' ? '✔' : '' }} {{ post.authorMetadata?.status }} 
+                    {{ post.authorMetadata?.university ? '· ' + post.authorMetadata?.university : '' }}
+                  </span>
+                }
+              </div>
+              <p class="subtitle">
+                {{ post.authorMetadata?.degree }} · {{ post.authorMetadata?.location }} · {{ post.createdAt | date:'shortTime' }}
+              </p>
+            </div>
+            @if (post.tags.length) {
+              <div class="post-tag-badge">{{ post.tags[0] }}</div>
+            }
+          </div>
+          
+          <div class="post-body">
+            <p>{{ post.content }}</p>
+          </div>
+          
+          <div class="post-footer">
+            <div class="footer-left">
+              <button type="button" class="action-btn" (click)="likePost(post._id)">
+                <span class="icon">♡</span>
+                <span>{{ post.likes.length }}</span>
+              </button>
+              <button type="button" class="action-btn">
+                <span class="icon">💬</span>
+                <span>{{ post.comments.length }} {{ post.comments.length === 1 ? 'reply' : 'replies' }}</span>
+              </button>
+            </div>
+            <div class="footer-right">
+              {{ post.createdAt | date:'shortTime' }}
+            </div>
+          </div>
+
+          <!-- Comments Section -->
+          <div class="post-comments">
+            @for (comment of post.comments; track comment._id) {
+              <div class="comment-item">
+                <strong>{{ comment.author.name }}</strong>
+                <p>{{ comment.content }}</p>
+                <small>{{ comment.createdAt | date:'short' }}</small>
+              </div>
+            }
+
+            <div class="comment-input-row">
+              <input 
+                type="text" 
+                placeholder="Write a comment..." 
+                [ngModel]="commentInputs()[post._id] || ''"
+                (ngModelChange)="updateCommentInput(post._id, $event)"
+                (keyup.enter)="addComment(post._id)"
+              />
+              <button type="button" (click)="addComment(post._id)">Reply</button>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</section>

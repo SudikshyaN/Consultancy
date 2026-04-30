@@ -1,0 +1,90 @@
+.dashboard-sidebar {
+  background: #081f26;
+  border-radius: 24px 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 28px);
+  padding: 20px 16px;
+  width: 240px;
+}
+
+.sidebar-brand {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  gap: 12px;
+  margin: -4px -16px 20px;
+  padding: 8px 16px 20px;
+}
+
+.brand-mark {
+  align-items: center;
+  background: linear-gradient(135deg, #3ddad7, #2a9d8f);
+  border-radius: 12px;
+  color: #ffffff;
+  display: flex;
+  font-size: 18px;
+  font-weight: 700;
+  height: 46px;
+  justify-content: center;
+  width: 46px;
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-copy strong {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.brand-copy span {
+  color: #8da3a9;
+  font-size: 12px;
+}
+
+.sidebar-nav {
+  flex: 1;
+}
+
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-item {
+  border-radius: 10px;
+  color: #cbd5e1;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  transition: background 0.2s ease;
+}
+
+.sidebar-item:hover {
+  background: #12353f;
+}
+
+.sidebar-item.active {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.logout-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #cbd5e1;
+  cursor: pointer;
+  margin-top: auto;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.logout-button:hover {
+  background: #12353f;
+}

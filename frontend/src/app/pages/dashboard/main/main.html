@@ -1,0 +1,54 @@
+<section class="dashboard-card-content">
+  <p *ngIf="errorMessage" class="dashboard-error">{{ errorMessage }}</p>
+
+  <div class="journey-card" [class.loading]="isLoading">
+    <div class="journey-header">
+      <h2>Your journey</h2>
+      <span class="journey-menu" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+
+    <div class="journey-steps" aria-label="Application journey progress">
+      @for (step of journey.steps; track step.key; let last = $last) {
+        <a
+          class="journey-step"
+          [class.complete]="step.state === 'complete'"
+          [class.active]="step.state === 'active'"
+          [class.upcoming]="step.state === 'upcoming'"
+          [routerLink]="step.route"
+          [attr.aria-current]="step.state === 'active' ? 'step' : null"
+        >
+          <span class="step-marker">
+            @if (step.state === 'complete') {
+              <span aria-hidden="true">✓</span>
+            } @else {
+              <span>{{ step.number }}</span>
+            }
+          </span>
+          <span class="step-label">{{ step.label }}</span>
+          <span class="step-meta">{{ step.meta }}</span>
+        </a>
+
+        @if (!last) {
+          <span
+            class="step-connector"
+            [class.complete]="step.state === 'complete'"
+            aria-hidden="true"
+          ></span>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="main-col">
+      <app-applications></app-applications>
+    </div>
+    <div class="side-col">
+      <app-preferred-countries></app-preferred-countries>
+    </div>
+  </div>
+</section>

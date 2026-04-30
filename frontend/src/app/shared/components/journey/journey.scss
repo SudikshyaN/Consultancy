@@ -1,0 +1,117 @@
+.journey {
+  padding: 2rem;
+  max-width: 960px;
+  margin: auto;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
+}
+
+.journey h1 {
+  font-size: 32px;
+  margin-bottom: 5px;
+  font-family: var(--font-heading);
+}
+
+.journey > p {
+  color: #777;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.tabs button {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: default;
+}
+
+.tabs .active {
+  background: #1e2a47;
+  color: #fff;
+}
+.timeline {
+  border-left: 3px solid #ddd;
+  padding-left: 20px;
+}
+
+.step-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+}
+.line {
+  position: absolute;
+  left: -23px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #ccc;
+}
+.icon {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.1);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-brand-strong);
+}
+.content h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+}
+
+.content p {
+  margin: 5px 0 0;
+  color: #888;
+}
+.tag {
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+.tag.yellow {
+  background: #f6e6a6;
+}
+
+.tag.blue {
+  background: #cfe8ff;
+}
+
+.tag.green {
+  background: #c9f2d6;
+}
+
+@media (max-width: 720px) {
+  .journey {
+    padding: 1.25rem;
+  }
+
+  .step-card {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .tag {
+    margin-left: 0;
+  }
+}

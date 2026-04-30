@@ -1,0 +1,79 @@
+<app-layout>
+<div class="login-page">
+  <div class="login-container">
+
+    <section class="login-left">
+      <div class="login-image-wrapper">
+        <img src="login.jpg" alt="Login Image" class="login-image">
+      </div>
+    </section>
+
+    <section class="login-right">
+      <div class="login-form-box">
+
+        <h2 class="login-title">
+          {{ isLoginMode ? 'Login' : 'Sign Up' }}
+        </h2>
+
+        <p *ngIf="errorMessage" class="login-error">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="login-success">{{ successMessage }}</p>
+
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="login-form">
+
+          <div class="login-name-group" *ngIf="!isLoginMode">
+            <div class="login-field">
+              <input type="text" formControlName="firstName" placeholder="First name" />
+              <small *ngIf="authForm.get('firstName')?.touched && authForm.get('firstName')?.invalid">
+                First name must be at least 2 characters.
+              </small>
+            </div>
+
+            <div class="login-field">
+              <input type="text" formControlName="lastName" placeholder="Last name" />
+              <small *ngIf="authForm.get('lastName')?.touched && authForm.get('lastName')?.invalid">
+                Last name must be at least 2 characters.
+              </small>
+            </div>
+          </div>
+
+          <div class="login-field">
+            <input type="email" class="bg-white text-black border-color: var(--color-blue-900)" formControlName="email" placeholder="Email address" />
+            <small *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid">
+              Enter a valid email address.
+            </small>
+          </div>
+
+          <div class="login-field ">
+            <input type="password" class="bg-white text-black border-color: var(--color-blue-900);" formControlName="password" placeholder="Password" />
+            <small *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid">
+              Password must be at least 6 characters.
+            </small>
+          </div>
+
+          <label class="login-terms" *ngIf="!isLoginMode">
+            <input type="checkbox" formControlName="terms" />
+            <span>Accept Terms & Conditions</span>
+          </label>
+
+          <small *ngIf="!isLoginMode && authForm.get('terms')?.touched && authForm.get('terms')?.invalid">
+            You must accept the terms to continue.
+          </small>
+
+          <button type="submit" class="login-button" [disabled]="isLoading">
+            {{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Join us') }}
+          </button>
+
+        </form>
+
+        <div class="login-divider"><span>or</span></div>
+
+        <button type="button" (click)="toggleMode()" class="login-switch">
+          {{ isLoginMode ? 'No account? Sign up' : 'Already have an account? Login' }}
+        </button>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+</app-layout>

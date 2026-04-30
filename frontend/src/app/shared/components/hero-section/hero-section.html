@@ -1,0 +1,41 @@
+
+<div class="app-hero-section-bg">
+  <section class="hero page-shell">
+  <div class="hero-copy">
+    <span class="section-label">Global futures, planned with clarity</span>
+    <h1 class="hero-titles">Study abroad with a consultancy that feels strategic, calm, and personal.</h1>
+    <p class="section-copy">
+      We help students and families move from confusion to a confident plan with country selection,
+      applications, scholarships, documentation, and visa guidance under one roof.
+    </p>
+
+    <div class="button-row">
+      <a class="button-primary" href="#consultation">Start your plan</a>
+    
+    </div>
+
+    <ul class="proof-list">
+      @for (item of proofItems; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </div>
+
+  <div class="hero-panel">
+    <div class="hero-card hero-card-primary">
+      <p>Student roadmap</p>
+      <strong>March intake to visa filing in 14 guided steps</strong>
+      <span>Built for Nepalese students aiming for affordable and high-quality education abroad.</span>
+    </div>
+
+    <div class="hero-grid">
+      @for (item of highlights; track item.label) {
+        <article class="hero-card hero-card-stat">
+          <strong>{{ item.value }}</strong>
+          <span>{{ item.label }}</span>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+</div>
