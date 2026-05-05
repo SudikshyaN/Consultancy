@@ -1,9 +1,10 @@
+
 .dashboard-sidebar {
+  position:sticky;
   background: #081f26;
   border-radius: 24px 0 0 24px;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 28px);
   padding: 20px 16px;
   width: 240px;
 }
@@ -83,6 +84,7 @@
   margin-top: auto;
   padding: 12px 16px;
   text-align: left;
+  margin-top: 629px;
 }
 
 .logout-button:hover {

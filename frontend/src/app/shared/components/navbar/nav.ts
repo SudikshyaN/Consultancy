@@ -5,6 +5,9 @@ import { AuthService } from '../../../services/auth.services';
 @Component({
   selector: 'app-dashboard-nav',
   standalone: true,
+  host: {
+    'class': 'app-dashboard-nav '
+  },
   imports: [CommonModule],
   templateUrl: './nav.html',
   styleUrl: './nav.scss'

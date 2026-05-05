@@ -7,7 +7,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss'
+  host: {
+    'class': 'app-dashboard-sidebar'
+  },  styleUrl: './sidebar.scss'
 })
 export class DashboardSidebarComponent {
   @Output() logoutClicked = new EventEmitter<void>();
