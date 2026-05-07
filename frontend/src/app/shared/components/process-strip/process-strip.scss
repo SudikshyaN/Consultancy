@@ -91,18 +91,26 @@
 }
 
 .country-card {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
+  position: relative;
   border: 1px solid rgba(23, 32, 51, 0.12);
   border-radius: 16px;
-  padding: 20px;
-  cursor: pointer;
+  overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
   background: linear-gradient(180deg, rgba(255, 247, 234, 0.9), rgba(255, 255, 255, 0.95));
 }
+
+.country-card-link {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  justify-content: center;
+  min-height: 150px;
+  padding: 20px;
+  text-decoration: none;
+}
+
 
 .country-card img {
   width: 36px;

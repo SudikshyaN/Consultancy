@@ -1,44 +1,61 @@
 <section class="community-page">
   <div class="community-header">
-    <h1>Community</h1>
-    <p>Real advice from Nepali students abroad</p>
+    <div class="header-left">
+      <h1>Community</h1>
+      <p>Real advice from Nepali students abroad</p>
+    </div>
+    <button class="create-post-trigger" (click)="showCreator.set(true)">
+      <span class="plus-icon">+</span>
+      Create Post
+    </button>
   </div>
 
-  <div class="post-creator-card">
-    <div class="creator-top">
-      <div class="user-avatar">
-        {{ getInitials(currentUser?.name || '') }}
-      </div>
-      <textarea 
-        placeholder="Share your experience or ask a question..."
-        [ngModel]="postContent()"
-        (ngModelChange)="postContent.set($event)"
-      ></textarea>
-    </div>
-    
-    <div class="creator-bottom">
-      <div class="tag-selector">
-        @for (tag of postTags; track tag) {
+  @if (showCreator()) {
+    <div class="modal-overlay">
+      <div class="post-creator-card modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Create a post</h3>
+          <button class="close-btn" (click)="showCreator.set(false)">×</button>
+        </div>
+        
+        <div class="creator-top">
+          <div class="user-avatar">
+            {{ getInitials(currentUser?.name || '') }}
+          </div>
+          <textarea 
+            placeholder="Share your experience or ask a question..."
+            [ngModel]="postContent()"
+            (ngModelChange)="postContent.set($event)"
+            autofocus
+          ></textarea>
+        </div>
+        
+        <div class="creator-bottom">
+          <div class="tag-selector">
+            @for (tag of postTags; track tag) {
+              <button 
+                type="button" 
+                class="tag-pill" 
+                [class.active]="selectedPostTags().includes(tag)"
+                (click)="togglePostTag(tag)"
+              >
+                {{ tag }}
+              </button>
+            }
+          </div>
           <button 
             type="button" 
-            class="tag-pill" 
-            [class.active]="selectedPostTags().includes(tag)"
-            (click)="togglePostTag(tag)"
+            class="post-button" 
+            [disabled]="!postContent().trim() || isPosting()"
+            (click)="createPost()"
           >
-            {{ tag }}
+            {{ isPosting() ? 'Posting...' : 'Post' }}
           </button>
-        }
+        </div>
       </div>
-      <button 
-        type="button" 
-        class="post-button" 
-        [disabled]="!postContent().trim() || isPosting()"
-        (click)="createPost()"
-      >
-        {{ isPosting() ? 'Posting...' : 'Post' }}
-      </button>
     </div>
-  </div>
+  }
+
 
   <div class="filter-bar">
     @for (tag of filterTags; track tag) {

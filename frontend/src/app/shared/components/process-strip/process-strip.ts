@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { DESTINATIONS } from '../../data/destinations';
@@ -13,7 +13,9 @@ import { DESTINATIONS } from '../../data/destinations';
 export class ProcessStripComponent {
   private readonly router = inject(Router);
 
-  protected readonly countries = DESTINATIONS;
+  protected readonly countries = signal(DESTINATIONS);
+
+  constructor() {}
 
   protected isActiveCountry(slug: string): boolean {
     return this.router.url.startsWith(`/destinations/${slug}`);

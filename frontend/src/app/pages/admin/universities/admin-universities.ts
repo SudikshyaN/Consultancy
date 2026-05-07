@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { finalize, timeout } from 'rxjs';
+import { finalize } from 'rxjs';
 import { UniversityService } from '../../../services/university.service';
 import type { University, UniversityProgram } from '../../../services/university.connector';
 import { signal } from '@angular/core';
@@ -13,13 +13,14 @@ import { signal } from '@angular/core';
   styleUrl: './admin-universities.scss'
 })
 export class AdminUniversitiesComponent implements OnInit {
-  protected readonly countryOptions = ['USA', 'UK', 'India '];
+  protected readonly countryOptions = ['USA', 'UK', 'India'];
   protected universities = signal<University[]>([]);
   protected selectedCountry = 'USA';
   protected selectedUniversity = signal<University | null>(null);
   protected isViewOnly = signal(false);
   protected isLoading = signal(false);
   protected isSaving = signal(false);
+  protected isEditorOpen = signal(false);
   protected errorMessage = signal('');
   protected successMessage = signal('');
   protected universityForm: FormGroup;
@@ -70,6 +71,15 @@ export class AdminUniversitiesComponent implements OnInit {
     this.programs.push(this.createProgramGroup());
   }
 
+  openCreateUniversity(): void {
+    this.resetForm();
+    this.isEditorOpen.set(true);
+  }
+
+  closeEditorModal(): void {
+    this.isEditorOpen.set(false);
+  }
+
   selectCountry(country: string): void {
     this.selectedCountry = country;
     this.resetForm();
@@ -97,6 +107,7 @@ export class AdminUniversitiesComponent implements OnInit {
     this.selectedUniversity.set(university);
     this.isViewOnly.set(true);
     this.universityForm.disable();
+    this.isEditorOpen.set(true);
   }
 
   editUniversity(university: University): void {
@@ -104,6 +115,7 @@ export class AdminUniversitiesComponent implements OnInit {
     this.selectedUniversity.set(university);
     this.isViewOnly.set(false);
     this.universityForm.enable();
+    this.isEditorOpen.set(true);
   }
 
   private populateForm(university: University): void {
@@ -124,7 +136,6 @@ export class AdminUniversitiesComponent implements OnInit {
 
     this.errorMessage.set('');
     this.successMessage.set('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   resetForm(): void {
@@ -147,9 +158,12 @@ export class AdminUniversitiesComponent implements OnInit {
   }
 
   saveUniversity(): void {
-    if (this.universityForm.invalid) {
+    const name = this.universityForm.get('name');
+    const country = this.universityForm.get('country');
+
+    if (name?.invalid || country?.invalid) {
       this.universityForm.markAllAsTouched();
-      this.errorMessage.set('Please fill in all required fields.');
+      this.errorMessage.set('Please fill in the university name and country.');
       return;
     }
 
@@ -168,6 +182,7 @@ export class AdminUniversitiesComponent implements OnInit {
     ).subscribe({
       next: (res) => {
         this.successMessage.set(res.message);
+        this.selectedCountry = res.university.country || payload.country || this.selectedCountry;
         this.resetForm();
         this.loadUniversities();
       },
@@ -200,7 +215,7 @@ export class AdminUniversitiesComponent implements OnInit {
 
   private createProgramGroup(program: UniversityProgram = this.emptyProgram()): FormGroup {
     return this.fb.group({
-      name: [program.name, Validators.required],
+      name: [program.name],
       fields: [(program.fields || []).join(', ')],
       degrees: [(program.degrees || []).join(', ')],
       minGpa: [program.minGpa ?? null],
@@ -233,15 +248,17 @@ export class AdminUniversitiesComponent implements OnInit {
       tuitionRange: raw.tuitionRange,
       active: raw.active,
       tags: this.toList(raw.tags),
-      programs: raw.programs.map((program: any) => ({
-        name: program.name,
-        fields: this.toList(program.fields),
-        degrees: this.toList(program.degrees),
-        minGpa: this.toNumber(program.minGpa),
-        minIelts: this.toNumber(program.minIelts),
-        minToefl: this.toNumber(program.minToefl),
-        minGmat: this.toNumber(program.minGmat),
-      })),
+      programs: raw.programs
+        .filter((program: any) => String(program.name || '').trim())
+        .map((program: any) => ({
+          name: String(program.name || '').trim(),
+          fields: this.toList(program.fields),
+          degrees: this.toList(program.degrees),
+          minGpa: this.toNumber(program.minGpa),
+          minIelts: this.toNumber(program.minIelts),
+          minToefl: this.toNumber(program.minToefl),
+          minGmat: this.toNumber(program.minGmat),
+        })),
     };
   }
 

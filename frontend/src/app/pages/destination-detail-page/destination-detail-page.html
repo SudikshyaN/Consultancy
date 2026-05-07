@@ -1,4 +1,4 @@
-@if (country) {
+@if (!isLoading && country) {
 <div class="detail-page">
 
   <!-- TOP BAR -->
@@ -12,16 +12,14 @@
 
     <!-- LEFT CONTENT -->
     <div class="hero-left">
-      <div class="flag">{{ country.flag }}</div>
+      <div class="flag">{{ country.flag.startsWith('http') ? '🌐' : country.flag }}</div>
       <p class="label">STUDY IN</p>
       <h1>{{ country.name }}</h1>
       <p class="overview">{{ country.overview }}</p>
 
       <div class="tags">
-        <span>{{ country.visaType }}</span>
-        <span>{{ country.universities || 'Many universities' }}</span>
-        <span>{{ country.work || 'Work opportunities' }}</span>
-        <span>{{ country.intakes }}</span>
+        <span>{{ country.visa }}</span>
+        <span>{{ country.partTimeWork || 'Work opportunities' }}</span>
       </div>
     </div>
 
@@ -29,18 +27,23 @@
     <div class="hero-right">
 
       <div class="info-card">
-        <p>Average Tuition</p>
-        <h2>{{ country.tuition || '$20,000+' }}</h2>
+        <p>Monthly Living Cost</p>
+        <h2>{{ country.livingCost || 'Varies' }}</h2>
       </div>
 
       <div class="info-card">
-        <p>Visa Processing</p>
-        <h2>{{ country.processingTime }}</h2>
+        <p>Average Tuition</p>
+        <h2>{{ country.tuition || 'Varies' }}</h2>
+      </div>
+
+      <div class="info-card">
+        <p>Visa Fee / Info</p>
+        <h2>{{ country.visaFee || country.visa }}</h2>
       </div>
 
       <div class="info-card">
         <p>IELTS Requirement</p>
-        <h2>{{ country.ielts || '6.0 - 7.0' }}</h2>
+        <h2>{{ country.ieltsRequirement || 'Contact Us' }}</h2>
       </div>
 
     </div>
@@ -50,59 +53,49 @@
   <!-- DETAILS SECTIONS -->
   <div class="content">
 
-    <!-- STEPS -->
-    <section>
-      <h2>Application Steps</h2>
-      @for (step of country.applicationSteps; track step.step) {
-        <div class="card">
-          <h3>Step {{ step.step }}: {{ step.title }}</h3>
-          <p>{{ step.description }}</p>
-          <small>{{ step.duration }}</small>
+    @if (country.highlights && country.highlights.length > 0) {
+      <section>
+        <h2>Why Study in {{ country.name }}?</h2>
+        <ul>
+          @for (highlight of country.highlights; track highlight) {
+            <li>{{ highlight }}</li>
+          }
+        </ul>
+      </section>
+    }
+
+    <!-- STEPS (if available) -->
+    @if (country.steps && country.steps.length > 0) {
+      <section>
+        <h2>Application Journey</h2>
+        <div class="steps-grid">
+          @for (step of country.steps; track step.title) {
+            <div class="step-card">
+              <div class="step-icon">{{ step.icon }}</div>
+              <div class="step-content">
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.subtitle }}</p>
+                <span class="step-tag" [style.background-color]="step.tagColor === 'yellow' ? '#fef3c7' : step.tagColor === 'blue' ? '#dbeafe' : '#dcfce7'">
+                  {{ step.tag }}
+                </span>
+              </div>
+            </div>
+          }
         </div>
-      }
-    </section>
-
-    <!-- DOCUMENTS -->
-    <section>
-      <h2>Required Documents</h2>
-      <ul>
-        @for (doc of country.documents; track doc) {
-          <li>{{ doc }}</li>
-        }
-      </ul>
-    </section>
-
-    <!-- FINANCE -->
-    <section>
-      <h2>Financial Requirement</h2>
-      <p>{{ country.financialRequirement }}</p>
-    </section>
-
-    <!-- TIPS -->
-    <section>
-      <h2>Tips</h2>
-      <ul>
-        @for (tip of country.tips; track tip) {
-          <li>{{ tip }}</li>
-        }
-      </ul>
-    </section>
-
-    <!-- AFTER ARRIVAL -->
-    <section>
-      <h2>After Arrival</h2>
-      <ul>
-        @for (item of country.postArrival; track item) {
-          <li>{{ item }}</li>
-        }
-      </ul>
-    </section>
+      </section>
+    }
 
   </div>
 
 </div>
-} @else {
+} @else if (isLoading) {
 <div class="loading">
+  <div class="spinner"></div>
   <p>Loading destination details...</p>
+</div>
+} @else {
+<div class="error">
+  <h2>Destination not found</h2>
+  <button routerLink="/">Return Home</button>
 </div>
 }

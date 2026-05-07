@@ -20,6 +20,7 @@ export class DashboardCommunityComponent implements OnInit {
   protected postContent = signal('');
   protected isPosting = signal(false);
   protected isLoading = signal(true);
+  protected showCreator = signal(false);
   protected commentInputs = signal<Record<string, string>>({});
   
   protected currentUser: any;
@@ -62,6 +63,7 @@ export class DashboardCommunityComponent implements OnInit {
         this.postContent.set('');
         this.selectedPostTags.set([]);
         this.isPosting.set(false);
+        this.showCreator.set(false);
         this.loadPosts(this.activeFilter());
       },
       error: () => this.isPosting.set(false)

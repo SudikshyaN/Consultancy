@@ -19,7 +19,7 @@ export class DashboardSidebarComponent {
     { label: 'Main', path: '/dashboard/main' },
     
     { label: 'Profile', path: '/dashboard/profile' },
-    { label: 'Wishlist', path: '/dashboard/wishlist' },
+    { label: 'Country', path: '/dashboard/country' },
     { label: 'Community', path: '/dashboard/community' },
   ];
 

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginComponent } from '../../../pages/login/login';
 import { BlogComponent } from '../../../pages/blog/blog';
-
+import { AuthService } from '../../../services/auth.services';
 @Component({
   selector: 'app-site-header',
   imports: [RouterLink, ],

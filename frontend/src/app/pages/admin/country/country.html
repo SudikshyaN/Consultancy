@@ -1,0 +1,82 @@
+<div class="admin-country-container">
+  <header class="page-header">
+    <div class="header-content">
+      <!-- <h1>Manage Country Details</h1>
+      <p>Select a country to update its living costs, tuition, and visa requirements.</p> -->
+    </div>
+  </header>
+
+  <div class="admin-content">
+    <!-- Country Selector Sidebar -->
+    <aside class="country-selector">
+      <h3>Select Country</h3>
+      @if (isLoading()) {
+      <div class="loading-mini">Loading...</div>
+      } @else {
+      <ul class="country-list">
+        @for (country of countries(); track country._id) {
+        <li [class.active]="selectedCountry()?._id === country._id" (click)="onSelectCountry(country)">
+          <!-- <span class="flag">{{ country.flag.startsWith('http') ? '🌐' : country.flag }}</span> -->
+          <span class="name">{{ country.name }}</span>
+        </li>
+        }
+      </ul>
+      }
+    </aside>
+
+    <!-- Form Area -->
+    <main class="form-area">
+      @if (selectedCountry()) {
+      <div class="edit-header">
+        <h2>Country:{{ selectedCountry()?.name }}</h2>
+        <button class="save-btn" (click)="saveCountry()" [disabled]="isSaving()">
+          {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+
+      <!-- Preview/Edit Cards -->
+      <div class="cards-preview">
+        <div class="preview-card">
+          <div class="card-label">Monthly living cost</div>
+          <input type="text" [(ngModel)]="formData.livingCost" placeholder="e.g. £ 1,430/mo">
+          <div class="card-sub">Avg for student</div>
+        </div>
+
+        <div class="preview-card">
+          <div class="card-label">Tuition</div>
+          <input type="text" [(ngModel)]="formData.tuition" placeholder="e.g. £15,000–35,000/yr">
+          <div class="card-sub">Per year</div>
+        </div>
+
+        <div class="preview-card">
+          <div class="card-label">Visa fee</div>
+          <input type="text" [(ngModel)]="formData.visaFee" placeholder="e.g. Student visa (Tier 4)">
+          <div class="card-sub">3–8 weeks processing</div>
+        </div>
+
+        <div class="preview-card">
+          <div class="card-label">Part-time work</div>
+          <input type="text" [(ngModel)]="formData.partTimeWork" placeholder="e.g. 20 hrs/week">
+          <div class="card-sub">Allowed on student visa</div>
+        </div>
+
+        <div class="preview-card">
+          <div class="card-label">IELTS requirement</div>
+          <input type="text" [(ngModel)]="formData.ieltsRequirement" placeholder="e.g. 6.5+">
+          <div class="card-sub">Minimum score</div>
+        </div>
+      </div>
+      } @else {
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0"
+          stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="m16 12-4-4-4 4" />
+          <path d="M12 16V8" />
+        </svg>
+        <p>Please select a country from the left to start editing.</p>
+      </div>
+      }
+    </main>
+  </div>
+</div>

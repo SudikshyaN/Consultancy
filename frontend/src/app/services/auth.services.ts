@@ -40,7 +40,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.authUrl}/register`, data).pipe(
@@ -67,7 +67,13 @@ export class AuthService {
   }
 
   getProfile(): Observable<{ user: AuthUser }> {
-    return this.http.get<{ user: AuthUser }>(`${this.authUrl}/me`);
+    return this.http.get<{ user: AuthUser }>(`${this.authUrl}/me`).pipe(
+      tap((res) => {
+        if (this.isBrowser()) {
+          sessionStorage.setItem(this.userKey, JSON.stringify(res.user));
+        }
+      })
+    );
   }
 
   updateProfile(data: any): Observable<{ message: string, user: AuthUser }> {

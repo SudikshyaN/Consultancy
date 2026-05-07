@@ -22,8 +22,8 @@ export class ProfileComponent implements OnInit {
 
   statCards: DashboardCard[] = [
     { title: 'Applications', value: 4, caption: '', icon: '📋', iconTone: 'blue' },
-    { title: 'Wishlist', value: 6, caption: '', icon: '🎫', iconTone: 'mint' },
-    { title: 'Countries', value: 5, caption: '', icon: '🌍', iconTone: 'gold' },
+    { title: 'Preferred', value: 0, caption: '', icon: '🎫', iconTone: 'mint' },
+    { title: 'Countries', value: 8, caption: '', icon: '🌍', iconTone: 'gold' },
     { title: 'GPA', value: '0.0', caption: '', icon: '⭐', iconTone: 'lavender' }
   ];
 
@@ -36,13 +36,14 @@ export class ProfileComponent implements OnInit {
   availableCountries = [
     { name: 'USA', flag: '🇺🇸' },
     { name: 'UK', flag: '🇬🇧' },
+    { name: 'Australia', flag: '🇦🇺' },
     { name: 'Canada', flag: '🇨🇦' },
     { name: 'Germany', flag: '🇩🇪' },
-    { name: 'Australia', flag: '🇦🇺' },
-    { name: 'Singapore', flag: '🇸🇬' },
-    { name: 'Netherlands', flag: '🇳🇱' },
-    { name: 'Sweden', flag: '🇸🇪' }
+    { name: 'Japan', flag: '🇯🇵' },
+    { name: 'New Zealand', flag: '🇳🇿' },
+    { name: 'South Korea', flag: '🇰🇷' }
   ];
+
 
   availableIntakeYears = ['2026', '2027'];
 
@@ -146,6 +147,10 @@ export class ProfileComponent implements OnInit {
 
       if (profile.gpa) {
         this.statCards[3].value = profile.gpa;
+      }
+      
+      if (profile.preferredCountries) {
+        this.statCards[1].value = profile.preferredCountries.length;
       }
     } catch (e) {
       console.error(e);

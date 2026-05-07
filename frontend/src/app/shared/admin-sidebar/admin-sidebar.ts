@@ -14,6 +14,7 @@ export class AdminSidebarComponent {
 
   protected readonly items = [
     { label: 'Universities', path: '/admin/universities' },
+    { label: 'Country', path: '/admin/countries' },
   ];
 
   logout(): void {
