@@ -23,7 +23,14 @@ export class AdminCountryComponent implements OnInit {
     tuition: '',
     visaFee: '',
     partTimeWork: '',
-    ieltsRequirement: ''
+    ieltsRequirement: '',
+    costBreakdown: {
+      rent: 0,
+      food: 0,
+      transport: 0,
+      bills: 0,
+      personal: 0
+    }
   };
 
   constructor(private destinationService: DestinationService) { }
@@ -53,7 +60,14 @@ export class AdminCountryComponent implements OnInit {
       tuition: country.tuition || '',
       visaFee: country.visaFee || '',
       partTimeWork: country.partTimeWork || '',
-      ieltsRequirement: country.ieltsRequirement || ''
+      ieltsRequirement: country.ieltsRequirement || '',
+      costBreakdown: {
+        rent: country.costBreakdown?.rent || 0,
+        food: country.costBreakdown?.food || 0,
+        transport: country.costBreakdown?.transport || 0,
+        bills: country.costBreakdown?.bills || 0,
+        personal: country.costBreakdown?.personal || 0
+      }
     };
   }
 

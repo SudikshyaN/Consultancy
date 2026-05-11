@@ -1,1 +1,57 @@
-\u003csection class=\"dashboard-card-content country-page\"\u003e\n  \u003cdiv class=\"country-header\"\u003e\n    \u003ch1\u003eChoose your destination\u003c/h1\u003e\n    \u003cp\u003eSelect a country to open a dedicated detail page with visa guidance, study flow, and planning notes.\u003c/p\u003e\n  \u003c/div\u003e\n\n  @if (errorMessage()) {\n    \u003cp class=\"country-alert\"\u003e{{ errorMessage() }}\u003c/p\u003e\n  }\n\n  @if (isLoading()) {\n    \u003cdiv class=\"country-loading\"\u003e\n      \u003cdiv class=\"spinner\"\u003e\u003c/div\u003e\n      \u003cp\u003eLoading destinations...\u003c/p\u003e\n    \u003c/div\u003e\n  } @else {\n    \u003cdiv class=\"country-grid\"\u003e\n      @for (country of allCountries(); track country.slug) {\n        \u003carticle \n          class=\"country-card\" \n          [class.selected]=\"isSelected(country.slug)\"\n          [class.processing]=\"processingSlug() === country.slug\"\n          (click)=\"toggleCountry(country)\"\n        \u003e\n          \u003cdiv class=\"country-content\"\u003e\n            \u003cdiv class=\"flag-wrapper\"\u003e\n              \u003cimg [src]=\"country.flag\" [alt]=\"country.name + ' flag'\" /\u003e\n            \u003c/div\u003e\n            \n            \u003ch3\u003e{{ country.name }}\u003c/h3\u003e\n            \u003cp class=\"visa-type\"\u003e{{ country.visa }}\u003c/p\u003e\n          \u003c/div\u003e\n\n          \u003cdiv class=\"selection-overlay\"\u003e\n            \u003cspan class=\"indicator\"\u003e\n              {{ isSelected(country.slug) ? '✓ Selected' : '+ Add to Profile' }}\n            \u003c/span\u003e\n          \u003c/div\u003e\n        \u003c/article\u003e\n      }\n    \u003c/div\u003e\n  }\n\u003c/section\u003e\n
+<section class="dashboard-card-content country-page">
+  <div class="country-header">
+    <h1>Choose your destination</h1>
+    <p>Select a country to open a dedicated detail page with visa guidance, study flow and planning notes.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="country-alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="country-loading">
+      <div class="spinner"></div>
+      <p>Loading destinations...</p>
+    </div>
+  } @else {
+    <div class="country-grid">
+      @for (country of allCountries(); track country.slug) {
+        <article 
+          class="country-card" 
+          [class.selected]="isSelected(country.slug)"
+          [class.processing]="processingSlug() === country.slug"
+          (click)="toggleCountry(country)"
+        >
+          <div class="country-content">
+            <div class="flag-wrapper">
+              <img [src]="country.flag" [alt]="country.name + ' flag'" />
+            </div>
+            
+            <h3>{{ country.name }}</h3>
+            <p class="visa-type">{{ country.visa }}</p>
+            
+            @if (isSelected(country.slug)) {
+              <button
+                type="button"
+                class="view-more-button"
+                (click)="viewDetails($event, country.slug)"
+              >
+                View more
+              </button>
+            }
+          </div>
+
+          @if (isSelected(country.slug)) {
+            <div class="selected-badge">
+              <span class="check-icon">✓</span>
+            </div>
+          } @else {
+            <div class="add-badge">
+              <span class="plus-icon">+</span>
+            </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>

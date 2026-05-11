@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgClass } from '@angular/common';
 
-import { DESTINATIONS, JourneyStep } from '../../data/destinations';
+import { JourneyStep } from '../../data/destinations';
+import { DestinationService } from '../../../services/destination.service';
 
 @Component({
   selector: 'app-journey',
@@ -17,17 +18,26 @@ export class Journey implements OnInit {
   highlights: string[] = [];
   steps: JourneyStep[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private destinationService: DestinationService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const slug = params.get('country') ?? 'usa';
-      const destination = DESTINATIONS.find((item) => item.slug === slug) ?? DESTINATIONS[0];
-
-      this.countryName = destination.name;
-      this.countryOverview = destination.overview;
-      this.highlights = destination.highlights;
-      this.steps = destination.steps;
+      this.destinationService.getDestinationBySlug(slug).subscribe({
+        next: (res) => {
+          const destination = res.destination;
+          this.countryName = destination.name;
+          this.countryOverview = destination.overview;
+          this.highlights = destination.highlights;
+          this.steps = destination.steps;
+        },
+        error: (err) => {
+          console.error('Error loading destination in journey:', err);
+        }
+      });
     });
   }
 }

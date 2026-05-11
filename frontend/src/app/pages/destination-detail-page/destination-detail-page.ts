@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { DESTINATIONS, Destination } from '../../shared/data/destinations';
+import { Destination } from '../../shared/data/destinations';
+import { DestinationService } from '../../services/destination.service';
 
 @Component({
   selector: 'app-destination-detail',
@@ -16,7 +17,8 @@ export class DestinationDetailComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private destinationService: DestinationService
   ) {}
 
   ngOnInit() {
@@ -30,13 +32,16 @@ export class DestinationDetailComponent implements OnInit {
 
   loadCountry(slug: string) {
     this.isLoading = true;
-    // Load from static data
-    const found = DESTINATIONS.find(d => d.slug === slug);
-    if (found) {
-      this.country = found;
-    } else {
-      this.country = null;
-    }
-    this.isLoading = false;
+    this.destinationService.getDestinationBySlug(slug).subscribe({
+      next: (res) => {
+        this.country = res.destination;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading country:', err);
+        this.country = null;
+        this.isLoading = false;
+      }
+    });
   }
 }

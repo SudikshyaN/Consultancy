@@ -14,10 +14,10 @@ import { DashboardCountryComponent } from './pages/dashboard/country/country';
 import { DashboardCommunityComponent } from './pages/dashboard/community/community';
 import { AdminCountryComponent } from './pages/admin/country/country';
 import { DashboardUniversitiesComponent } from './pages/dashboard/universities/universities';
-
 import { AdminAuthComponent } from './pages/admin/auth/admin-auth';
 import { AdminShellComponent } from './pages/admin/admin-shell/admin-shell';
 import { AdminUniversitiesComponent } from './pages/admin/universities/admin-universities';
+import { DashboardCountryDetailComponent } from './pages/dashboard/country-detail/country-detail';
 
 
 export const routes: Routes = [
@@ -77,6 +77,10 @@ export const routes: Routes = [
       {
         path: 'country',
         component: DashboardCountryComponent
+      },
+      {
+        path: 'country/:slug',
+        component: DashboardCountryDetailComponent
       },
       {
         path: 'community',

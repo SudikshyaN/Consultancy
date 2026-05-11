@@ -1,8 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { AuthService } from '../../../../services/auth.services';
-import { DESTINATIONS } from '../../../../shared/data/destinations';
+import { RouterModule, Router } from '@angular/router';
+import { SavedDestination, WishlistService } from '../../../../services/wishlist.service';
 
 @Component({
   selector: 'app-preferred-countries',
@@ -12,7 +11,8 @@ import { DESTINATIONS } from '../../../../shared/data/destinations';
   styleUrl: './preferred-countries.scss',
 })
 export class PreferredCountriesComponent implements OnInit {
-  private authService = inject(AuthService);
+  private wishlistService = inject(WishlistService);
+  private router = inject(Router);
   
   countries: any[] = [];
   activeIndex = 0;
@@ -22,16 +22,24 @@ export class PreferredCountriesComponent implements OnInit {
   }
 
   loadPreferredCountries(): void {
-    const user = this.authService.getUser();
-    const preferredNames = user?.profile?.preferredCountries || [];
-    
-    // Map preferred names to destination data for flags
-    this.countries = preferredNames.map((name: string) => {
-      const dest = DESTINATIONS.find(d => d.name === name);
+    this.wishlistService.listDestinations().subscribe({
+      next: (res) => {
+        this.mapPreferredCountries(res.savedDestinations);
+      },
+      error: (err) => {
+        console.error('Error loading preferred countries:', err);
+        this.countries = [];
+      }
+    });
+  }
+
+  private mapPreferredCountries(savedDestinations: SavedDestination[]): void {
+    this.countries = savedDestinations.map((destination) => {
       return {
-        name,
-        flag: this.getEmojiFlag(name), // Fallback to emoji for main dashboard style
-        universities: Math.floor(Math.random() * 50) + 10, // Mock data for now
+        name: destination.name,
+        slug: destination.slug,
+        flag: destination.flag || this.getEmojiFlag(destination.name),
+        universities: Math.floor(Math.random() * 50) + 10,
         progress: Math.floor(Math.random() * 100),
         active: false
       };
@@ -59,5 +67,12 @@ export class PreferredCountriesComponent implements OnInit {
   setActive(index: number) {
     this.activeIndex = index;
     this.countries.forEach((c, i) => c.active = i === index);
+  }
+
+  viewMore(): void {
+    const activeCountry = this.countries[this.activeIndex];
+    if (activeCountry && activeCountry.slug) {
+      this.router.navigate(['/dashboard/country', activeCountry.slug]);
+    }
   }
 }

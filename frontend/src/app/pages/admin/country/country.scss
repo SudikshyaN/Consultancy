@@ -143,7 +143,7 @@
         background: transparent;
         border: none;
         border-bottom: 1px solid #3f3f46;
-        color: white;
+        color: black;
         font-size: 1.2rem;
         font-weight: 700;
         padding: 0.25rem 0;
@@ -162,6 +162,51 @@
       .card-sub {
         font-size: 0.75rem;
         color: #71717a;
+      }
+    }
+
+    .cost-breakdown-editor {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f1f5f9;
+
+      h3 {
+        font-size: 1.1rem;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+      }
+
+      .breakdown-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+
+        .breakdown-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          label {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+          }
+
+          input {
+            padding: 0.625rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #1e293b;
+            width: 100%;
+
+            &:focus {
+              outline: none;
+              border-color: #2563eb;
+              box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            }
+          }
+        }
       }
     }
 

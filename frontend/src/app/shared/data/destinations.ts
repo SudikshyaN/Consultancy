@@ -20,6 +20,13 @@ export interface Destination {
   visaFee?: string;
   partTimeWork?: string;
   ieltsRequirement?: string;
+  costBreakdown?: {
+    rent: number;
+    food: number;
+    transport: number;
+    bills: number;
+    personal: number;
+  };
 }
 
 export const DESTINATIONS: Destination[] = [

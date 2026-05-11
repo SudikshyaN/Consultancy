@@ -14,9 +14,9 @@ export class SiteHeaderComponent {
   @Output() openAuth = new EventEmitter<void>(); 
   protected readonly navItems = [
     { label: 'Journey', path: '/#journey' },
-    { label: 'freeTools', path: '/freetools' },
+    
     { label: 'blog', path: '/blog' },
-    { label: 'Finance', path: '/finance' },
+   
     { label: 'About Us', path: '/about' },
     // { label: 'Login', path: '/login' },
     

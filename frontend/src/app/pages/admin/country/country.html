@@ -66,8 +66,34 @@
           <div class="card-sub">Minimum score</div>
         </div>
       </div>
+
+      <div class="cost-breakdown-editor">
+        <h3>Monthly Cost Breakdown ($)</h3>
+        <div class="breakdown-grid">
+          <div class="breakdown-item">
+            <label>Rent</label>
+            <input type="number" [(ngModel)]="formData.costBreakdown.rent">
+          </div>
+          <div class="breakdown-item">
+            <label>Food & Groceries</label>
+            <input type="number" [(ngModel)]="formData.costBreakdown.food">
+          </div>
+          <div class="breakdown-item">
+            <label>Transport</label>
+            <input type="number" [(ngModel)]="formData.costBreakdown.transport">
+          </div>
+          <div class="breakdown-item">
+            <label>Bills & Utilities</label>
+            <input type="number" [(ngModel)]="formData.costBreakdown.bills">
+          </div>
+          <div class="breakdown-item">
+            <label>Personal / Misc</label>
+            <input type="number" [(ngModel)]="formData.costBreakdown.personal">
+          </div>
+        </div>
+      </div>
       } @else {
-      <div class="empty-state">
+      <!-- <div class="empty-state">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0"
           stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -75,7 +101,7 @@
           <path d="M12 16V8" />
         </svg>
         <p>Please select a country from the left to start editing.</p>
-      </div>
+      </div> -->
       }
     </main>
   </div>
