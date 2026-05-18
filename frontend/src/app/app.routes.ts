@@ -18,6 +18,7 @@ import { AdminAuthComponent } from './pages/admin/auth/admin-auth';
 import { AdminShellComponent } from './pages/admin/admin-shell/admin-shell';
 import { AdminUniversitiesComponent } from './pages/admin/universities/admin-universities';
 import { DashboardCountryDetailComponent } from './pages/dashboard/country-detail/country-detail';
+import { DashboardSopMakerComponent } from './pages/dashboard/sop-maker/sop-maker';
 
 
 export const routes: Routes = [
@@ -85,6 +86,11 @@ export const routes: Routes = [
       {
         path: 'community',
         component: DashboardCommunityComponent
+      },
+      {
+        path: 'sop-maker',
+        component: DashboardSopMakerComponent,
+        title: 'SOP Maker | Dashboard'
       }
     ]
   },

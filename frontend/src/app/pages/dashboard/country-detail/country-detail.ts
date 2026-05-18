@@ -15,6 +15,7 @@ export class DashboardCountryDetailComponent implements OnInit {
   protected country = signal<Destination | null>(null);
   protected isLoading = signal(true);
   protected error = signal('');
+  protected expandedStepIndex = signal<number>(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,14 @@ export class DashboardCountryDetailComponent implements OnInit {
         this.isLoading.set(false);
       }
     });
+  }
+
+  protected toggleStep(index: number): void {
+    if (this.expandedStepIndex() === index) {
+      this.expandedStepIndex.set(-1); // Collapse if already open
+    } else {
+      this.expandedStepIndex.set(index);
+    }
   }
 
   protected getTotalMonthlyCost(): number {

@@ -92,6 +92,66 @@
           </div>
         </div>
       </div>
+
+      <div class="roadmap-manager">
+        <div class="section-header">
+          <h3>Step-by-step Roadmap</h3>
+          <button class="add-step-btn" (click)="addRoadmapStep()">+ Add Step</button>
+        </div>
+
+        <div class="steps-list">
+          @for (step of formData.roadmap; track $index; let sIdx = $index) {
+          <div class="roadmap-step-card">
+            <div class="step-header">
+              <span class="step-num">{{ sIdx + 1 }}</span>
+              <input type="text" [(ngModel)]="step.title" placeholder="Step Title (e.g. IELTS / English test)" name="title-{{sIdx}}">
+              <button class="remove-btn" (click)="removeRoadmapStep(sIdx)">×</button>
+            </div>
+
+            <div class="step-body">
+              <div class="input-row">
+                <div class="input-group">
+                  <label>Duration</label>
+                  <input type="text" [(ngModel)]="step.duration" placeholder="e.g. 2-3 months" name="dur-{{sIdx}}">
+                </div>
+                <div class="input-group">
+                  <label>Description</label>
+                  <textarea [(ngModel)]="step.description" placeholder="Brief overview of this step..." name="desc-{{sIdx}}"></textarea>
+                </div>
+              </div>
+
+              <div class="tags-manager">
+                <label>Tags (Press Enter to add)</label>
+                <div class="tags-container">
+                  @for (tag of step.tags; track $index; let tIdx = $index) {
+                  <span class="admin-tag">
+                    {{ tag }}
+                    <span class="remove-tag" (click)="removeTag(sIdx, tIdx)">×</span>
+                  </span>
+                  }
+                  <input type="text" (keyup.enter)="addTag(sIdx, $event)" placeholder="Add tag...">
+                </div>
+              </div>
+
+              <div class="checklist-manager">
+                <div class="checklist-header">
+                  <label>Checklist Items</label>
+                  <button (click)="addChecklistItem(sIdx)">+ Add Item</button>
+                </div>
+                <div class="checklist-items">
+                  @for (item of step.checklist; track $index; let iIdx = $index) {
+                  <div class="checklist-row">
+                    <input type="text" [(ngModel)]="item.task" placeholder="Task description..." name="item-{{sIdx}}-{{iIdx}}">
+                    <button class="remove-item" (click)="removeChecklistItem(sIdx, iIdx)">×</button>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
       } @else {
       <!-- <div class="empty-state">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0"

@@ -30,7 +30,8 @@ export class AdminCountryComponent implements OnInit {
       transport: 0,
       bills: 0,
       personal: 0
-    }
+    },
+    roadmap: [] as any[]
   };
 
   constructor(private destinationService: DestinationService) { }
@@ -66,9 +67,47 @@ export class AdminCountryComponent implements OnInit {
         food: country.costBreakdown?.food || 0,
         transport: country.costBreakdown?.transport || 0,
         bills: country.costBreakdown?.bills || 0,
-        personal: country.costBreakdown?.personal || 0
+      personal: country.costBreakdown?.personal || 0
+      },
+      roadmap: country.roadmap ? JSON.parse(JSON.stringify(country.roadmap)) : []
+    } as any;
+  }
+
+  addRoadmapStep() {
+    this.formData.roadmap.push({
+      title: '',
+      duration: '',
+      description: '',
+      tags: [],
+      checklist: []
+    });
+  }
+
+  removeRoadmapStep(index: number) {
+    this.formData.roadmap.splice(index, 1);
+  }
+
+  addChecklistItem(stepIndex: number) {
+    this.formData.roadmap[stepIndex].checklist.push({ task: '' });
+  }
+
+  removeChecklistItem(stepIndex: number, itemIndex: number) {
+    this.formData.roadmap[stepIndex].checklist.splice(itemIndex, 1);
+  }
+
+  addTag(stepIndex: number, event: any) {
+    const value = event.target.value.trim();
+    if (value) {
+      if (!this.formData.roadmap[stepIndex].tags) {
+        this.formData.roadmap[stepIndex].tags = [];
       }
-    };
+      this.formData.roadmap[stepIndex].tags.push(value);
+      event.target.value = '';
+    }
+  }
+
+  removeTag(stepIndex: number, tagIndex: number) {
+    this.formData.roadmap[stepIndex].tags.splice(tagIndex, 1);
   }
 
   saveCountry() {

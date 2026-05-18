@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface SavedDestination {
@@ -23,7 +23,9 @@ export class WishlistService {
   constructor(private http: HttpClient) {}
 
   listDestinations(): Observable<WishlistResponse> {
-    return this.http.get<WishlistResponse>(`${this.baseUrl}/destinations`);
+    return this.http.get<WishlistResponse>(`${this.baseUrl}/destinations`).pipe(
+      catchError(() => of({ savedDestinations: [] }))
+    );
   }
 
   addDestination(destination: SavedDestination): Observable<WishlistResponse> {

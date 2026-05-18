@@ -27,6 +27,19 @@ export interface Destination {
     bills: number;
     personal: number;
   };
+  roadmap?: RoadmapStep[];
+}
+
+export interface RoadmapStep {
+  title: string;
+  duration: string;
+  description: string;
+  tags: string[];
+  checklist: RoadmapChecklistItem[];
+}
+
+export interface RoadmapChecklistItem {
+  task: string;
 }
 
 export const DESTINATIONS: Destination[] = [
