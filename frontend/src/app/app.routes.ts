@@ -7,7 +7,7 @@ import { BlogComponent } from './pages/blog/blog';
 import { LoginComponent } from './pages/login/login';
 
 import { DashboardComponent } from './pages/dashboard/dashboard';
-import { AuthGuard, GuestGuard } from './pages/login/auth.guard';
+import { AdminGuard, AdminGuestGuard, AuthGuard, GuestGuard } from './pages/login/auth.guard';
 import { DashboardMainComponent } from './pages/dashboard/main/main';
 import { ProfileComponent } from './pages/dashboard/profile/profile';
 import { DashboardCountryComponent } from './pages/dashboard/country/country';
@@ -50,7 +50,7 @@ export const routes: Routes = [
   {
     path: 'admin/login',
     component: AdminAuthComponent,
-    canActivate: [GuestGuard]
+    canActivate: [AdminGuestGuard]
   },
   {
     path: 'dashboard',
@@ -95,7 +95,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminShellComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
     children: [
       {
         path: '',

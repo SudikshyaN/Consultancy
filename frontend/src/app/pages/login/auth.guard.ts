@@ -31,6 +31,34 @@ export class AuthGuard implements CanActivate {
 @Injectable({
   providedIn: 'root'
 })
+export class AdminGuard implements CanActivate {
+  private readonly platformId = inject(PLATFORM_ID);
+
+  constructor(private router: Router) { }
+
+  canActivate(): boolean | UrlTree {
+    if (!isPlatformBrowser(this.platformId)) {
+      return true;
+    }
+
+    const token = sessionStorage.getItem('token');
+
+    if (!token || tokenIsExpired(token)) {
+      clearSession();
+      return this.router.createUrlTree(['/admin/login']);
+    }
+
+    if (getStoredUserRole() === 'admin') {
+      return true;
+    }
+
+    return this.router.createUrlTree(['/admin/login']);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class GuestGuard implements CanActivate {
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -70,6 +98,54 @@ export class GuestGuard implements CanActivate {
     } catch {
       return '/dashboard/main';
     }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminGuestGuard implements CanActivate {
+  private readonly platformId = inject(PLATFORM_ID);
+
+  constructor(private router: Router) { }
+
+  canActivate(): boolean | UrlTree {
+    if (!isPlatformBrowser(this.platformId)) {
+      return true;
+    }
+
+    const token = sessionStorage.getItem('token');
+
+    if (!token || tokenIsExpired(token)) {
+      clearSession();
+      return true;
+    }
+
+    if (getStoredUserRole() === 'admin') {
+      return this.router.createUrlTree(['/admin/universities']);
+    }
+
+    clearSession();
+    return true;
+  }
+}
+
+function clearSession(): void {
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('user');
+}
+
+function getStoredUserRole(): string | null {
+  const user = sessionStorage.getItem('user');
+
+  if (!user) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(user)?.role || null;
+  } catch {
+    return null;
   }
 }
 
