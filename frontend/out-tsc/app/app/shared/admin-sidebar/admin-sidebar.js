@@ -18,6 +18,7 @@ export class AdminSidebarComponent {
     logoutClicked = new EventEmitter();
     items = [
         { label: 'Universities', path: '/admin/universities' },
+        { label: 'Community', path: '/admin/community' },
     ];
     logout() {
         this.logoutClicked.emit();

@@ -65,7 +65,7 @@ export class AdminAuthComponent {
             this.isLoading = false;
         })).subscribe({
             next: () => {
-                this.router.navigate(['/admin/universities']);
+                this.router.navigate(['/admin/overview']);
             },
             error: (err) => {
                 this.errorMessage = err.name === 'TimeoutError'

@@ -1,0 +1,219 @@
+<section class="admin-universities-page">
+  <div class="admin-hero">
+    <div>
+      <p class="eyebrow">Catalog manager</p>
+      <h1>Universities</h1>
+      <p class="hero-copy">Select a country to manage the university data used by student recommendations.</p>
+    </div>
+
+    <div class="hero-stats">
+      <span>{{ universities.length }}</span>
+      <small>{{ selectedCountry }} universities</small>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <p class="alert error">{{ errorMessage }}</p>
+  }
+
+  @if (successMessage) {
+    <p class="alert success">{{ successMessage }}</p>
+  }
+
+  <div class="admin-grid">
+    <section class="list-panel">
+      <div class="panel-header">
+        <div>
+          <h2>University list</h2>
+          <p>{{ isLoading() ? 'Loading catalog...' : 'Click a row to edit details.' }}</p>
+        </div>
+        <button type="button" (click)="resetForm()">New</button>
+      </div>
+
+      <div class="country-toolbar">
+        <label class="country-search">
+          <span>Search by country</span>
+          <input
+            type="text"
+            list="admin-country-options"
+            [value]="selectedCountry"
+            (change)="selectCountryFromInput($any($event.target).value)"
+            placeholder="Search USA, UK, Canada"
+          />
+          <datalist id="admin-country-options">
+            @for (country of countryOptions; track country) {
+              <option [value]="country"></option>
+            }
+          </datalist>
+        </label>
+
+        <div class="country-pills" aria-label="Country filters">
+          @for (country of countryOptions; track country) {
+            <button
+              type="button"
+              [class.active]="selectedCountry === country"
+              (click)="selectCountry(country)"
+            >
+              {{ country }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>Programs</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (isLoading()) {
+              <tr>
+                <td colspan="5" class="empty-row">Loading universities...</td>
+              </tr>
+            } @else if (universities.length === 0) {
+              <tr>
+                <td colspan="5" class="empty-row">No {{ selectedCountry }} universities found.</td>
+              </tr>
+            } @else {
+              @for (university of universities; track university._id || university.id || university.name) {
+                <tr>
+                  <td>
+                    <button type="button" class="name-button" (click)="editUniversity(university)">
+                      <strong>{{ university.name }}</strong>
+                      <span>{{ university.city || 'City not set' }}</span>
+                    </button>
+                  </td>
+                  <td>{{ university.country }}</td>
+                  <td>{{ university.programs.length }}</td>
+                  <td>
+                    <span class="status" [class.inactive]="!university.active">
+                      {{ university.active ? 'Active' : 'Hidden' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button type="button" class="ghost-danger" (click)="deleteUniversity(university)">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <form class="editor-panel" [formGroup]="universityForm" (ngSubmit)="saveUniversity()">
+      <div class="panel-header">
+        <div>
+          <h2>{{ selectedUniversity ? 'Edit university' : 'Add university' }}</h2>
+          <p>Program rules power profile-based matching.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Name</span>
+          <input type="text" formControlName="name" placeholder="Arizona State University" />
+        </label>
+
+        <label>
+          <span>Country</span>
+          <select formControlName="country">
+            @for (country of countryOptions; track country) {
+              <option [value]="country">{{ country }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>City</span>
+          <input type="text" formControlName="city" placeholder="Tempe, Arizona" />
+        </label>
+
+        <label>
+          <span>Tuition range</span>
+          <input type="text" formControlName="tuitionRange" placeholder="USD 32k-38k / year" />
+        </label>
+
+        <label class="full">
+          <span>Website</span>
+          <input type="url" formControlName="website" placeholder="https://www.example.edu" />
+        </label>
+
+        <label class="full">
+          <span>Tags</span>
+          <input type="text" formControlName="tags" placeholder="STEM, Scholarships, Research" />
+        </label>
+      </div>
+
+      <label class="switch-row">
+        <input type="checkbox" formControlName="active" />
+        <span>Visible in recommendations</span>
+      </label>
+
+      <div class="programs-header">
+        <h3>Programs</h3>
+        <button type="button" (click)="addProgram()">Add program</button>
+      </div>
+
+      <div formArrayName="programs" class="program-list">
+        @for (program of programs.controls; track $index; let index = $index) {
+          <div class="program-card" [formGroupName]="index">
+            <div class="program-card-header">
+              <strong>Program {{ index + 1 }}</strong>
+              <button type="button" (click)="removeProgram(index)">Remove</button>
+            </div>
+
+            <label>
+              <span>Program name</span>
+              <input type="text" formControlName="name" placeholder="MS Computer Science" />
+            </label>
+
+            <label>
+              <span>Fields</span>
+              <input type="text" formControlName="fields" placeholder="Computer Science, Data Science" />
+            </label>
+
+            <label>
+              <span>Accepted degrees</span>
+              <input type="text" formControlName="degrees" placeholder="bachelor, undergraduate" />
+            </label>
+
+            <div class="score-grid">
+              <label>
+                <span>Min GPA</span>
+                <input type="number" step="0.01" formControlName="minGpa" />
+              </label>
+              <label>
+                <span>IELTS</span>
+                <input type="number" step="0.5" formControlName="minIelts" />
+              </label>
+              <label>
+                <span>TOEFL</span>
+                <input type="number" formControlName="minToefl" />
+              </label>
+              <label>
+                <span>GMAT</span>
+                <input type="number" formControlName="minGmat" />
+              </label>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="secondary" (click)="resetForm()">Clear</button>
+        <button type="submit" class="primary" [disabled]="isSaving">
+          {{ isSaving ? 'Saving...' : selectedUniversity ? 'Save changes' : 'Create university' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

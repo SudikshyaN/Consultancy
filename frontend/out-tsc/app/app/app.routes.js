@@ -15,6 +15,7 @@ import { DashboardUniversitiesComponent } from './pages/dashboard/universities/u
 import { DashboardFreeToolsComponent } from './pages/dashboard/free-tools/free-tools';
 import { AdminAuthComponent } from './pages/admin/auth/admin-auth';
 import { AdminShellComponent } from './pages/admin/admin-shell/admin-shell';
+import { BlankAdminPageComponent } from './pages/admin/blank/blank-admin';
 import { AdminUniversitiesComponent } from './pages/admin/universities/admin-universities';
 export const routes = [
     {
@@ -91,11 +92,31 @@ export const routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'universities'
+                redirectTo: 'overview'
+            },
+            {
+                path: 'overview',
+                component: BlankAdminPageComponent
             },
             {
                 path: 'universities',
                 component: AdminUniversitiesComponent
+            },
+            {
+                path: 'users',
+                component: BlankAdminPageComponent
+            },
+            {
+                path: 'visa-guides',
+                component: BlankAdminPageComponent
+            },
+            {
+                path: 'community',
+                component: BlankAdminPageComponent
+            },
+            {
+                path: 'settings',
+                component: BlankAdminPageComponent
             }
         ]
     },
