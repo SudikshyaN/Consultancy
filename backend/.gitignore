@@ -1,0 +1,25 @@
+# Node modules (ignore everywhere)
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Local fallback data
+data/*.local.json
+
+# Build folders
+dist/
+build/
+
+# OS files
+.DS_Store
+
+# IDE files
+.vscode/
