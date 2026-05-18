@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
 import { DestinationDetailComponent } from './pages/destination-detail-page/destination-detail-page';
 import { HomePageComponent } from './pages/home-page/home-page';
-import { FreeToolsComponent } from './pages/freeTool/freetool';
+
 import { AboutComponent } from './pages/about /about';
 import { BlogComponent } from './pages/blog/blog';
 import { LoginComponent } from './pages/login/login';
-import { FinanceComponent } from './pages/finance/finance';
+
 import { DashboardComponent } from './pages/dashboard/dashboard';
-import { AuthGuard } from './pages/login/auth.guard';
+import { AuthGuard, GuestGuard } from './pages/login/auth.guard';
 import { DashboardMainComponent } from './pages/dashboard/main/main';
 import { ProfileComponent } from './pages/dashboard/profile/profile';
-import { DashboardWishlistComponent } from './pages/dashboard/wishlist/wishlist';
+import { DashboardCountryComponent } from './pages/dashboard/country/country';
 import { DashboardCommunityComponent } from './pages/dashboard/community/community';
+import { AdminCountryComponent } from './pages/admin/country/country';
 import { DashboardUniversitiesComponent } from './pages/dashboard/universities/universities';
-import { DashboardFreeToolsComponent } from './pages/dashboard/free-tools/free-tools';
 import { AdminAuthComponent } from './pages/admin/auth/admin-auth';
 import { AdminShellComponent } from './pages/admin/admin-shell/admin-shell';
-import { BlankAdminPageComponent } from './pages/admin/blank/blank-admin';
 import { AdminUniversitiesComponent } from './pages/admin/universities/admin-universities';
+import { DashboardCountryDetailComponent } from './pages/dashboard/country-detail/country-detail';
 
 
 export const routes: Routes = [
@@ -31,10 +31,6 @@ export const routes: Routes = [
   },
 
   {
-    path: 'freetools',
-    component: FreeToolsComponent
-  },
-  {
     path: 'about',
     component: AboutComponent
   },
@@ -42,20 +38,18 @@ export const routes: Routes = [
     path: 'blog',
     component: BlogComponent
   },
-    {
-    path: 'finance',
-    component: FinanceComponent
-  },
 
 
 
   {
     path: 'login',
-    component : LoginComponent
+    component : LoginComponent,
+    canActivate: [GuestGuard]
   },
   {
     path: 'admin/login',
-    component: AdminAuthComponent
+    component: AdminAuthComponent,
+    canActivate: [GuestGuard]
   },
   {
     path: 'dashboard',
@@ -77,14 +71,14 @@ export const routes: Routes = [
         component: DashboardUniversitiesComponent,
         title: 'Universities | Dashboard',
       },
+
       {
-        path: 'free-tools',
-        component: DashboardFreeToolsComponent,
-        title: 'Free Tools | Dashboard',
+        path: 'country',
+        component: DashboardCountryComponent
       },
       {
-        path: 'wishlist',
-        component: DashboardWishlistComponent
+        path: 'country/:slug',
+        component: DashboardCountryDetailComponent
       },
       {
         path: 'community',
@@ -100,31 +94,16 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'overview'
-      },
-      {
-        path: 'overview',
-        component: BlankAdminPageComponent
+        redirectTo: 'universities'
       },
       {
         path: 'universities',
         component: AdminUniversitiesComponent
       },
       {
-        path: 'users',
-        component: BlankAdminPageComponent
-      },
-      {
-        path: 'visa-guides',
-        component: BlankAdminPageComponent
-      },
-      {
-        path: 'community',
-        component: BlankAdminPageComponent
-      },
-      {
-        path: 'settings',
-        component: BlankAdminPageComponent
+        path: 'countries',
+        component: AdminCountryComponent,
+        title: 'Countries | Admin'
       }
     ]
   },

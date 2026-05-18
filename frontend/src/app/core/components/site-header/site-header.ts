@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginComponent } from '../../../pages/login/login';
 import { BlogComponent } from '../../../pages/blog/blog';
-
+import { AuthService } from '../../../services/auth.services';
 @Component({
   selector: 'app-site-header',
   imports: [RouterLink, ],
@@ -14,9 +14,9 @@ export class SiteHeaderComponent {
   @Output() openAuth = new EventEmitter<void>(); 
   protected readonly navItems = [
     { label: 'Journey', path: '/#journey' },
-    { label: 'freeTools', path: '/freetools' },
+    
     { label: 'blog', path: '/blog' },
-    { label: 'Finance', path: '/finance' },
+   
     { label: 'About Us', path: '/about' },
     // { label: 'Login', path: '/login' },
     

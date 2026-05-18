@@ -1,0 +1,249 @@
+.country-page {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 24px;
+}
+
+.country-header {
+  margin-bottom: 3rem;
+  text-align: center;
+
+  h1 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: #4b5563;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.country-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 2.5rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    border-color: #3b82f6;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .add-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &.selected {
+    background: #f0f7ff;
+    border-color: #3b82f6;
+    border-width: 2px;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+
+    &::before {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+      opacity: 1;
+    }
+  }
+
+  &.processing {
+    opacity: 0.6;
+    cursor: wait;
+    pointer-events: none;
+  }
+}
+
+.country-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  z-index: 1;
+  width: 100%;
+
+  .flag-wrapper {
+    width: 60px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border: 1px solid #f3f4f6;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    text-align: center;
+  }
+
+  .visa-type {
+    margin: -0.5rem 0 0.5rem;
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .view-more-button {
+    border: none;
+    border-radius: 12px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    width: 80%;
+    margin-top: 0.5rem;
+
+    &:hover {
+      background: #3b82f6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.selected-badge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+  z-index: 2;
+
+  .check-icon {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.add-badge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  z-index: 2;
+
+  .plus-icon {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+}
+
+.country-alert {
+  padding: 1.25rem;
+  background: #fef2f2;
+  color: #991b1b;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  border: 1px solid #fee2e2;
+  text-align: center;
+  font-weight: 500;
+}
+
+.country-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6rem 0;
+  gap: 1.5rem;
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f4f6;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+
+  p {
+    color: #6b7280;
+    font-weight: 500;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .country-header h1 {
+    font-size: 2rem;
+  }
+  
+  .country-grid {
+    grid-template-columns: 1fr;
+  }
+}

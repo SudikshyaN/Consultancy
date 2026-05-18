@@ -8,7 +8,6 @@ import { ProcessStripComponent} from '../../shared/components/process-strip/proc
 import { FooterComponent } from '../../core/components/site-footer/footer';
 import { LoginComponent } from '../login/login';
 import { Journey } from '../../shared/components/journey/journey';
-import { FreeToolsComponent } from '../freeTool/freetool';
 import { BlogComponent } from '../blog/blog';
 @Component({
   selector: 'app-home-page',

@@ -1,46 +1,78 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { SavedDestination, WishlistService } from '../../../../services/wishlist.service';
 
 @Component({
   selector: 'app-preferred-countries',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './preferred-countries.html',
   styleUrl: './preferred-countries.scss',
 })
-export class PreferredCountriesComponent {
-  countries = [
-    {
-      flag: '🇺🇸',
-      name: 'USA',
-      universities: 48,
-      progress: 80,
-      active: true
-    },
-    {
-      flag: '🇬🇧',
-      name: 'UK',
-      universities: 36,
-      progress: 60,
-      active: false
-    },
-    {
-      flag: '🇨🇦',
-      name: 'Canada',
-      universities: 22,
-      progress: 35,
-      active: false
-    },
-    {
-      flag: '🇩🇪',
-      name: 'Germany',
-      universities: 19,
-      progress: 30,
-      active: false
+export class PreferredCountriesComponent implements OnInit {
+  private wishlistService = inject(WishlistService);
+  private router = inject(Router);
+  
+  countries: any[] = [];
+  activeIndex = 0;
+
+  ngOnInit(): void {
+    this.loadPreferredCountries();
+  }
+
+  loadPreferredCountries(): void {
+    this.wishlistService.listDestinations().subscribe({
+      next: (res) => {
+        this.mapPreferredCountries(res.savedDestinations);
+      },
+      error: (err) => {
+        console.error('Error loading preferred countries:', err);
+        this.countries = [];
+      }
+    });
+  }
+
+  private mapPreferredCountries(savedDestinations: SavedDestination[]): void {
+    this.countries = savedDestinations.map((destination) => {
+      return {
+        name: destination.name,
+        slug: destination.slug,
+        flag: destination.flag || this.getEmojiFlag(destination.name),
+        universities: Math.floor(Math.random() * 50) + 10,
+        progress: Math.floor(Math.random() * 100),
+        active: false
+      };
+    });
+
+    if (this.countries.length > 0) {
+      this.countries[0].active = true;
     }
-  ];
+  }
+
+  getEmojiFlag(countryName: string): string {
+    const flags: {[key: string]: string} = {
+      'USA': '🇺🇸',
+      'UK': '🇬🇧',
+      'Australia': '🇦🇺',
+      'Canada': '🇨🇦',
+      'Germany': '🇩🇪',
+      'Japan': '🇯🇵',
+      'New Zealand': '🇳🇿',
+      'South Korea': '🇰🇷'
+    };
+    return flags[countryName] || '🌍';
+  }
 
   setActive(index: number) {
+    this.activeIndex = index;
     this.countries.forEach((c, i) => c.active = i === index);
+  }
+
+  viewMore(): void {
+    const activeCountry = this.countries[this.activeIndex];
+    if (activeCountry && activeCountry.slug) {
+      this.router.navigate(['/dashboard/country', activeCountry.slug]);
+    }
   }
 }

@@ -7,7 +7,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss'
+  host: {
+    'class': 'app-dashboard-sidebar'
+  },  styleUrl: './sidebar.scss'
 })
 export class DashboardSidebarComponent {
   @Output() logoutClicked = new EventEmitter<void>();
@@ -17,7 +19,7 @@ export class DashboardSidebarComponent {
     { label: 'Main', path: '/dashboard/main' },
     
     { label: 'Profile', path: '/dashboard/profile' },
-    { label: 'Wishlist', path: '/dashboard/wishlist' },
+    { label: 'Country', path: '/dashboard/country' },
     { label: 'Community', path: '/dashboard/community' },
   ];
 

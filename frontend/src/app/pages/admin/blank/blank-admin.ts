@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './blank-admin.html',
-  styleUrl: './blank-admin.scss'
+  
 })
 export class BlankAdminPageComponent {}

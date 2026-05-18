@@ -7,6 +7,7 @@ export interface JourneyStep {
 }
 
 export interface Destination {
+  _id?: string;
   name: string;
   slug: string;
   visa: string;
@@ -14,6 +15,18 @@ export interface Destination {
   overview: string;
   highlights: string[];
   steps: JourneyStep[];
+  livingCost?: string;
+  tuition?: string;
+  visaFee?: string;
+  partTimeWork?: string;
+  ieltsRequirement?: string;
+  costBreakdown?: {
+    rent: number;
+    food: number;
+    transport: number;
+    bills: number;
+    personal: number;
+  };
 }
 
 export const DESTINATIONS: Destination[] = [

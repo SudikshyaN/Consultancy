@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { finalize, timeout } from 'rxjs';
-import { University, UniversityProgram, UniversityService } from '../../../services/university.service';
+import { finalize } from 'rxjs';
+import { UniversityService } from '../../../services/university.service';
+import type { University, UniversityProgram } from '../../../services/university.connector';
 import { signal } from '@angular/core';
 @Component({
   selector: 'app-admin-universities',
@@ -12,14 +13,16 @@ import { signal } from '@angular/core';
   styleUrl: './admin-universities.scss'
 })
 export class AdminUniversitiesComponent implements OnInit {
-  protected readonly countryOptions = ['USA', 'UK', 'Canada'];
-  protected universities: University[] = [];
+  protected readonly countryOptions = ['USA', 'UK', 'India'];
+  protected universities = signal<University[]>([]);
   protected selectedCountry = 'USA';
-  protected selectedUniversity: University | null = null;
+  protected selectedUniversity = signal<University | null>(null);
+  protected isViewOnly = signal(false);
   protected isLoading = signal(false);
-  protected isSaving = false;
-  protected errorMessage = '';
-  protected successMessage = '';
+  protected isSaving = signal(false);
+  protected isEditorOpen = signal(false);
+  protected errorMessage = signal('');
+  protected successMessage = signal('');
   protected universityForm: FormGroup;
 
   constructor(
@@ -47,28 +50,34 @@ export class AdminUniversitiesComponent implements OnInit {
   }
 
   loadUniversities(): void {
-    this.isLoading = signal(true);
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
     this.universityService.listAdminUniversities(this.selectedCountry).pipe(
-      timeout(8000),
       finalize(() => {
-        this.isLoading = signal(false);
+        this.isLoading.set(false);
       })
     ).subscribe({
       next: (res) => {
-        this.universities = res.universities;
+        this.universities.set(res.universities);
       },
       error: (err) => {
-        this.errorMessage = err.name === 'TimeoutError'
-          ? 'The university request timed out. Please check that the backend is running.'
-          : err.error?.message || 'Unable to load universities.';
+        this.errorMessage.set(err.error?.message || 'Unable to load universities.');
       },
     });
   }
 
   addProgram(): void {
     this.programs.push(this.createProgramGroup());
+  }
+
+  openCreateUniversity(): void {
+    this.resetForm();
+    this.isEditorOpen.set(true);
+  }
+
+  closeEditorModal(): void {
+    this.isEditorOpen.set(false);
   }
 
   selectCountry(country: string): void {
@@ -93,8 +102,23 @@ export class AdminUniversitiesComponent implements OnInit {
     this.programs.removeAt(index);
   }
 
+  viewUniversity(university: University): void {
+    this.populateForm(university);
+    this.selectedUniversity.set(university);
+    this.isViewOnly.set(true);
+    this.universityForm.disable();
+    this.isEditorOpen.set(true);
+  }
+
   editUniversity(university: University): void {
-    this.selectedUniversity = university;
+    this.populateForm(university);
+    this.selectedUniversity.set(university);
+    this.isViewOnly.set(false);
+    this.universityForm.enable();
+    this.isEditorOpen.set(true);
+  }
+
+  private populateForm(university: University): void {
     this.programs.clear();
 
     const programs = university.programs?.length ? university.programs : [this.emptyProgram()];
@@ -109,10 +133,15 @@ export class AdminUniversitiesComponent implements OnInit {
       tags: (university.tags || []).join(', '),
       active: university.active,
     });
+
+    this.errorMessage.set('');
+    this.successMessage.set('');
   }
 
   resetForm(): void {
-    this.selectedUniversity = null;
+    this.selectedUniversity.set(null);
+    this.isViewOnly.set(false);
+    this.universityForm.enable();
     this.programs.clear();
     this.programs.push(this.createProgramGroup());
     this.universityForm.reset({
@@ -124,34 +153,41 @@ export class AdminUniversitiesComponent implements OnInit {
       tags: '',
       active: true,
     });
+    this.errorMessage.set('');
+    this.successMessage.set('');
   }
 
   saveUniversity(): void {
-    if (this.universityForm.invalid) {
+    const name = this.universityForm.get('name');
+    const country = this.universityForm.get('country');
+
+    if (name?.invalid || country?.invalid) {
       this.universityForm.markAllAsTouched();
+      this.errorMessage.set('Please fill in the university name and country.');
       return;
     }
 
-    this.isSaving = true;
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.isSaving.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
     const payload = this.buildPayload();
-    const id = this.selectedUniversity?._id || this.selectedUniversity?.id;
+    const id = this.selectedUniversity()?._id || this.selectedUniversity()?.id;
     const request = id
       ? this.universityService.updateUniversity(id, payload)
       : this.universityService.createUniversity(payload);
 
-    request.subscribe({
+    request.pipe(
+      finalize(() => this.isSaving.set(false))
+    ).subscribe({
       next: (res) => {
-        this.successMessage = res.message;
-        this.isSaving = false;
+        this.successMessage.set(res.message);
+        this.selectedCountry = res.university.country || payload.country || this.selectedCountry;
         this.resetForm();
         this.loadUniversities();
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Unable to save university.';
-        this.isSaving = false;
+        this.errorMessage.set(err.error?.message || 'Unable to save university.');
       },
     });
   }
@@ -159,27 +195,27 @@ export class AdminUniversitiesComponent implements OnInit {
   deleteUniversity(university: University): void {
     const id = university._id || university.id;
 
-    if (!id) {
+    if (!id || !confirm(`Are you sure you want to delete ${university.name}?`)) {
       return;
     }
 
     this.universityService.deleteUniversity(id).subscribe({
-      next: () => {
-        this.successMessage = 'University deleted';
+      next: (res) => {
+        this.successMessage.set(res.message || 'University deleted');
         this.loadUniversities();
-        if ((this.selectedUniversity?._id || this.selectedUniversity?.id) === id) {
+        if ((this.selectedUniversity()?._id || this.selectedUniversity()?.id) === id) {
           this.resetForm();
         }
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Unable to delete university.';
+        this.errorMessage.set(err.error?.message || 'Unable to delete university.');
       },
     });
   }
 
   private createProgramGroup(program: UniversityProgram = this.emptyProgram()): FormGroup {
     return this.fb.group({
-      name: [program.name, Validators.required],
+      name: [program.name],
       fields: [(program.fields || []).join(', ')],
       degrees: [(program.degrees || []).join(', ')],
       minGpa: [program.minGpa ?? null],
@@ -201,8 +237,8 @@ export class AdminUniversitiesComponent implements OnInit {
     };
   }
 
-  private buildPayload(): University {
-    const raw = this.universityForm.value;
+  private buildPayload(): Partial<University> {
+    const raw = this.universityForm.getRawValue();
 
     return {
       name: raw.name,
@@ -212,15 +248,17 @@ export class AdminUniversitiesComponent implements OnInit {
       tuitionRange: raw.tuitionRange,
       active: raw.active,
       tags: this.toList(raw.tags),
-      programs: raw.programs.map((program: any) => ({
-        name: program.name,
-        fields: this.toList(program.fields),
-        degrees: this.toList(program.degrees),
-        minGpa: this.toNumber(program.minGpa),
-        minIelts: this.toNumber(program.minIelts),
-        minToefl: this.toNumber(program.minToefl),
-        minGmat: this.toNumber(program.minGmat),
-      })),
+      programs: raw.programs
+        .filter((program: any) => String(program.name || '').trim())
+        .map((program: any) => ({
+          name: String(program.name || '').trim(),
+          fields: this.toList(program.fields),
+          degrees: this.toList(program.degrees),
+          minGpa: this.toNumber(program.minGpa),
+          minIelts: this.toNumber(program.minIelts),
+          minToefl: this.toNumber(program.minToefl),
+          minGmat: this.toNumber(program.minGmat),
+        })),
     };
   }
 
@@ -232,8 +270,9 @@ export class AdminUniversitiesComponent implements OnInit {
   }
 
   private toNumber(value: unknown): number | null {
+    if (value === '' || value === null || value === undefined) return null;
     const numberValue = Number(value);
-
-    return Number.isFinite(numberValue) && value !== '' && value !== null ? numberValue : null;
+    return Number.isFinite(numberValue) ? numberValue : null;
   }
+
 }

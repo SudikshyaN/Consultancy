@@ -6,6 +6,7 @@
 .dashboard-layout {
   display: flex;
   gap: 0;
+  position: relative;
   min-height: calc(100vh - 28px);
 }
 
@@ -42,4 +43,16 @@
     border-radius: 0;
     min-height: auto;
   }
+}
+.app-dashboard-sidebar{
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+.app-dashboard-nav{
+  position: sticky;
+  top: 0;              
+  z-index: 1000;
+
 }

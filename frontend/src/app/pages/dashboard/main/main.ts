@@ -31,7 +31,7 @@ export class DashboardMainComponent implements OnInit {
       {
         key: 'explore',
         label: 'Explore & save unis',
-        route: '/dashboard/wishlist',
+        route: '/dashboard/country',
         complete: false,
         meta: '0 saved',
         number: 2,
@@ -58,7 +58,7 @@ export class DashboardMainComponent implements OnInit {
     ],
   };
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {

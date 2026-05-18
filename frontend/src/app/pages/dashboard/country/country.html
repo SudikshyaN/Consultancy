@@ -1,0 +1,57 @@
+<section class="dashboard-card-content country-page">
+  <div class="country-header">
+    <h1>Choose your destination</h1>
+    <p>Select a country to open a dedicated detail page with visa guidance, study flow and planning notes.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="country-alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="country-loading">
+      <div class="spinner"></div>
+      <p>Loading destinations...</p>
+    </div>
+  } @else {
+    <div class="country-grid">
+      @for (country of allCountries(); track country.slug) {
+        <article 
+          class="country-card" 
+          [class.selected]="isSelected(country.slug)"
+          [class.processing]="processingSlug() === country.slug"
+          (click)="toggleCountry(country)"
+        >
+          <div class="country-content">
+            <div class="flag-wrapper">
+              <img [src]="country.flag" [alt]="country.name + ' flag'" />
+            </div>
+            
+            <h3>{{ country.name }}</h3>
+            <p class="visa-type">{{ country.visa }}</p>
+            
+            @if (isSelected(country.slug)) {
+              <button
+                type="button"
+                class="view-more-button"
+                (click)="viewDetails($event, country.slug)"
+              >
+                View more
+              </button>
+            }
+          </div>
+
+          @if (isSelected(country.slug)) {
+            <div class="selected-badge">
+              <span class="check-icon">✓</span>
+            </div>
+          } @else {
+            <div class="add-badge">
+              <span class="plus-icon">+</span>
+            </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>
