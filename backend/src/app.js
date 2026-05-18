@@ -11,15 +11,32 @@ const sopMakerRoutes = require('./routes/sop-maker.routes');
 
 const app = express();
 
-app.use((req, res, next) => {
-  const allowedOrigins = new Set([
-    CLIENT_ORIGIN,
-    'http://localhost:4200',
-    'http://127.0.0.1:4200',
-  ]);
-  const origin = req.headers.origin;
+const isAllowedOrigin = (origin) => {
+  if (!origin || CLIENT_ORIGIN === '*') {
+    return true;
+  }
 
-  res.header('Access-Control-Allow-Origin', allowedOrigins.has(origin) ? origin : CLIENT_ORIGIN);
+  if (origin === CLIENT_ORIGIN) {
+    return true;
+  }
+
+  try {
+    const { hostname, protocol } = new URL(origin);
+    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+
+    return isLocalhost && (protocol === 'http:' || protocol === 'https:');
+  } catch {
+    return false;
+  }
+};
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowOrigin = isAllowedOrigin(origin)
+    ? origin || CLIENT_ORIGIN
+    : CLIENT_ORIGIN;
+
+  res.header('Access-Control-Allow-Origin', allowOrigin);
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
 

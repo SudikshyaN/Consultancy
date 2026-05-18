@@ -37,14 +37,14 @@
           </div>
 
           <div class="login-field">
-            <input type="email" class="bg-white text-black border-color: var(--color-blue-900)" formControlName="email" placeholder="Email address" />
+            <input type="email" class="bg-white text-black border-color: var(--color-blue-900)" formControlName="email" placeholder="Email address" autocomplete="email" />
             <small *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid">
               Enter a valid email address.
             </small>
           </div>
 
           <div class="login-field ">
-            <input type="password" class="bg-white text-black border-color: var(--color-blue-900);" formControlName="password" placeholder="Password" />
+            <input type="password" class="bg-white text-black border-color: var(--color-blue-900);" formControlName="password" placeholder="Password" autocomplete="current-password" />
             <small *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid">
               Password must be at least 6 characters.
             </small>
