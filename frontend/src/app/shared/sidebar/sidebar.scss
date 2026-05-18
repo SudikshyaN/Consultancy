@@ -1,12 +1,14 @@
 
 .dashboard-sidebar {
-  position:sticky;
-  background: #081f26;
-  border-radius: 24px 0 0 24px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 16px;
-  width: 240px;
+ position: sticky;
+    background: #081f26;
+    border-radius: 24px 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 16px;
+    width: 240px;
+    height: 100vh;
 }
 
 .sidebar-brand {
@@ -84,7 +86,7 @@
   margin-top: auto;
   padding: 12px 16px;
   text-align: left;
-  margin-top: 812px;
+  
 }
 
 .logout-button:hover {

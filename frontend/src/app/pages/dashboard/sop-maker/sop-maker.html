@@ -1,0 +1,138 @@
+<section class="sop-maker-page">
+  <header class="sop-header">
+    <div>
+      
+      <h1>SOP Maker</h1>
+      <p>Generate, edit, AI-review, and share your SOP.</p>
+    </div>
+  </header>
+
+  @if (errorMessage()) {
+    <p class="alert error">{{ errorMessage() }}</p>
+  }
+
+  @if (successMessage()) {
+    <p class="alert success">{{ successMessage() }}</p>
+  }
+
+  <div class="workspace-grid">
+    <form class="generator-panel" [formGroup]="sopForm" (ngSubmit)="generateSop()">
+      <div class="panel-title">
+        <h2>Generation Form</h2>
+        <span>Groq powered</span>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Name </span>
+          <input formControlName="processName" type="text" placeholder="Hema,Rekha " />
+        </label>
+
+        <label>
+          <span>Target field</span>
+          <input formControlName="department" type="text" placeholder="Computer Science, Data Science, Business..." />
+        </label>
+
+        <label class="wide">
+          <span>Study goal</span>
+          <textarea formControlName="goal" rows="3" placeholder="Summarize the career direction you are targeting."></textarea>
+        </label>
+
+        <label class="wide">
+          <span>Your target </span>
+          <input formControlName="audience" type="text" placeholder="University admissions, recruiters, scholarship committee..." />
+        </label>
+
+        <label class="wide">
+          <span>Experience</span>
+          <textarea formControlName="roles" rows="3" placeholder="List education, internships, jobs, leadership, volunteering, or responsibilities."></textarea>
+        </label>
+
+        <label class="wide">
+          <span>Skills</span>
+          <textarea formControlName="tools" rows="3" placeholder="Programming languages, tools, research skills,"></textarea>
+        </label>
+
+        <label class="wide">
+          <span>Projects </span>
+          <textarea formControlName="steps" rows="5" placeholder="Describe projects, coursework, research, initiatives, or work you completed."></textarea>
+        </label>
+
+        <label class="wide">
+          <span>Achievements</span>
+          <input formControlName="standards" type="text" placeholder="GPA, awards, rankings, project results, measurable outcomes..." />
+        </label>
+
+        <label class="wide">
+          <span>Challenges overcome</span>
+          <textarea formControlName="risks" rows="3" placeholder="Mention obstacles, gaps, constraints, or problems you solved."></textarea>
+        </label>
+      </div>
+
+      <button type="submit" class="primary-action" [disabled]="isGenerating()">
+        {{ isGenerating() ? 'Generating...' : 'Generate Resume Summary' }}
+      </button>
+    </form>
+
+    <section class="output-panel">
+      <div class="panel-title">
+        <h2>Output</h2>
+        <div class="output-actions">
+          <button type="button" (click)="reviewWithAi()" [disabled]="!sopContent().trim() || isReviewing()">
+            {{ isReviewing() ? 'Reviewing...' : 'AI Review' }}
+          </button>
+          <button type="button" class="share-action" (click)="submitToCommunity()" [disabled]="!sopContent().trim() || isSubmitting()">
+            {{ isSubmitting() ? 'Submitting...' : 'Submit to Community' }}
+          </button>
+        </div>
+      </div>
+
+      <textarea
+        class="sop-editor"
+        [value]="sopContent()"
+        (input)="updateSopContent($any($event.target).value)"
+        placeholder="Your resume-based SOP summary will stream here live. You can edit it before review or submission."
+      ></textarea>
+
+      <article class="review-card" [class.empty]="!aiReview()">
+        <h3>Profile Review Notes</h3>
+        @if (aiReview()) {
+          <pre>{{ aiReview() }}</pre>
+        } @else {
+          <p>Run AI Review after generating or editing the resume summary.</p>
+        }
+      </article>
+    </section>
+  </div>
+
+  <section class="community-feed">
+    <div class="feed-header">
+      <div>
+        <p class="eyebrow">Community</p>
+        <h2>Review Feed</h2>
+      </div>
+      <button type="button" (click)="loadCommunityFeed()">Refresh</button>
+    </div>
+
+    @if (isLoadingFeed()) {
+      <p class="feed-empty">Loading resume summary submissions...</p>
+    } @else if (!communityFeed().length) {
+      <p class="feed-empty">No resume summaries have been submitted yet.</p>
+    } @else {
+      <div class="submission-list">
+        @for (item of communityFeed(); track item._id) {
+          <article class="submission-card">
+            <div class="submission-meta">
+              <div>
+                <h3>{{ item.title }}</h3>
+                <span>{{ item.department || 'General' }} • {{ item.author.name }}</span>
+              </div>
+              <time>{{ item.createdAt | date:'mediumDate' }}</time>
+            </div>
+            <p>{{ item.content }}</p>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</section>

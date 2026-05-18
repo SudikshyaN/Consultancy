@@ -40,7 +40,9 @@
             "outputMode": "server",
             "security": {
               "allowedHosts": [
-                "localhost"
+                "localhost",
+                "127.0.0.1",
+                "::1"
               ]
             },
             "ssr": {

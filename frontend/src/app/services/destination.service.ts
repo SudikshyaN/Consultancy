@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Destination } from '../shared/data/destinations';
+import { Destination, DESTINATIONS } from '../shared/data/destinations';
 
 export interface DestinationListResponse {
   destinations: Destination[];
@@ -15,11 +15,23 @@ export class DestinationService {
   constructor(private http: HttpClient) { }
 
   listDestinations(): Observable<DestinationListResponse> {
-    return this.http.get<DestinationListResponse>(this.baseUrl);
+    return this.http.get<DestinationListResponse>(this.baseUrl).pipe(
+      catchError(() => of({ destinations: DESTINATIONS }))
+    );
   }
 
   getDestinationBySlug(slug: string): Observable<{ destination: Destination }> {
-    return this.http.get<{ destination: Destination }>(`${this.baseUrl}/${slug}`);
+    return this.http.get<{ destination: Destination }>(`${this.baseUrl}/${slug}`).pipe(
+      catchError(() => {
+        const destination = DESTINATIONS.find((item) => item.slug === slug);
+
+        if (!destination) {
+          return throwError(() => new Error('Destination not found.'));
+        }
+
+        return of({ destination });
+      })
+    );
   }
 
   updateDestination(id: string, data: Partial<Destination>): Observable<{ destination: Destination }> {

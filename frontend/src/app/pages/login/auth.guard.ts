@@ -15,11 +15,14 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const isLoggedIn = !!sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
-    if (isLoggedIn) {
+    if (token && !tokenIsExpired(token)) {
       return true;
     }
+
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
 
     return this.router.createUrlTree(['/login']);
   }
@@ -44,6 +47,12 @@ export class GuestGuard implements CanActivate {
       return true;
     }
 
+    if (tokenIsExpired(token)) {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      return true;
+    }
+
     return this.router.createUrlTree([this.getAuthenticatedRedirect()]);
   }
 
@@ -61,5 +70,16 @@ export class GuestGuard implements CanActivate {
     } catch {
       return '/dashboard/main';
     }
+  }
+}
+
+function tokenIsExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1] || ''));
+    const expiresAt = Number(payload.exp || 0) * 1000;
+
+    return !expiresAt || Date.now() >= expiresAt;
+  } catch {
+    return true;
   }
 }
