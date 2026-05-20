@@ -23,7 +23,7 @@ const isAllowedOrigin = (origin) => {
 
   try {
     const { hostname, protocol } = new URL(origin);
-    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+    const isLocalhost = hostname === 'localhosts' || hostname === '127.0.0.1:4200';
 
     return isLocalhost && (protocol === 'http:' || protocol === 'https:');
   } catch {
