@@ -21,9 +21,6 @@ export class ProfileComponent implements OnInit {
   errorMessage = '';
 
   statCards: DashboardCard[] = [
-    { title: 'Applications', value: 4, caption: '', icon: '📋', iconTone: 'blue' },
-    { title: 'Preferred', value: 0, caption: '', icon: '🎫', iconTone: 'mint' },
-    { title: 'Countries', value: 8, caption: '', icon: '🌍', iconTone: 'gold' },
     { title: 'GPA', value: '0.0', caption: '', icon: '⭐', iconTone: 'lavender' }
   ];
 
@@ -146,11 +143,7 @@ export class ProfileComponent implements OnInit {
       });
 
       if (profile.gpa) {
-        this.statCards[3].value = profile.gpa;
-      }
-      
-      if (profile.preferredCountries) {
-        this.statCards[1].value = profile.preferredCountries.length;
+        this.statCards[0].value = profile.gpa;
       }
     } catch (e) {
       console.error(e);
@@ -172,7 +165,7 @@ export class ProfileComponent implements OnInit {
         this.successMessage = 'Profile updated successfully';
         this.user = res.user;
         if (this.user.profile?.gpa) {
-          this.statCards[3].value = this.user.profile.gpa;
+          this.statCards[0].value = this.user.profile.gpa;
         }
         setTimeout(() => this.successMessage = '', 3000);
       },

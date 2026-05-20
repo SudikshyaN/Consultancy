@@ -82,6 +82,11 @@ export const routes: Routes = [
         component: DashboardCountryDetailComponent
       },
       {
+        path: 'videos',
+        loadComponent: () => import('./pages/dashboard/videos/videos').then(m => m.DashboardVideosComponent),
+        title: 'Videos | Dashboard'
+      },
+      {
         path: 'community',
         component: DashboardCommunityComponent
       },
@@ -110,6 +115,11 @@ export const routes: Routes = [
         path: 'countries',
         component: AdminCountryComponent,
         title: 'Countries | Admin'
+      },
+      {
+        path: 'videos',
+        loadComponent: () => import('./pages/admin/videos/admin-videos').then(m => m.AdminVideosComponent),
+        title: 'Video Upload | Admin'
       }
     ]
   },

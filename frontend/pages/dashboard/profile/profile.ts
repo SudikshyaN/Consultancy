@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   errorMessage = '';
 
   statCards: DashboardCard[] = [
-    { title: 'Applications', value: 4, caption: '', icon: '📋', iconTone: 'blue' },
+
     { title: 'Wishlist', value: 6, caption: '', icon: '🎫', iconTone: 'mint' },
     { title: 'Countries', value: 5, caption: '', icon: '🌍', iconTone: 'gold' },
     { title: 'GPA', value: '0.0', caption: '', icon: '⭐', iconTone: 'lavender' }

@@ -1,0 +1,86 @@
+<div class="video-library-container">
+  <div class="header-section">
+    <div class="subtitle">VIDEO LIBRARY</div>
+    <h1>Watch. Learn. Apply.</h1>
+
+  </div>
+
+  <div class="sticky-controls">
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <!-- <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg> -->
+        <!-- <input type="text" placeholder="Search videos..." (input)="onSearch($event)"> -->
+      </div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn" [class.active]="activeCountry() === 'All'" (click)="setCountryFilter('All')">
+        All
+      </button>
+      <button class="filter-btn" *ngFor="let dest of destinations()" [class.active]="activeCountry() === dest.name"
+        (click)="setCountryFilter(dest.name)">
+        <img *ngIf="dest.flag" [src]="dest.flag" class="flag-icon" alt="{{dest.name}} flag"
+          onerror="this.style.display='none'">
+        {{dest.name}}
+      </button>
+    </div>
+  </div>
+
+
+
+  <div class="video-grid" *ngIf="filteredVideos().length > 0; else noVideos">
+    <a *ngFor="let video of filteredVideos()" [href]="video.url" target="_blank" class="video-card">
+      <div class="thumbnail-container">
+        <img [src]="video.thumbnailUrl || 'assets/placeholder-video.jpg'" alt="{{ video.title }}"
+          onerror="this.src='https://placehold.co/400x225?text=No+Image'">
+
+
+        <div class="play-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </div>
+
+        <div class="duration-badge">{{ video.duration || '0:00' }}</div>
+
+        <div class="country-flag-badge" *ngIf="video.country !== 'All'">
+
+          <span>{{ video.country }}</span>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="category" *ngIf="video.category">{{ video.category }}</div>
+        <h3 class="title">{{ video.title }}</h3>
+
+        <div class="meta-footer">
+          <span class="author">{{ video.author || 'Unknown' }}</span>
+          <div class="stats">
+            <span class="views">{{ video.views || '0 views' }}</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ng-template #noVideos>
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+        <line x1="7" y1="2" x2="7" y2="22"></line>
+        <line x1="17" y1="2" x2="17" y2="22"></line>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <line x1="2" y1="7" x2="7" y2="7"></line>
+        <line x1="2" y1="17" x2="7" y2="17"></line>
+        <line x1="17" y1="17" x2="22" y2="17"></line>
+        <line x1="17" y1="7" x2="22" y2="7"></line>
+      </svg>
+      <p>No videos available for this country.</p>
+    </div>
+  </ng-template>
+</div>

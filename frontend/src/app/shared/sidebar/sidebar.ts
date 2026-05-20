@@ -21,6 +21,7 @@ export class DashboardSidebarComponent {
     { label: 'Profile', path: '/dashboard/profile' },
     { label: 'Country', path: '/dashboard/country' },
     { label: 'Community', path: '/dashboard/community' },
+    { label: 'Videos', path: '/dashboard/videos' },
     { label: 'SOP Maker', path: '/dashboard/sop-maker' },
   ];
 

@@ -1,0 +1,106 @@
+<div class="admin-videos-container">
+  <div class="header">
+    <h1>Video Library</h1>
+
+  </div>
+
+  <div class="content-grid">
+    <div class="form-section">
+      <div class="card">
+        <h2>Add New Video</h2>
+        <form (ngSubmit)="onSubmit()" #videoForm="ngForm">
+
+          <div class="form-group">
+            <label for="title">Video Title *</label>
+            <input type="text" id="title" name="title" [(ngModel)]="newVideo.title" required class="form-control"
+              placeholder="e.g. Australia Subclass 500 student visa">
+          </div>
+
+          <div class="form-group">
+            <label for="url">Video URL *</label>
+            <input type="url" id="url" name="url" [(ngModel)]="newVideo.url" required class="form-control"
+              placeholder="e.g. https://youtube.com/watch?v=...">
+          </div>
+
+          <div class="form-group">
+            <label for="thumbnailUrl">Thumbnail URL</label>
+            <input type="url" id="thumbnailUrl" name="thumbnailUrl" [(ngModel)]="newVideo.thumbnailUrl"
+              class="form-control" placeholder="Image URL for video preview">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="duration">Duration</label>
+              <input type="text" id="duration" name="duration" [(ngModel)]="newVideo.duration" class="form-control"
+                placeholder="e.g. 18:24">
+            </div>
+
+            <div class="form-group">
+              <label for="views">Views</label>
+              <input type="text" id="views" name="views" [(ngModel)]="newVideo.views" class="form-control"
+                placeholder="e.g. 12.4k views">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="author">Author/Channel</label>
+              <input type="text" id="author" name="author" [(ngModel)]="newVideo.author" class="form-control"
+                placeholder="e.g. Rohan KC">
+            </div>
+
+            <div class="form-group">
+              <label for="category">Category</label>
+              <input type="text" id="category" name="category" [(ngModel)]="newVideo.category" class="form-control"
+                placeholder="e.g. VISA GUIDE">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="country">Related Country</label>
+            <select id="country" name="country" [(ngModel)]="newVideo.country" class="form-control">
+              <option value="All">All / Global</option>
+              <option *ngFor="let dest of destinations()" [value]="dest.name">{{ dest.name }}</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid || isSubmitting()">
+            {{ isSubmitting() ? 'Saving...' : 'Add Video' }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="list-section">
+      <div class="card">
+        <h2>Uploaded Videos ({{videos().length}})</h2>
+
+        <div class="video-list" *ngIf="videos().length > 0; else noVideos">
+          <div class="video-item" *ngFor="let video of videos()">
+            <div class="video-thumb">
+              <img [src]="video.thumbnailUrl || 'assets/placeholder-video.jpg'" alt="Thumbnail"
+                onerror="this.src='https://placehold.co/120x80?text=No+Image'">
+            </div>
+            <div class="video-info">
+              <h3>{{ video.title }}</h3>
+              <p class="meta">
+                <span class="badge">{{ video.country }}</span>
+                <span class="badge category" *ngIf="video.category">{{ video.category }}</span>
+              </p>
+              <p class="details">By {{ video.author || 'Unknown' }} • {{ video.duration || '0:00' }}</p>
+            </div>
+            <div class="video-actions">
+              <button class="btn btn-danger btn-sm" (click)="deleteVideo(video._id)">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noVideos>
+          <div class="empty-state">
+            <p>No videos uploaded yet.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

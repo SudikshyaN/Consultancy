@@ -1,5 +1,5 @@
 <section class="dashboard-page profile-page">
-  <div class="stats-grid">
+  <!-- <div class="stats-grid">
     <button
       *ngFor="let card of statCards; let i = index"
       type="button"
@@ -8,15 +8,15 @@
       <span class="stat-icon" [class]="'stat-icon tone-' + card.iconTone">
         {{ card.icon }}
       </span>
-      <div class="stat-copy">
+      <!-- <div class="stat-copy">
         <strong class="stat-value">{{ card.value }}</strong>
         <span class="stat-title">{{ card.title }}</span>
-      </div>
-    </button>
-  </div>
+      </div> -->
+    <!-- </button>
+  </div> --> -->
 
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-content-grid">
-    <!-- Left Column -->
+
     <div class="profile-col main-col">
       <div class="profile-card">
         <div class="card-header">
@@ -111,7 +111,7 @@
       </div>
     </div>
 
-    <!-- Right Column -->
+  
     <div class="profile-col side-col">
       <div class="profile-card">
         <div class="card-header">

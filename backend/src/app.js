@@ -8,6 +8,7 @@ const communityRoutes = require('./routes/community.routes');
 const wishlistRoutes = require('./routes/wishlist.routes');
 const destinationRoutes = require('./routes/destination.routes');
 const sopMakerRoutes = require('./routes/sop-maker.routes');
+const videoRoutes = require('./routes/video.routes');
 
 const app = express();
 
@@ -79,7 +80,8 @@ app.use('/api', (req, res, next) => {
     req.path.startsWith('/dashboard') ||
     req.path.startsWith('/wishlist') ||
     req.path.startsWith('/destinations') ||
-    req.path.startsWith('/sop-maker')
+    req.path.startsWith('/sop-maker') ||
+    req.path.startsWith('/videos')
   ) {
     return next();
   }
@@ -99,6 +101,7 @@ app.use('/api/community', communityRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/sop-maker', sopMakerRoutes);
+app.use('/api/videos', videoRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
