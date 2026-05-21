@@ -18,6 +18,7 @@ import { BlogComponent } from '../blog/blog';
     ServicesGridComponent,
     SiteHeaderComponent,
     FooterComponent,
+    Journey,
     // LoginComponent,
 
   ],

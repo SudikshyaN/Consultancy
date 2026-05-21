@@ -1,41 +1,57 @@
 
 <div class="app-hero-section-bg">
+  <!-- Interactive radial background blobs -->
+  <div class="hero-glow-blob blob-1"></div>
+  <div class="hero-glow-blob blob-2"></div>
+
   <section class="hero page-shell">
-  <div class="hero-copy">
-    <span class="section-label">Global futures, planned with clarity</span>
-    <h1 class="hero-titles">Study abroad with a consultancy that feels strategic, calm, and personal.</h1>
-    <p class="section-copy">
-      We help students and families move from confusion to a confident plan with country selection,
-      applications, scholarships, documentation, and visa guidance under one roof.
-    </p>
+    <div class="hero-copy">
+      <span class="section-label">Global futures, planned with clarity</span>
+      <h1 class="hero-titles">Study abroad with a consultancy that feels strategic, calm, and personal.</h1>
+      <p class="section-copy">
+        We help students and families move from confusion to a confident plan with country selection,
+        applications, scholarships, documentation, and visa guidance under one roof.
+      </p>
 
-    <div class="button-row">
-      <a class="button-primary" href="#consultation">Start your plan</a>
-    
+      <div class="button-row">
+        <a class="button-primary" href="#consultation">
+          <span>Start your plan</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="proof-list">
+        @for (item of proofItems; track item) {
+          <li>
+            <span class="proof-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022z"/>
+              </svg>
+            </span>
+            <span>{{ item }}</span>
+          </li>
+        }
+      </ul>
     </div>
 
-    <ul class="proof-list">
-      @for (item of proofItems; track item) {
-        <li>{{ item }}</li>
-      }
-    </ul>
-  </div>
+    <div class="hero-panel">
+      <div class="hero-card hero-card-primary">
+        <div class="card-badge">Guide</div>
+        <p class="card-pretitle">Student roadmap</p>
+        <strong class="card-title">March intake to visa filing in 14 guided steps</strong>
+        <span class="card-desc">Built for Nepalese students aiming for affordable and high-quality education abroad.</span>
+      </div>
 
-  <div class="hero-panel">
-    <div class="hero-card hero-card-primary">
-      <p>Student roadmap</p>
-      <strong>March intake to visa filing in 14 guided steps</strong>
-      <span>Built for Nepalese students aiming for affordable and high-quality education abroad.</span>
+      <div class="hero-grid">
+        @for (item of highlights; track item.label) {
+          <article class="hero-card hero-card-stat">
+            <strong class="stat-value">{{ item.value }}</strong>
+            <span class="stat-label">{{ item.label }}</span>
+          </article>
+        }
+      </div>
     </div>
-
-    <div class="hero-grid">
-      @for (item of highlights; track item.label) {
-        <article class="hero-card hero-card-stat">
-          <strong>{{ item.value }}</strong>
-          <span>{{ item.label }}</span>
-        </article>
-      }
-    </div>
-  </div>
-</section>
+  </section>
 </div>

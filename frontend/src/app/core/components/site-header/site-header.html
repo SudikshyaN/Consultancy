@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="page-shell header-inner">
-    <a class="brand-mark" routerLink="/">
+    <a class="brand-mark" routerLink="/" (click)="closeMobileMenu()">
       <span class="brand-emblem">BP</span>
       <span class="brand-copy">
         <strong>Bidesh Padhna</strong>
@@ -8,20 +8,31 @@
       </span>
     </a>
 
-
-    <nav class="nav-links" aria-label="Primary">
-      @for (item of navItems; track item.path) {
-      <a (click)="routes(item.path)" >
-        {{ item.label }}
-      </a>
-      }
-    </nav>
-
-    <button type="" class="lang-toggle">
-      
-      <a routerLink="/login">
-        Login/Signup </a>
+    <!-- Hamburger Toggle Button -->
+    <button class="burger-menu" [class.is-active]="isMobileMenuOpen" (click)="toggleMobileMenu()" aria-label="Toggle Navigation" aria-expanded="false">
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
     </button>
-  </div>
 
+    <!-- Navigation Panel -->
+    <div class="nav-container" [class.is-open]="isMobileMenuOpen">
+      <nav class="nav-links" aria-label="Primary">
+        @for (item of navItems; track item.path) {
+          <a (click)="routes(item.path)" class="nav-link-item">
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+
+      <div class="header-actions">
+        <a routerLink="/login" (click)="closeMobileMenu()" class="login-btn">
+          <span>Login / Signup</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
 </header>

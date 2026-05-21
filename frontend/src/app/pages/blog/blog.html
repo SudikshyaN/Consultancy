@@ -1,67 +1,90 @@
 <app-layout>
+  <section class="blog-page">
+    <div class="glow-sphere"></div>
+    <div class="glow-sphere-secondary"></div>
 
-<section class="blog-page">
+    <div class="page-shell">
+      <div class="blog-header">
+        <span class="section-label">
+          <svg class="dot-icon" width="8" height="8" viewBox="0 0 8 8" fill="currentColor">
+            <circle cx="4" cy="4" r="3" />
+          </svg>
+          RESOURCES & GUIDES
+        </span>
 
-  <div class="blog-header">
-    <div class="badge">RESOURCES & GUIDES</div>
+        <h1>
+          The Bidesh Padhna <span>Blog</span>
+        </h1>
 
-    <h1>
-      The Bidesh Padhna <span>Blog</span>
-    </h1>
+        <p class="subtitle">
+          Visa guides, SOP tips, finance breakdowns, and real student stories.
+          Written for Nepali students, by Nepali students.
+        </p>
+      </div>
 
-    <p>
-      Visa guides, SOP tips, finance breakdowns, and real student stories.
-      Written for Nepali students, by Nepali students.
-    </p>
-  </div>
+      <div class="filter-tabs">
+        <button class="active">All Articles</button>
+        <button>Visa Guides</button>
+        <button>SOP Tips</button>
+        <button>Finance</button>
+        <button>Universities</button>
+        <button>Student Life</button>
+      </div>
 
-  <div class="filter-tabs">
-    <button>All</button>
-    <button>Visa guides</button>
-    <button>SOP tips</button>
-    <button>Finance</button>
-    <button>Universities</button>
-    <button>Student life</button>
-  </div>
+      <div class="featured-card glass-panel-dark">
+        <div class="featured-content">
+          <span class="featured-badge">FEATURED • VISA GUIDE</span>
 
-  <div class="featured-card">
-    <div class="featured-content">
-      <span class="tag">FEATURED • VISA GUIDE</span>
+          <h2>
+            The complete guide to Australia Subclass 500 student visa for Nepali students in 2025
+          </h2>
 
-      <h2>
-        The complete guide to Australia Subclass 500 student visa for Nepali students in 2025
-      </h2>
+          <p class="meta">Rohan KC • Apr 8, 2025 • 12 min read</p>
+        </div>
 
-      <p class="meta">Rohan KC • Apr 8, 2025 • 12 min read</p>
-    </div>
-
-    <div class="arrow">→</div>
-  </div>
-
-  <div class="blog-list">
-
-    <div class="blog-item" *ngFor="let blog of blogs">
-
-      <div class="left">
-        <span class="category">{{ blog.category }}</span>
-
-        <h3>{{ blog.title }}</h3>
-
-        <p class="desc">{{ blog.description }}</p>
-
-        <div class="meta">
-          {{ blog.author }} • {{ blog.date }}
+        <div class="arrow-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="arrow-svg">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </div>
       </div>
 
-      <div class="right">
-        <span class="time">{{ blog.time }}</span>
+      <div class="blog-grid">
+        <div class="blog-card glass-card" *ngFor="let blog of blogs">
+          <div class="blog-card-header">
+            <span class="category-tag" [ngClass]="{
+              'tag-sop': blog.category === 'SOP TIPS',
+              'tag-finance': blog.category === 'FINANCE',
+              'tag-visa': blog.category === 'VISA GUIDE'
+            }">{{ blog.category }}</span>
+            <span class="read-time">{{ blog.time }} read</span>
+          </div>
+
+          <div class="blog-card-body">
+            <h3>{{ blog.title }}</h3>
+            <p class="desc">{{ blog.description }}</p>
+          </div>
+
+          <div class="blog-card-footer">
+            <div class="author-row">
+              <div class="author-avatar">
+                {{ blog.author.substring(0, 1) }}
+              </div>
+              <div class="author-meta">
+                <span class="author-name">{{ blog.author }}</span>
+                <span class="publish-date">{{ blog.date }}</span>
+              </div>
+            </div>
+            <div class="card-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
-
-  </div>
-
-</section>
-
+  </section>
 </app-layout>

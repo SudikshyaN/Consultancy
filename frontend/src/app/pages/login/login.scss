@@ -1,128 +1,381 @@
 .login-page {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 78px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: #0b1d2a;
+  padding: 4rem 1.5rem;
+  background: var(--color-dark-bg);
+  position: relative;
+  overflow: hidden;
 }
 
+// Glowing Decorative Blobs
+.login-glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: var(--color-brand-light);
+}
+
+.blob-2 {
+  bottom: -15%;
+  right: -5%;
+  width: 450px;
+  height: 450px;
+  background: var(--color-accent);
+}
+
+// Main Glassmorphic Container
 .login-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  max-width: 900px;
+  max-width: 960px;
   width: 100%;
-  height: auto;
-  background: #f8f7f5;
-  border-radius: 20px;
+  background: rgba(17, 27, 47, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-2xl);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  z-index: 2;
+  min-height: 560px;
 }
 
+// Left Branding Column
 .login-left {
-  height: 100%;
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.25) 0%, rgba(9, 15, 29, 0.8) 100%),
+              radial-gradient(circle at top left, var(--color-brand-strong), transparent 80%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  padding: 3.5rem;
 }
 
-.login-image-wrapper {
-  width: 100%;
-  height: 100%;
+.branding-overlay {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 2;
 }
 
-.login-image {
-  width: 100%;
-  height: 536px;
-  object-fit: cover;
+.branding-tag {
+  color: var(--color-brand-light);
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  width: fit-content;
 }
 
+.branding-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.branding-desc {
+  color: var(--color-dark-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.feature-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  list-style: none;
+}
+
+.feature-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-light);
+  box-shadow: 0 0 10px var(--color-brand-light);
+  flex-shrink: 0;
+}
+
+// Right Form Column
 .login-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  background: #f6f5f3;
+  padding: 3.5rem;
+  background: rgba(9, 15, 29, 0.35);
 }
 
 .login-form-box {
   width: 100%;
-  max-width: 320px;
-  margin-bottom: 42px;
+  max-width: 360px;
 }
 
 .login-title {
-  color: #1d4ed8;
+  font-family: var(--font-heading);
   font-size: 2.2rem;
   font-weight: 800;
+  color: white;
+  margin: 0 0 1.75rem;
+  letter-spacing: -0.02em;
   text-align: center;
-  margin-bottom: 24px;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
+  gap: 1.25rem;
 }
 
 .login-name-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 1rem;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.login-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-dark-ink-soft);
 }
 
 .login-field input {
   width: 100%;
-  height: 44px;
-  padding: 0 12px;
-  font-size: 0.9rem;
-  border: 1px solid blue;
-  border-radius: 4px;
-  margin-bottom: 26px;
-  color:black;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  color: white;
+  font-family: var(--font-body);
+  transition: all 0.25s ease;
 }
 
-.login-field small {
-  font-size: 0.75rem;
-  color:black;
+.login-field input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-brand-light);
+  box-shadow: 0 0 12px rgba(45, 212, 191, 0.15);
 }
 
-.login-button {
-  width: 100%;
-  height: 44px;
-  border-radius: 6px;
-  border: none;
+.login-field input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.field-error {
+  font-size: 0.76rem;
   font-weight: 600;
-  background: blue;
-  color: #fff;
-  margin-top: 10px;
+  color: #f87171;
+  margin-top: 0.15rem;
+}
+
+// Terms Checklist Box
+.login-terms-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.25rem 0;
+}
+
+.login-terms {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: white;
+  font-size: 0.88rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.login-terms input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-brand);
   cursor: pointer;
 }
 
-.login-divider {
-  margin: 16px 0;
-  font-size: 0.8rem;
-  color:#274598;
-  display:flex;
-  justify-content: center;
+.login-terms span {
+  color: var(--color-dark-ink-soft);
+  font-weight: 550;
+  transition: color 0.2s ease;
+}
+
+.login-terms:hover span {
+  color: white;
+}
+
+// Feedbacks Box
+.login-feedback-message {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.login-feedback-message.error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fc8181;
+}
+
+.login-feedback-message.success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #68d391;
+}
+
+// Buttons & Actions
+.login-button {
+  width: 100%;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-strong) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(13, 148, 136, 0.3);
+  margin-top: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(13, 148, 136, 0.4);
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, var(--color-brand) 100%);
+}
+
+.login-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--color-dark-ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 1.5rem 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-divider:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.login-divider:not(:empty)::after {
+  margin-left: .75em;
 }
 
 .login-switch {
-  font-size: 0.85rem;
-  color:#274598;
- margin-left: 70px;
-}
-.login-terms{
-  color:black;
-}
-.login-error{
-  color:#0b1d2a;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--color-brand-light);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
 }
 
+.login-switch:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+// Media Adaptability
 @media (max-width: 900px) {
   .login-container {
     grid-template-columns: 1fr;
-    height: auto;
+    max-width: 520px;
   }
 
   .login-left {
-    height: 200px;
+    padding: 2.5rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .login-right {
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 2rem 1rem;
+  }
+
+  .login-left {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-right {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-name-group {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }

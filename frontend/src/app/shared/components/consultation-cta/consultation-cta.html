@@ -1,0 +1,97 @@
+<section class="consultation-section page-shell" id="consultation">
+  <div class="consultation-inner">
+    <!-- Left Copy Column -->
+    <div class="consultation-info">
+      <span class="section-label">Free Advisory Slot</span>
+      <h2 class="consultation-title">Book a 1:1 strategic counseling session with our experts.</h2>
+      <p class="consultation-copy">
+        Skip the confusion and long wait times. Sit down virtually or in-person with a verified consultant to design your complete university roadmap.
+      </p>
+
+      <ul class="benefit-list">
+        <li>
+          <span class="benefit-check">✓</span>
+          <div>
+            <strong>Personal Budget Strategy</strong>
+            <p>We match tuition and living expenses to your family's actual budget limits.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-check">✓</span>
+          <div>
+            <strong>SOP & Recommendation Review</strong>
+            <p>Direct feedback on how to stand out to competitive admission boards.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-check">✓</span>
+          <div>
+            <strong>Scholarship Guidance</strong>
+            <p>Access and apply to fully funded or partial government scholarship funds.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Form Column -->
+    <div class="consultation-form-wrapper">
+      @if (isSubmitted) {
+        <div class="success-indicator">
+          <div class="spinner"></div>
+          <h3>Securing your slot...</h3>
+          <p>We are matching you with our senior counselor.</p>
+        </div>
+      } @else {
+        <form (submit)="submitRequest($event)" class="consultation-form">
+          <div class="form-header">
+            <h3>Schedule Callback</h3>
+            <p>100% Free consultation slot. Zero obligation.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" [(ngModel)]="studentName" required placeholder="e.g. Sudikshya Neupane" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Mobile Number *</label>
+            <input type="tel" id="phone" name="phone" [(ngModel)]="studentPhone" required placeholder="e.g. +977 98XXXXXXXX" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country">Country Preference</label>
+              <select id="country" name="country" [(ngModel)]="preferredCountry">
+                <option value="">Select country</option>
+                <option value="Australia">Australia</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="UK">UK</option>
+                <option value="Japan">Japan</option>
+                <option value="Germany">Germany</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="budget">Yearly Tuition Budget</label>
+              <select id="budget" name="budget" [(ngModel)]="budgetRange">
+                <option value="">Select budget</option>
+                <option value="Under $10k">Under $10k</option>
+                <option value="$10k - $20k">$10k - $20k</option>
+                <option value="$20k - $35k">$20k - $35k</option>
+                <option value="$35k+">$35k+</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" [disabled]="!studentName || !studentPhone">
+            <span>Book My Free Slot</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+            </svg>
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

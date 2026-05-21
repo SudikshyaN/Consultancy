@@ -10,18 +10,17 @@ import { AuthService } from '../../../services/auth.services';
   styleUrl: './site-header.scss'
 })
 export class SiteHeaderComponent {
-  private readonly route = inject(Router)
+  private readonly route = inject(Router);
   @Output() openAuth = new EventEmitter<void>(); 
+  
   protected readonly navItems = [
     { label: 'Journey', path: '/#journey' },
-    
-    { label: 'blog', path: '/blog' },
-   
+    { label: 'Blog', path: '/blog' },
     { label: 'About Us', path: '/about' },
-    // { label: 'Login', path: '/login' },
-    
   ];
+  
   showAuthModal = false;
+  isMobileMenuOpen = false;
 
   openAuthModal() {
     this.showAuthModal = true;
@@ -31,11 +30,20 @@ export class SiteHeaderComponent {
     this.showAuthModal = false;
   }
 
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
 
   routes(path: string) {
-    this.route.navigateByUrl(path)
+    this.closeMobileMenu();
+    this.route.navigateByUrl(path);
   }
-    triggerAuthModal() {
+
+  triggerAuthModal() {
     this.openAuth.emit();
   }
 }
