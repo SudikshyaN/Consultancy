@@ -25,17 +25,15 @@
 }
 
 .logo-box {
-  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-light) 100%);
-  color: white;
-  font-family: var(--font-heading);
-  font-weight: 900;
-  font-size: 1.1rem;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+  background: transparent;
+  width: 64px;
+  aspect-ratio: 998 / 713;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  box-shadow: none;
   flex-shrink: 0;
 }
 

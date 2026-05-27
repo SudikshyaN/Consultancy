@@ -9,7 +9,7 @@ function normalizeCountry(value) {
   const country = normalize(value);
   const aliases = {
     america: 'USA',
-    india: 'India',
+    japan: 'Japan',
     uk: 'UK',
     'u.k.': 'UK',
     'united kingdom': 'UK',

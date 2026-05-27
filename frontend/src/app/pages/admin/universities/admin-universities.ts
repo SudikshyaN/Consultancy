@@ -13,7 +13,7 @@ import { signal } from '@angular/core';
   styleUrl: './admin-universities.scss'
 })
 export class AdminUniversitiesComponent implements OnInit {
-  protected readonly countryOptions = ['USA', 'UK', 'India'];
+  protected readonly countryOptions = ['USA', 'UK', 'Japan'];
   protected universities = signal<University[]>([]);
   protected selectedCountry = 'USA';
   protected selectedUniversity = signal<University | null>(null);

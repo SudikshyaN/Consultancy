@@ -1,23 +1,32 @@
-<div class="preferred-countries-card">
-  <div class="header">
-    <h2>Preferred countries</h2>
+<div class="countries-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <h2>Preferred Countries</h2>
+      <span class="country-count">{{ countries.length }} selected</span>
+    </div>
     <a class="edit-link">Edit →</a>
   </div>
 
-  <div class="countries-grid">
-    <div 
-      class="country-item" 
+  <div class="countries-list">
+    <div
+      class="country-item"
       *ngFor="let country of countries; let i = index"
       [class.active]="country.active"
       (click)="setActive(i)"
     >
-      <div class="flag">{{ country.flag }}</div>
-      <div class="country-info">
-        <h3>{{ country.name }}</h3>
-        <p>{{ country.universities }} universities</p>
+      <div class="country-left">
+        <div class="flag-wrap">{{ country.flag }}</div>
+        <div class="country-info">
+          <h3>{{ country.name }}</h3>
+          <p>{{ country.universities }} universities</p>
+        </div>
       </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" [style.width.%]="country.progress"></div>
+
+      <div class="country-right">
+        <span class="progress-pct">{{ country.progress }}%</span>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="country.progress"></div>
+        </div>
       </div>
     </div>
   </div>

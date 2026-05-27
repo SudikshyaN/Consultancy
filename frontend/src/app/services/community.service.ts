@@ -3,6 +3,17 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+export interface CommunityComment {
+  _id: string;
+  author: {
+    _id: string;
+    name: string;
+  };
+  content: string;
+  createdAt: string;
+  editedAt?: string | null;
+}
+
 export interface CommunityPost {
   _id: string;
   author: {
@@ -19,22 +30,15 @@ export interface CommunityPost {
   content: string;
   tags: string[];
   likes: string[];
-  comments: {
-    _id: string;
-    author: {
-      _id: string;
-      name: string;
-    };
-    content: string;
-    createdAt: string;
-  }[];
+  comments: CommunityComment[];
   createdAt: string;
+  editedAt?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
 export class CommunityService {
   private readonly baseUrl = `${environment.apiBaseUrl}/api/community`;
-  
+
   posts = signal<CommunityPost[]>([]);
 
   constructor(private http: HttpClient) {}
@@ -50,28 +54,46 @@ export class CommunityService {
     return this.http.post<{ post: CommunityPost }>(this.baseUrl, { content, tags });
   }
 
-  likePost(postId: string): Observable<{ likes: string[] }> {
-    return this.http.post<{ message: string, likes: string[] }>(`${this.baseUrl}/${postId}/like`, {}).pipe(
+  editPost(postId: string, content: string, tags: string[]): Observable<{ message: string; post: CommunityPost }> {
+    return this.http.put<{ message: string; post: CommunityPost }>(`${this.baseUrl}/${postId}`, { content, tags }).pipe(
       tap(res => {
-        const currentPosts = this.posts();
-        const index = currentPosts.findIndex(p => p._id === postId);
-        if (index !== -1) {
-          currentPosts[index].likes = res.likes;
-          this.posts.set([...currentPosts]);
-        }
+        // Immutable replace — creates a brand-new array so Angular detects the change
+        this.posts.set(
+          this.posts().map(p => p._id === postId ? res.post : p)
+        );
       })
     );
   }
 
-  addComment(postId: string, content: string): Observable<{ comments: any[] }> {
-    return this.http.post<{ message: string, comments: any[] }>(`${this.baseUrl}/${postId}/comment`, { content }).pipe(
+  likePost(postId: string): Observable<{ likes: string[] }> {
+    return this.http.post<{ message: string; likes: string[] }>(`${this.baseUrl}/${postId}/like`, {}).pipe(
       tap(res => {
-        const currentPosts = this.posts();
-        const index = currentPosts.findIndex(p => p._id === postId);
-        if (index !== -1) {
-          currentPosts[index].comments = res.comments;
-          this.posts.set([...currentPosts]);
-        }
+        this.posts.set(
+          this.posts().map(p => p._id === postId ? { ...p, likes: res.likes } : p)
+        );
+      })
+    );
+  }
+
+  addComment(postId: string, content: string): Observable<{ comments: CommunityComment[] }> {
+    return this.http.post<{ message: string; comments: CommunityComment[] }>(`${this.baseUrl}/${postId}/comment`, { content }).pipe(
+      tap(res => {
+        this.posts.set(
+          this.posts().map(p => p._id === postId ? { ...p, comments: res.comments } : p)
+        );
+      })
+    );
+  }
+
+  editComment(postId: string, commentId: string, content: string): Observable<{ message: string; comments: CommunityComment[] }> {
+    return this.http.put<{ message: string; comments: CommunityComment[] }>(
+      `${this.baseUrl}/${postId}/comment/${commentId}`,
+      { content }
+    ).pipe(
+      tap(res => {
+        this.posts.set(
+          this.posts().map(p => p._id === postId ? { ...p, comments: res.comments } : p)
+        );
       })
     );
   }

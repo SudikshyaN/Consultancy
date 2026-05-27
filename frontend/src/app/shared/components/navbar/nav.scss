@@ -1,13 +1,11 @@
 .dashboard-topbar {
   align-items: center;
   background: #ffffff;
-  border: 1px solid #e8e2db;
-  
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02);
   display: flex;
   justify-content: space-between;
-  padding: 16px 20px;
-  
+  padding: 24px 40px;
 }
 
 .topbar-copy {
@@ -17,9 +15,11 @@
 }
 
 .topbar-title {
-  color: #111827;
-  font-size: 1.65rem;
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .wave {
@@ -28,57 +28,46 @@
 }
 
 .topbar-subtitle {
-  color: #7c8798;
-  font-size: 0.92rem;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
-.topbar-tools {
-  align-items: center;
+.right-tools {
   display: flex;
-  gap: 14px;
-}
-
-.search-box {
   align-items: center;
-  background: #f4f1ec;
-  border-radius: 12px;
-  color: #98a2b3;
-  display: flex;
-  font-size: 0.92rem;
-  min-height: 44px;
-  min-width: 220px;
-  padding: 0 16px;
 }
 
 .user-badge {
   align-items: center;
-  background: #5b5ce2;
-  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, var(--color-brand) 100%);
+  border-radius: 50%;
   color: #ffffff;
   display: flex;
+  font-family: var(--font-heading);
   font-weight: 700;
+  font-size: 15px;
   height: 42px;
   justify-content: center;
   width: 42px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 16px -4px rgba(13, 148, 136, 0.3);
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 20px -2px rgba(13, 148, 136, 0.45);
+  }
 }
 
 @media (max-width: 900px) {
   .dashboard-topbar {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 16px;
+    padding: 16px;
   }
 
   .topbar-title {
-    font-size: 1.3rem;
-  }
-
-  .topbar-tools {
-    width: 100%;
-  }
-
-  .search-box {
-    min-width: 0;
-    width: 100%;
+    font-size: 1.25rem;
   }
 }
+

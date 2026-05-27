@@ -1,24 +1,25 @@
 .dashboard-topbar {
   align-items: center;
   background: #ffffff;
-  border: 1px solid #e8e2db;
-  
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  border-bottom: 1px solid rgba(8, 31, 38, 0.08);
+  box-shadow: 0 2px 12px rgba(8, 31, 38, 0.06);
   display: flex;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 18px 40px;
 }
 
 .topbar-copy {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .topbar-title {
-  color: #111827;
-  font-size: 1.65rem;
+  color: #0a1f26;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.55rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .wave {
@@ -27,8 +28,9 @@
 }
 
 .topbar-subtitle {
-  color: #7c8798;
-  font-size: 0.92rem;
+  color: #6b8a94;
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
 .topbar-tools {
@@ -37,25 +39,33 @@
   gap: 14px;
 }
 
+.right-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .search-box {
   align-items: center;
-  background: #f4f1ec;
+  background: #f0f4f8;
   border-radius: 12px;
-  color: #98a2b3;
+  color: #6b8a94;
   display: flex;
-  font-size: 0.92rem;
-  min-height: 44px;
-  min-width: 220px;
+  font-size: 0.88rem;
+  min-height: 42px;
+  min-width: 200px;
   padding: 0 16px;
 }
 
 .user-badge {
   align-items: center;
-  background: #5b5ce2;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
   border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
   color: #ffffff;
   display: flex;
   font-weight: 700;
+  font-size: 0.95rem;
   height: 42px;
   justify-content: center;
   width: 42px;
@@ -65,11 +75,12 @@
   .dashboard-topbar {
     align-items: flex-start;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
+    padding: 16px 20px;
   }
 
   .topbar-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .topbar-tools {

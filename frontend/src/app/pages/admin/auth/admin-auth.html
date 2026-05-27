@@ -1,33 +1,87 @@
 <section class="admin-auth-page">
-  <div class="admin-auth-card">
-    <div class="admin-auth-brand">
-      <h1>Bidesh Padhna</h1>
-      <p>Admin panel</p>
+  <!-- Glowing backdrops for the page -->
+  <div class="auth-glow-blob blob-1"></div>
+  <div class="auth-glow-blob blob-2"></div>
+
+  <div class="admin-auth-container glass-panel-dark">
+    <!-- Left Branding Column -->
+    <div class="admin-auth-left">
+      <div class="branding-overlay">
+        <span class="branding-tag">Admin Console</span>
+        <h1 class="branding-title">Bidesh Padhna</h1>
+        <p class="branding-desc">Manage destination countries, catalog university listings, upload educational advice videos, and streamline student application workflows.</p>
+        
+        <ul class="feature-bullets">
+          <li>
+            <span class="bullet-dot"></span>
+            <span>Oversee applicant milestones & documents</span>
+          </li>
+          <li>
+            <span class="bullet-dot"></span>
+            <span>Update global country requirements</span>
+          </li>
+          <li>
+            <span class="bullet-dot"></span>
+            <span>Upload custom consulting videos</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="admin-auth-form">
-      <h2>{{ isLoginMode ? 'Admin login' : 'Admin signup' }}</h2>
+    <!-- Right Form Box Column -->
+    <div class="admin-auth-right">
+      <div class="admin-form-box">
+        <h2 class="admin-form-title">
+          {{ isLoginMode ? 'Admin Login' : 'Admin Sign Up' }}
+        </h2>
 
-      <p *ngIf="errorMessage" class="admin-auth-error">{{ errorMessage }}</p>
+        <p *ngIf="errorMessage" class="admin-feedback-message error">{{ errorMessage }}</p>
 
-      <form [formGroup]="authForm" (ngSubmit)="submit()">
-        <input
-          *ngIf="!isLoginMode"
-          type="text"
-          formControlName="name"
-          placeholder="Admin name"
-        />
-        <input type="email" formControlName="email" placeholder="Email" />
-        <input type="password" formControlName="password" placeholder="Password" />
+        <form [formGroup]="authForm" (ngSubmit)="submit()" class="admin-form">
+          <!-- Name Field (only in registration mode) -->
+          <div class="admin-field" *ngIf="!isLoginMode">
+            <label>Admin Name</label>
+            <input type="text" formControlName="name" placeholder="Admin Name" autocomplete="name" />
+            <small *ngIf="authForm.get('name')?.touched && authForm.get('name')?.invalid" class="field-error">
+              Name is required (at least 2 characters).
+            </small>
+          </div>
 
-        <button type="submit" [disabled]="isLoading">
-          {{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Create account') }}
+          <!-- Email Address Field -->
+          <div class="admin-field">
+            <label>Email Address</label>
+            <input type="email" formControlName="email" placeholder="admin@bideshpadhna.com" autocomplete="email" />
+            <small *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid" class="field-error">
+              Enter a valid admin email address.
+            </small>
+          </div>
+
+          <!-- Password Field -->
+          <div class="admin-field">
+            <label>Password</label>
+            <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" />
+            <small *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid" class="field-error">
+              Password must be at least 6 characters.
+            </small>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="admin-submit-button" [disabled]="isLoading">
+            <span>{{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Create Account') }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" *ngIf="!isLoading">
+              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="admin-divider">
+          <span>Control Panel Gateway</span>
+        </div>
+
+        <button type="button" (click)="toggleMode()" class="admin-switch-btn">
+          {{ isLoginMode ? "Need an admin account? Sign up" : 'Already have an admin account? Login' }}
         </button>
-      </form>
-
-      <button type="button" class="admin-auth-toggle" (click)="toggleMode()">
-        {{ isLoginMode ? 'Need an admin account?' : 'Already have an admin account?' }}
-      </button>
+      </div>
     </div>
   </div>
 </section>

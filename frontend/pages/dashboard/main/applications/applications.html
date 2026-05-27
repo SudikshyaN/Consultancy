@@ -1,27 +1,28 @@
 <div class="applications-card">
-  <!-- <div class="header">
-    <h2>My applications</h2>
-    <a class="view-all">View all →</a>
-  </div> -->
+  <div class="card-header">
+    <div class="card-header-left">
+      <h2>My Applications</h2>
+      <span class="app-count">{{ applications.length }} active</span>
+    </div>
+    <a class="view-all-btn">View all →</a>
+  </div>
 
   <div class="application-list">
-
     <div class="app-item" *ngFor="let app of applications">
 
-      <div class="left">
-        <div class="logo">{{ app.short }}</div>
-
-        <div class="info">
+      <div class="app-left">
+        <div class="app-logo">{{ app.short }}</div>
+        <div class="app-info">
           <h3>{{ app.university }}</h3>
           <p>{{ app.course }}</p>
         </div>
       </div>
 
-      <div class="status" [ngClass]="app.status">
-        {{ app.status }}
+      <div class="app-status" [ngClass]="app.status">
+        <span class="status-dot"></span>
+        {{ app.statusLabel || app.status }}
       </div>
 
     </div>
-
   </div>
 </div>

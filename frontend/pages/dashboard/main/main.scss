@@ -4,25 +4,39 @@
 
 .dashboard-error {
   background: #fee2e2;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #991b1b;
-  margin: 0 0 16px;
-  padding: 12px 14px;
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
+
+/* ─── Journey Card ─────────────────────────────────────────── */
 
 .journey-card {
-  background: #30302e;
-  border: 1px solid #55554f;
-  border-radius: 18px;
+  background: linear-gradient(135deg, #0a2833 0%, #0d3040 60%, #0a2833 100%);
+  border: 1px solid rgba(61, 218, 215, 0.15);
+  border-radius: 20px;
   color: #efeee8;
-  padding: 34px 36px 38px;
+  padding: 32px 36px 36px;
   position: relative;
-  box-shadow: 0 22px 50px rgba(12, 15, 18, 0.16);
-}
+  box-shadow:
+    0 20px 50px rgba(8, 31, 38, 0.25),
+    0 0 0 1px rgba(61, 218, 215, 0.05) inset;
+  overflow: hidden;
 
-// .journey-card.loading {
-//   animation: pulse 1.2s ease-in-out infinite;
-// }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(61, 218, 215, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
 
 .journey-header {
   align-items: center;
@@ -32,124 +46,149 @@
 }
 
 .journey-header h2 {
-  color: #d4d2cb;
-  font-size: 1.55rem;
+  color: #e2f0f2;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.4rem;
   font-weight: 800;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   margin: 0;
   text-transform: uppercase;
 }
 
 .journey-menu {
   align-items: center;
-  background: #242421;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
   display: inline-flex;
   gap: 4px;
-  height: 44px;
+  height: 40px;
   justify-content: center;
-  width: 52px;
+  transition: background 0.2s ease;
+  width: 48px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 
 .journey-menu span {
-  background: #c9c7bf;
+  background: #8db5bf;
   border-radius: 999px;
-  height: 5px;
-  width: 5px;
+  height: 4px;
+  width: 4px;
 }
+
+/* ─── Steps ─────────────────────────────────────────────────── */
 
 .journey-steps {
   align-items: flex-start;
   display: grid;
-  grid-template-columns: minmax(112px, 1fr) minmax(34px, 0.55fr) minmax(130px, 1fr) minmax(34px, 0.55fr) minmax(90px, 1fr) minmax(34px, 0.55fr) minmax(104px, 1fr);
+  grid-template-columns:
+    minmax(112px, 1fr)
+    minmax(34px, 0.5fr)
+    minmax(130px, 1fr)
+    minmax(34px, 0.5fr)
+    minmax(90px, 1fr)
+    minmax(34px, 0.5fr)
+    minmax(104px, 1fr);
 }
 
 .journey-step {
   align-items: center;
-  color: #d1cec6;
+  color: #6b9aa5;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 10px;
   min-width: 0;
   text-align: center;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .step-marker {
   align-items: center;
-  background: #242421;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  color: #d6d3cc;
+  color: #6b9aa5;
   display: flex;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  height: 56px;
+  height: 52px;
   justify-content: center;
-  width: 56px;
+  transition: all 0.25s ease;
+  width: 52px;
 }
 
 .journey-step.complete .step-marker {
-  background: #eef8df;
-  color: #3f7415;
-  font-size: 1.7rem;
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 1.5rem;
 }
 
 .journey-step.active .step-marker {
-  background: #62a018;
+  background: linear-gradient(135deg, #3ddad7, #0d9488);
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(61, 218, 215, 0.35);
   color: #ffffff;
 }
 
 .step-label {
-  color: #d6d3cc;
-  font-size: 1.25rem;
-  font-weight: 800;
-  line-height: 1.22;
-  max-width: 150px;
+  color: #6b9aa5;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  max-width: 140px;
+  transition: color 0.2s ease;
 }
 
 .journey-step.active .step-label {
-  color: #ffffff;
+  color: #e2f0f2;
+}
+
+.journey-step.complete .step-label {
+  color: #34d399;
 }
 
 .step-meta {
-  color: #9f9c94;
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1.2;
+  color: #4e7580;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .journey-step:hover .step-label,
 .journey-step:focus-visible .step-label {
-  color: #ffffff;
+  color: #e2f0f2;
+}
+
+.journey-step:hover .step-marker {
+  border-color: rgba(61, 218, 215, 0.25);
 }
 
 .journey-step:focus-visible {
   border-radius: 10px;
-  outline: 3px solid rgba(154, 204, 83, 0.65);
+  outline: 3px solid rgba(61, 218, 215, 0.5);
   outline-offset: 8px;
 }
 
 .step-connector {
-  background: #4e4e49;
+  background: rgba(255, 255, 255, 0.08);
   display: block;
-  height: 4px;
-  margin-top: 26px;
+  height: 2px;
+  margin-top: 25px;
   min-width: 0;
+  border-radius: 2px;
 }
 
 .step-connector.complete {
-  background: #5f7f40;
+  background: rgba(52, 211, 153, 0.35);
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.65;
-  }
-}
+/* ─── Content Grid ───────────────────────────────────────────── */
 
 .content-grid {
   display: grid;
@@ -158,6 +197,8 @@
   margin-top: 24px;
 }
 
+/* ─── Responsive ─────────────────────────────────────────────── */
+
 @media (max-width: 1100px) {
   .content-grid {
     grid-template-columns: 1fr;
@@ -165,7 +206,7 @@
 
   .journey-steps {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 
   .journey-step {
@@ -190,24 +231,24 @@
 
 @media (max-width: 640px) {
   .journey-card {
-    border-radius: 14px;
-    padding: 24px 18px;
+    border-radius: 16px;
+    padding: 22px 18px;
   }
 
   .journey-header h2 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .step-marker {
-    flex: 0 0 48px;
-    height: 48px;
-    width: 48px;
+    flex: 0 0 46px;
+    height: 46px;
+    width: 46px;
   }
 
   .journey-step {
     align-items: flex-start;
     display: grid;
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: 46px 1fr;
   }
 
   .step-meta {

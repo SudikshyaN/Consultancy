@@ -23,9 +23,7 @@ export class WishlistService {
   constructor(private http: HttpClient) {}
 
   listDestinations(): Observable<WishlistResponse> {
-    return this.http.get<WishlistResponse>(`${this.baseUrl}/destinations`).pipe(
-      catchError(() => of({ savedDestinations: [] }))
-    );
+    return this.http.get<WishlistResponse>(`${this.baseUrl}/destinations`);
   }
 
   addDestination(destination: SavedDestination): Observable<WishlistResponse> {

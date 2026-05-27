@@ -41,7 +41,10 @@ async function listSavedDestinations(req, res, next) {
       });
     }
 
-    const savedDestinations = await wishlistStore.listByUser(req.user.sub);
+    const dbDestinations = await wishlistStore.listByUser(req.user.sub);
+    const savedDestinations = dbDestinations && dbDestinations.length > 0
+      ? dbDestinations
+      : (user.savedDestinations || []);
 
     return res.json({ savedDestinations });
   } catch (err) {
@@ -69,9 +72,16 @@ async function addSavedDestination(req, res, next) {
     // Sync with Profile Preferences using safe method
     await userStore.syncPreferredCountries(req.user.sub, destination.name, 'add');
 
+    // ALSO sync with user.savedDestinations array in User model
+    const updatedUser = await userStore.addSavedDestination(req.user.sub, destination);
+
+    const resultDestinations = savedDestinations && savedDestinations.length > 0
+      ? savedDestinations
+      : (updatedUser?.savedDestinations || []);
+
     return res.status(201).json({
       message: 'Destination added to preferences',
-      savedDestinations,
+      savedDestinations: resultDestinations,
     });
   } catch (err) {
     return next(err);
@@ -98,14 +108,21 @@ async function removeSavedDestination(req, res, next) {
 
     const savedDestinations = await wishlistStore.removeDestination(req.user.sub, slug);
 
+    let resultUser = user;
     if (target) {
       // Sync with Profile Preferences using safe method
       await userStore.syncPreferredCountries(req.user.sub, target.name, 'remove');
+      // ALSO sync with user.savedDestinations array in User model
+      resultUser = await userStore.removeSavedDestination(req.user.sub, slug);
     }
+
+    const resultDestinations = savedDestinations && savedDestinations.length > 0
+      ? savedDestinations
+      : (resultUser?.savedDestinations || []);
 
     return res.json({
       message: 'Destination removed from preferences',
-      savedDestinations,
+      savedDestinations: resultDestinations,
     });
   } catch (err) {
     return next(err);

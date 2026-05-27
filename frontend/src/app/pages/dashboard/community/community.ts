@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommunityService } from '../../../services/community.service';
+import { CommunityService, CommunityPost, CommunityComment } from '../../../services/community.service';
 import { AuthService } from '../../../services/auth.services';
 
 @Component({
@@ -14,15 +14,29 @@ import { AuthService } from '../../../services/auth.services';
 export class DashboardCommunityComponent implements OnInit {
   protected readonly filterTags = ['All posts', 'Visa', 'Admission', 'Life abroad', 'Scholarship', 'Question'];
   protected readonly postTags = ['Visa', 'Admission', 'Life abroad', 'Scholarship', 'Question'];
-  
+
   protected activeFilter = signal('All posts');
   protected selectedPostTags = signal<string[]>([]);
   protected postContent = signal('');
   protected isPosting = signal(false);
   protected isLoading = signal(true);
-  protected showCreator = signal(false);
+  protected composerExpanded = signal(false);
   protected commentInputs = signal<Record<string, string>>({});
-  
+
+  // Edit post signals
+  protected editingPostId = signal<string | null>(null);
+  protected editPostContent = signal('');
+  protected editPostTags = signal<string[]>([]);
+  protected isSavingPost = signal(false);
+
+  // Edit comment signals
+  protected editingCommentKey = signal<string | null>(null); // format: "postId::commentId"
+  protected editCommentContent = signal('');
+  protected isSavingComment = signal(false);
+
+  // Shared error
+  protected saveError = signal('');
+
   protected currentUser: any;
 
   constructor(
@@ -47,11 +61,16 @@ export class DashboardCommunityComponent implements OnInit {
 
   togglePostTag(tag: string): void {
     const current = this.selectedPostTags();
-    if (current.includes(tag)) {
-      this.selectedPostTags.set(current.filter(t => t !== tag));
-    } else {
-      this.selectedPostTags.set([...current, tag]);
-    }
+    this.selectedPostTags.set(
+      current.includes(tag) ? current.filter(t => t !== tag) : [...current, tag]
+    );
+  }
+
+  toggleEditPostTag(tag: string): void {
+    const current = this.editPostTags();
+    this.editPostTags.set(
+      current.includes(tag) ? current.filter(t => t !== tag) : [...current, tag]
+    );
   }
 
   createPost(): void {
@@ -63,7 +82,7 @@ export class DashboardCommunityComponent implements OnInit {
         this.postContent.set('');
         this.selectedPostTags.set([]);
         this.isPosting.set(false);
-        this.showCreator.set(false);
+        this.composerExpanded.set(false);
         this.loadPosts(this.activeFilter());
       },
       error: () => this.isPosting.set(false)
@@ -83,8 +102,86 @@ export class DashboardCommunityComponent implements OnInit {
     if (!content?.trim()) return;
 
     this.communityService.addComment(postId, content).subscribe({
+      next: () => this.updateCommentInput(postId, '')
+    });
+  }
+
+  // ─── Post Edit ────────────────────────────────────────────────────────────
+
+  isMyPost(post: CommunityPost): boolean {
+    return !!this.currentUser?.id && post.author._id === this.currentUser.id;
+  }
+
+  startEditPost(post: CommunityPost): void {
+    this.editingPostId.set(post._id);
+    this.editPostContent.set(post.content);
+    this.editPostTags.set([...post.tags]);
+    // close any open comment edit
+    this.editingCommentKey.set(null);
+  }
+
+  cancelEditPost(): void {
+    this.editingPostId.set(null);
+    this.editPostContent.set('');
+    this.editPostTags.set([]);
+    this.saveError.set('');
+  }
+
+  saveEditPost(postId: string): void {
+    const content = this.editPostContent().trim();
+    if (!content || this.isSavingPost()) return;
+
+    this.saveError.set('');
+    this.isSavingPost.set(true);
+    this.communityService.editPost(postId, content, this.editPostTags()).subscribe({
       next: () => {
-        this.updateCommentInput(postId, '');
+        this.isSavingPost.set(false);
+        this.cancelEditPost();
+      },
+      error: (err) => {
+        this.isSavingPost.set(false);
+        this.saveError.set(err?.error?.message || 'Failed to save. Please try again.');
+      }
+    });
+  }
+
+  // ─── Comment Edit ─────────────────────────────────────────────────────────
+
+  isMyComment(comment: CommunityComment): boolean {
+    return !!this.currentUser?.id && comment.author._id === this.currentUser.id;
+  }
+
+  commentEditKey(postId: string, commentId: string): string {
+    return `${postId}::${commentId}`;
+  }
+
+  startEditComment(postId: string, comment: CommunityComment): void {
+    this.editingCommentKey.set(this.commentEditKey(postId, comment._id));
+    this.editCommentContent.set(comment.content);
+    // close post edit if any
+    this.editingPostId.set(null);
+  }
+
+  cancelEditComment(): void {
+    this.editingCommentKey.set(null);
+    this.editCommentContent.set('');
+    this.saveError.set('');
+  }
+
+  saveEditComment(postId: string, commentId: string): void {
+    const content = this.editCommentContent().trim();
+    if (!content || this.isSavingComment()) return;
+
+    this.saveError.set('');
+    this.isSavingComment.set(true);
+    this.communityService.editComment(postId, commentId, content).subscribe({
+      next: () => {
+        this.isSavingComment.set(false);
+        this.cancelEditComment();
+      },
+      error: (err) => {
+        this.isSavingComment.set(false);
+        this.saveError.set(err?.error?.message || 'Failed to save comment. Please try again.');
       }
     });
   }

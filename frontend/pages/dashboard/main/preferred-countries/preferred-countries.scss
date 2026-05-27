@@ -1,89 +1,172 @@
-.preferred-countries-card {
-  background: white;
-  padding: 24px;
+.countries-card {
+  background: #ffffff;
+  border: 1px solid rgba(8, 31, 38, 0.08);
   border-radius: 20px;
-  border: 1px solid #eee;
+  box-shadow: 0 4px 20px rgba(8, 31, 38, 0.06);
   display: flex;
   flex-direction: column;
+  padding: 28px;
 }
 
-.header {
+/* ─── Header ────────────────────────────────────────────────── */
+
+.card-header {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
+}
 
-  h2 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #111;
-  }
+.card-header-left {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
 
-  .edit-link {
-    color: #2563eb;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
+.card-header h2 {
+  color: #0a1f26;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.country-count {
+  background: rgba(13, 148, 136, 0.1);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 999px;
+  color: #0d9488;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+}
+
+.edit-link {
+  color: #0d9488;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0.85;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
   }
 }
 
-.countries-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+/* ─── List ──────────────────────────────────────────────────── */
+
+.countries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .country-item {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  border-radius: 12px;
-  background: white;
-  border: 1px solid #e5e7eb;
+  align-items: center;
+  background: #f8fbfc;
+  border: 1px solid rgba(8, 31, 38, 0.07);
+  border-radius: 14px;
   cursor: pointer;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 13px 15px;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #cbd5e1;
+    background: #f0f8f7;
+    border-color: rgba(13, 148, 136, 0.2);
+    box-shadow: 0 2px 8px rgba(8, 31, 38, 0.05);
+    transform: translateY(-1px);
   }
 
   &.active {
-    background: #eff6ff;
-    border-color: #3b82f6;
-  }
+    background: linear-gradient(135deg, #f0fdfb 0%, #e6faf8 100%);
+    border-color: rgba(13, 148, 136, 0.35);
+    box-shadow: 0 4px 16px rgba(13, 148, 136, 0.1);
 
-  .flag {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-
-  .country-info {
-    h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: #111827;
+    .country-info h3 {
+      color: #0d9488;
     }
-    p {
-      margin: 4px 0 16px;
-      font-size: 13px;
-      color: #6b7280;
+
+    .flag-wrap {
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
     }
   }
+}
 
-  .progress-bar-container {
-    height: 4px;
-    background: #e5e7eb;
-    border-radius: 2px;
-    overflow: hidden;
-    width: 100%;
+/* ─── Left side ─────────────────────────────────────────────── */
 
-    .progress-bar {
-      height: 100%;
-      background: #3b82f6;
-      border-radius: 2px;
-    }
+.country-left {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.flag-wrap {
+  align-items: center;
+  background: rgba(8, 31, 38, 0.04);
+  border-radius: 10px;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  height: 42px;
+  justify-content: center;
+  transition: box-shadow 0.2s ease;
+  width: 42px;
+}
+
+.country-info {
+  min-width: 0;
+
+  h3 {
+    color: #0a1f26;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0;
+    transition: color 0.2s ease;
   }
+
+  p {
+    color: #6b8a94;
+    font-size: 0.77rem;
+    font-weight: 500;
+    margin: 2px 0 0;
+  }
+}
+
+/* ─── Right side (progress) ─────────────────────────────────── */
+
+.country-right {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 6px;
+  min-width: 64px;
+}
+
+.progress-pct {
+  color: #0d9488;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.progress-track {
+  background: rgba(8, 31, 38, 0.08);
+  border-radius: 4px;
+  height: 5px;
+  overflow: hidden;
+  width: 64px;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #3ddad7, #0d9488);
+  border-radius: 4px;
+  height: 100%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }

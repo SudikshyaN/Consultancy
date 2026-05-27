@@ -190,6 +190,42 @@ async function updateProfile(req, res, next) {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Synchronize wishlist destinations with the new profile.preferredCountries list
+    if (profileData.preferredCountries && Array.isArray(profileData.preferredCountries)) {
+      const preferred = profileData.preferredCountries;
+      
+      const destinationStore = require('../models/destination.store');
+      const wishlistStore = require('../models/wishlist.store');
+
+      const allActive = await destinationStore.findActive();
+      const currentWishlist = await wishlistStore.listByUser(req.user.sub);
+
+      // Add to wishlist if in preferred list but not in current wishlist
+      for (const countryName of preferred) {
+        if (!currentWishlist.some(d => d.name.toLowerCase() === countryName.toLowerCase())) {
+          const destDetail = allActive.find(d => d.name.toLowerCase() === countryName.toLowerCase());
+          if (destDetail) {
+            const destToSave = {
+              slug: destDetail.slug,
+              name: destDetail.name,
+              visa: destDetail.visa,
+              flag: destDetail.flag
+            };
+            await wishlistStore.addDestination(req.user.sub, destToSave);
+            await userStore.addSavedDestination(req.user.sub, destToSave);
+          }
+        }
+      }
+
+      // Remove from wishlist if not in preferred list
+      for (const item of currentWishlist) {
+        if (!preferred.some(name => name.toLowerCase() === item.name.toLowerCase())) {
+          await wishlistStore.removeDestination(req.user.sub, item.slug);
+          await userStore.removeSavedDestination(req.user.sub, item.slug);
+        }
+      }
+    }
+
     return res.json({ message: 'Profile updated', user: sanitizeUser(user) });
   } catch (err) {
     return next(err);

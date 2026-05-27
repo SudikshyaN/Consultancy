@@ -12,6 +12,10 @@ const commentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    editedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );
@@ -42,6 +46,10 @@ const postSchema = new mongoose.Schema(
       },
     ],
     comments: [commentSchema],
+    editedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );
@@ -82,10 +90,48 @@ async function addComment(postId, commentData) {
   ).populate('comments.author', 'name');
 }
 
+async function updatePost(postId, authorId, content, tags) {
+  const post = await CommunityPost.findOne({ _id: postId, author: authorId });
+  if (!post) return null;
+
+  post.content = content;
+  if (tags !== undefined) post.tags = tags;
+  post.editedAt = new Date();
+
+  await post.save();
+  return CommunityPost.findById(postId)
+    .populate('author', 'name email')
+    .populate('comments.author', 'name');
+}
+
+async function updateComment(postId, commentId, authorId, content) {
+  // Fetch WITHOUT populate so Mongoose saves the raw ObjectId reference correctly
+  const post = await CommunityPost.findById(postId);
+  if (!post) return null;
+
+  const comment = post.comments.id(commentId);
+  if (!comment) return null;
+
+  // Compare raw ObjectId strings — no populate needed
+  if (comment.author.toString() !== authorId.toString()) return null;
+
+  comment.content = content;
+  comment.editedAt = new Date();
+
+  await post.save();
+
+  // Re-fetch with populate for the response
+  return CommunityPost.findById(postId)
+    .populate('author', 'name email')
+    .populate('comments.author', 'name');
+}
+
 module.exports = {
   CommunityPost,
   findAll,
   create,
   toggleLike,
   addComment,
+  updatePost,
+  updateComment,
 };

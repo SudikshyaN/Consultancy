@@ -10,7 +10,31 @@ export interface AuthUser {
   name: string;
   email: string;
   role: string;
-  profile?: any;
+  profile?: {
+    preferredCountries?: string[];
+    studyFields?: string[];
+    intakeYear?: string[];
+    dob?: string;
+    phone?: string;
+    nationality?: string;
+    city?: string;
+    about?: string;
+    degree?: string;
+    gpa?: string;
+    university?: string;
+    graduationYear?: string;
+    ielts?: string;
+    gmat?: string;
+    toefl?: string;
+    [key: string]: any;
+  };
+  savedDestinations?: Array<{
+    slug: string;
+    name: string;
+    visa?: string;
+    flag?: string;
+    savedAt?: string;
+  }>;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -140,13 +140,9 @@ async function findByEmail(email) {
 }
 
 async function findById(id) {
-  if (!databaseIsConnected()) {
+  if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const user = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
     return cloneUser(user || null);
-  }
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return null;
   }
 
   return User.findById(id);
@@ -191,7 +187,7 @@ async function create({ name, email, passwordHash, role }) {
 }
 
 async function updateProfile(id, profileData) {
-  if (!databaseIsConnected()) {
+  if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const existingUser = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
 
     if (!existingUser) {
@@ -224,7 +220,7 @@ async function listSavedDestinations(id) {
 }
 
 async function addSavedDestination(id, destination) {
-  if (!databaseIsConnected()) {
+  if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const existingUser = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
 
     if (!existingUser) {
@@ -252,10 +248,6 @@ async function addSavedDestination(id, destination) {
     return cloneUser(updatedUser);
   }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return null;
-  }
-
   const user = await User.findById(id);
 
   if (!user) {
@@ -275,7 +267,7 @@ async function addSavedDestination(id, destination) {
 }
 
 async function removeSavedDestination(id, slug) {
-  if (!databaseIsConnected()) {
+  if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const existingUser = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
 
     if (!existingUser) {
@@ -293,10 +285,6 @@ async function removeSavedDestination(id, slug) {
     return cloneUser(updatedUser);
   }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return null;
-  }
-
   return User.findByIdAndUpdate(
     id,
     { $pull: { savedDestinations: { slug } } },
@@ -305,7 +293,7 @@ async function removeSavedDestination(id, slug) {
 }
 
 async function syncPreferredCountries(id, countryName, action) {
-  if (!databaseIsConnected()) {
+  if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const existingUser = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
     if (!existingUser) return null;
 

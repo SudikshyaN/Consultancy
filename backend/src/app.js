@@ -23,7 +23,7 @@ const isAllowedOrigin = (origin) => {
 
   try {
     const { hostname, protocol } = new URL(origin);
-    const isLocalhost = hostname === 'localhosts' || hostname === '127.0.0.1:4200';
+    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
 
     return isLocalhost && (protocol === 'http:' || protocol === 'https:');
   } catch {
@@ -104,7 +104,7 @@ app.use('/api/sop-maker', sopMakerRoutes);
 app.use('/api/videos', videoRoutes);
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
 
 app.use((err, req, res, next) => {

@@ -1,7 +1,7 @@
 const http = require('http');
 
 const options = {
-  hostname: 'localhosts',
+  hostname: 'localhost',
   port: 3000,
   path: '/api/community',
   method: 'GET'

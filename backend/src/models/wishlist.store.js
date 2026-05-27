@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// In-memory wishlist for non-MongoDB (UUID-based local) users
+const memoryWishlist = new Map(); // key: userId, value: Map<slug, item>
+
 const wishlistSchema = new mongoose.Schema(
   {
     user: {
@@ -37,6 +40,43 @@ function databaseIsConnected() {
   return mongoose.connection.readyState === 1;
 }
 
+function getMemoryWishlist(userId) {
+  if (!memoryWishlist.has(userId)) {
+    memoryWishlist.set(userId, new Map());
+  }
+  return memoryWishlist.get(userId);
+}
+
+function memoryListByUser(userId) {
+  const items = getMemoryWishlist(userId);
+  return [...items.values()].sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+}
+
+function memoryAddDestination(userId, destination) {
+  const items = getMemoryWishlist(userId);
+  if (!items.has(destination.slug)) {
+    items.set(destination.slug, {
+      id: destination.slug,
+      slug: destination.slug,
+      name: destination.name,
+      visa: destination.visa,
+      flag: destination.flag,
+      savedAt: new Date().toISOString(),
+    });
+  }
+  return memoryListByUser(userId);
+}
+
+function memoryRemoveDestination(userId, slug) {
+  const items = getMemoryWishlist(userId);
+  items.delete(slug);
+  return memoryListByUser(userId);
+}
+
+function memoryCountByUser(userId) {
+  return getMemoryWishlist(userId).size;
+}
+
 async function ensureCollection() {
   if (!databaseIsConnected()) {
     return;
@@ -66,7 +106,7 @@ function toSavedDestination(item) {
 
 async function listByUser(userId) {
   if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(userId)) {
-    return [];
+    return memoryListByUser(userId);
   }
 
   await ensureCollection();
@@ -76,7 +116,7 @@ async function listByUser(userId) {
 
 async function addDestination(userId, destination) {
   if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(userId)) {
-    return [];
+    return memoryAddDestination(userId, destination);
   }
 
   await ensureCollection();
@@ -102,7 +142,7 @@ async function addDestination(userId, destination) {
 
 async function removeDestination(userId, slug) {
   if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(userId)) {
-    return [];
+    return memoryRemoveDestination(userId, slug);
   }
 
   await ensureCollection();
@@ -112,7 +152,7 @@ async function removeDestination(userId, slug) {
 
 async function countByUser(userId) {
   if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(userId)) {
-    return 0;
+    return memoryCountByUser(userId);
   }
 
   await ensureCollection();
