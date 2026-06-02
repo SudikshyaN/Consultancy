@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { UniversityService } from '../../../services/university.service';
 import type { University, UniversityProgram } from '../../../services/university.connector';
 import { signal } from '@angular/core';
+import { DestinationService } from '../../../services/destination.service';
 @Component({
   selector: 'app-admin-universities',
   standalone: true,
@@ -13,7 +14,7 @@ import { signal } from '@angular/core';
   styleUrl: './admin-universities.scss'
 })
 export class AdminUniversitiesComponent implements OnInit {
-  protected readonly countryOptions = ['USA', 'UK', 'Japan'];
+  protected countryOptions = signal<string[]>([]);
   protected universities = signal<University[]>([]);
   protected selectedCountry = 'USA';
   protected selectedUniversity = signal<University | null>(null);
@@ -27,7 +28,8 @@ export class AdminUniversitiesComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private universityService: UniversityService
+    private universityService: UniversityService,
+    private destinationService: DestinationService
   ) {
     this.universityForm = this.fb.group({
       name: ['', Validators.required],
@@ -42,7 +44,26 @@ export class AdminUniversitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUniversities();
+    this.loadCountries();
+  }
+
+  private loadCountries(): void {
+    this.destinationService.listDestinations().subscribe({
+      next: (res) => {
+        const names = (res.destinations || []).map(d => d.name);
+        this.countryOptions.set(names);
+        if (names.length > 0) {
+          this.selectedCountry = names[0];
+          this.universityForm.patchValue({ country: names[0] });
+        }
+        this.loadUniversities();
+      },
+      error: () => {
+        // fallback to defaults
+        this.countryOptions.set(['USA', 'UK', 'Japan']);
+        this.loadUniversities();
+      }
+    });
   }
 
   get programs(): FormArray {
@@ -87,7 +108,7 @@ export class AdminUniversitiesComponent implements OnInit {
   }
 
   selectCountryFromInput(country: string): void {
-    const match = this.countryOptions.find((option) => option.toLowerCase() === country.trim().toLowerCase());
+    const match = this.countryOptions().find((option) => option.toLowerCase() === country.trim().toLowerCase());
 
     if (match) {
       this.selectCountry(match);

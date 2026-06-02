@@ -76,7 +76,6 @@ app.use('/api', (req, res, next) => {
   }
 
   if (
-    req.path.startsWith('/auth') ||
     req.path.startsWith('/dashboard') ||
     req.path.startsWith('/wishlist') ||
     req.path.startsWith('/destinations') ||

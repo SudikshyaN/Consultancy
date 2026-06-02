@@ -53,11 +53,77 @@
   <!-- DETAILS SECTIONS -->
   <div class="content">
 
-    @if (country.highlights && country.highlights.length > 0) {
+    <!-- UNIVERSITIES SECTION -->
+    @if (universitiesLoading) {
+      <section class="unis-section">
+        <div class="unis-loading">
+          <div class="unis-spinner"></div>
+          <span>Loading universities...</span>
+        </div>
+      </section>
+    } @else if (universities.length > 0) {
+      <section class="unis-section">
+        <div class="unis-header">
+          <h2 class="unis-title">Universities in {{ country?.name }}</h2>
+          <span class="unis-badge">{{ universities.length }} available</span>
+        </div>
+        <div class="unis-grid">
+          @for (uni of universities; track uni._id) {
+            <div class="uni-card">
+              <div class="uni-card-top">
+                <div class="uni-avatar">
+                  {{ uni.name.charAt(0) }}
+                </div>
+                <div class="uni-info">
+                  <h3 class="uni-name">{{ uni.name }}</h3>
+                  <p class="uni-city">📍 {{ uni.city }}, {{ uni.country }}</p>
+                </div>
+                @if (uni.website) {
+                  <a [href]="uni.website" target="_blank" rel="noopener" class="uni-link">Visit →</a>
+                }
+              </div>
+
+              @if (uni.tuitionRange) {
+                <div class="uni-tuition">
+                  <span class="tuition-label">Tuition Range</span>
+                  <span class="tuition-value">{{ uni.tuitionRange }}</span>
+                </div>
+              }
+
+              @if (uni.programs && uni.programs.length > 0) {
+                <div class="uni-programs">
+                  <p class="programs-label">Programs offered</p>
+                  <div class="programs-list">
+                    @for (prog of uni.programs; track prog.name) {
+                      <div class="program-chip">
+                        <span class="prog-name">{{ prog.name }}</span>
+                        @if (prog.degrees && prog.degrees.length > 0) {
+                          <span class="prog-degree">{{ prog.degrees[0] }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (uni.tags && uni.tags.length > 0) {
+                <div class="uni-tags">
+                  @for (tag of uni.tags; track tag) {
+                    <span class="uni-tag">{{ tag }}</span>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    @if (country?.highlights && country!.highlights!.length > 0) {
       <section>
-        <h2>Why Study in {{ country.name }}?</h2>
+        <h2>Why Study in {{ country?.name }}?</h2>
         <ul>
-          @for (highlight of country.highlights; track highlight) {
+          @for (highlight of country!.highlights!; track highlight) {
             <li>{{ highlight }}</li>
           }
         </ul>
@@ -65,11 +131,11 @@
     }
 
     <!-- STEPS (if available) -->
-    @if (country.steps && country.steps.length > 0) {
+    @if (country?.steps && country!.steps!.length > 0) {
       <section>
         <h2>Application Journey</h2>
         <div class="steps-grid">
-          @for (step of country.steps; track step.title) {
+          @for (step of country!.steps!; track step.title) {
             <div class="step-card">
               <div class="step-icon">{{ step.icon }}</div>
               <div class="step-content">
@@ -86,6 +152,7 @@
     }
 
   </div>
+
 
 </div>
 } @else if (isLoading) {

@@ -54,6 +54,12 @@ export interface AuthResponse {
   user: AuthUser;
 }
 
+export interface ForgotPasswordResponse {
+  message: string;
+  resetToken?: string;
+  expiresInMinutes?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
@@ -88,6 +94,14 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.authUrl}/admin/login`, data).pipe(
       tap((res) => this.saveSession(res))
     );
+  }
+
+  forgotPassword(email: string): Observable<ForgotPasswordResponse> {
+    return this.http.post<ForgotPasswordResponse>(`${this.authUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, password: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.authUrl}/reset-password`, { token, password });
   }
 
   getProfile(): Observable<{ user: AuthUser }> {

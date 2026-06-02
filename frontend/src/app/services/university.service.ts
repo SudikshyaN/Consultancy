@@ -23,6 +23,10 @@ export class UniversityService {
     return this.connector.delete(id);
   }
 
+  getByCountry(country: string): Observable<UniversityListResponse> {
+    return this.connector.getByCountry(country);
+  }
+
   getRecommendations(country?: string): Observable<UniversityListResponse> {
     return this.connector.getRecommendations(country);
   }

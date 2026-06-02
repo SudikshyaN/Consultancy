@@ -41,14 +41,14 @@
             placeholder="Search USA, UK, India"
           />
           <datalist id="admin-country-options">
-            @for (country of countryOptions; track country) {
+            @for (country of countryOptions(); track country) {
               <option [value]="country"></option>
             }
           </datalist>
         </label>
 
         <div class="country-pills" aria-label="Country filters">
-          @for (country of countryOptions; track country) {
+          @for (country of countryOptions(); track country) {
             <button
               type="button"
               [class.active]="selectedCountry === country"
@@ -134,7 +134,7 @@
             <label>
               <span>Country</span>
               <select formControlName="country">
-                @for (country of countryOptions; track country) {
+                @for (country of countryOptions(); track country) {
                   <option [value]="country">{{ country }}</option>
                 }
               </select>
@@ -161,10 +161,26 @@
             </label>
           </div>
 
-          <label class="switch-row">
-            <input type="checkbox" formControlName="active" />
-            <span>Visible in recommendations</span>
-          </label>
+          <!-- Visibility toggle -->
+          <div class="visibility-banner" [class.is-visible]="universityForm.get('active')?.value">
+            <div class="visibility-info">
+              <span class="visibility-icon">{{ universityForm.get('active')?.value ? '👁️' : '🙈' }}</span>
+              <div>
+                <p class="visibility-title">
+                  {{ universityForm.get('active')?.value ? 'Visible in student dashboard' : 'Hidden from student dashboard' }}
+                </p>
+                <p class="visibility-sub">
+                  {{ universityForm.get('active')?.value
+                    ? 'Students can see this university on the country page.'
+                    : 'Toggle on to show this university to students.' }}
+                </p>
+              </div>
+            </div>
+            <label class="toggle-switch" aria-label="Toggle university visibility">
+              <input type="checkbox" formControlName="active" />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
 
           <div class="programs-header">
             <h3>Programs</h3>

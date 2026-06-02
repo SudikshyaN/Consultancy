@@ -1,54 +1,51 @@
-<section class="dashboard-card-content">
-  <p *ngIf="errorMessage" class="dashboard-error">{{ errorMessage }}</p>
+<section class="dashboard-main-content">
+  @if (errorMessage()) { <p class="dashboard-error">{{ errorMessage() }}</p> }
 
-  <div class="journey-card" [class.loading]="isLoading">
-    <div class="journey-header">
-      <h2>Your journey</h2>
-      <span class="journey-menu" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
+  <!-- ── Saved Countries ───────────────────────────────── -->
+  <div class="saved-section">
+    <div class="saved-header">
+      <div class="saved-title-group">
+        <h2>My saved countries</h2>
+        <p>Countries you've added to your wishlist</p>
+      </div>
+      <a routerLink="/dashboard/country" class="browse-btn">+ Browse destinations</a>
     </div>
 
-    <div class="journey-steps" aria-label="Application journey progress">
-      @for (step of journey.steps; track step.key; let last = $last) {
-        <a
-          class="journey-step"
-          [class.complete]="step.state === 'complete'"
-          [class.active]="step.state === 'active'"
-          [class.upcoming]="step.state === 'upcoming'"
-          [routerLink]="step.route"
-          [attr.aria-current]="step.state === 'active' ? 'step' : null"
-        >
-          <span class="step-marker">
-            @if (step.state === 'complete') {
-              <span aria-hidden="true">✓</span>
-            } @else {
-              <span>{{ step.number }}</span>
-            }
-          </span>
-          <span class="step-label">{{ step.label }}</span>
-          <span class="step-meta">{{ step.meta }}</span>
-        </a>
-
-        @if (!last) {
-          <span
-            class="step-connector"
-            [class.complete]="step.state === 'complete'"
-            aria-hidden="true"
-          ></span>
+    @if (wishlistLoading()) {
+      <div class="wishlist-loading">
+        <div class="wl-spinner"></div>
+        <span>Loading your countries...</span>
+      </div>
+    } @else if (savedDestinations().length === 0) {
+      <div class="wishlist-empty">
+        <span class="empty-icon">🌍</span>
+        <p>No countries saved yet.</p>
+        <a routerLink="/dashboard/country" class="empty-link">Explore destinations →</a>
+      </div>
+    } @else {
+      <div class="countries-grid">
+        @for (dest of savedDestinations(); track dest.slug) {
+          <div class="country-tile">
+            <div class="tile-flag">
+              <img [src]="dest.flag" [alt]="dest.name + ' flag'" />
+            </div>
+            <div class="tile-info">
+              <h3>{{ dest.name }}</h3>
+              <span class="tile-visa">{{ dest.visa }}</span>
+            </div>
+            <a [routerLink]="['/dashboard/country', dest.slug]" class="tile-link">
+              View details →
+            </a>
+          </div>
         }
-      }
-    </div>
+      </div>
+    }
   </div>
 
+  <!-- ── Applications ──────────────────────────────────── -->
   <div class="content-grid">
     <div class="main-col">
       <app-applications></app-applications>
-    </div>
-    <div class="side-col">
-      <app-preferred-countries></app-preferred-countries>
     </div>
   </div>
 </section>

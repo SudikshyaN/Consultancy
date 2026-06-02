@@ -63,6 +63,12 @@ export class UniversityConnector {
     return this.http.delete<{ message: string }>(`${this.baseUrl}/admin/${id}`);
   }
 
+  getByCountry(country: string): Observable<UniversityListResponse> {
+    return this.http.get<UniversityListResponse>(
+      `${this.baseUrl}/by-country?country=${encodeURIComponent(country)}`
+    );
+  }
+
   getRecommendations(country?: string): Observable<UniversityListResponse> {
     const url = country
       ? `${this.baseUrl}/recommendations?country=${encodeURIComponent(country)}`

@@ -3,6 +3,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Destination } from '../../shared/data/destinations';
 import { DestinationService } from '../../services/destination.service';
+import { UniversityService } from '../../services/university.service';
+import { University } from '../../services/university.connector';
 
 @Component({
   selector: 'app-destination-detail',
@@ -14,11 +16,14 @@ import { DestinationService } from '../../services/destination.service';
 export class DestinationDetailComponent implements OnInit {
 
   country: Destination | null = null;
+  universities: University[] = [];
   isLoading = true;
+  universitiesLoading = false;
 
   constructor(
     private route: ActivatedRoute,
-    private destinationService: DestinationService
+    private destinationService: DestinationService,
+    private universityService: UniversityService
   ) {}
 
   ngOnInit() {
@@ -36,11 +41,26 @@ export class DestinationDetailComponent implements OnInit {
       next: (res) => {
         this.country = res.destination;
         this.isLoading = false;
+        this.loadUniversities(res.destination.name);
       },
       error: (err) => {
         console.error('Error loading country:', err);
         this.country = null;
         this.isLoading = false;
+      }
+    });
+  }
+
+  loadUniversities(countryName: string) {
+    this.universitiesLoading = true;
+    this.universityService.getByCountry(countryName).subscribe({
+      next: (res) => {
+        this.universities = res.universities || [];
+        this.universitiesLoading = false;
+      },
+      error: () => {
+        this.universities = [];
+        this.universitiesLoading = false;
       }
     });
   }

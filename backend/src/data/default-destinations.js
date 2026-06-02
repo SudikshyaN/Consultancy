@@ -3,7 +3,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'USA',
     slug: 'usa',
     visa: 'F-1 Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/us.webp',
+    flag: 'https://flagcdn.com/w80/us.png',
     
     highlights: ['Top-ranked universities', 'STEM-friendly programs', 'Strong scholarship ecosystem'],
   },
@@ -11,7 +11,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'UK',
     slug: 'uk',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/gb.webp',
+    flag: 'https://flagcdn.com/w80/gb.png',
    
     highlights: ['One-year master programs', 'Global recognition', 'Clear intake cycles'],
     livingCost: '£ 1,430/mo',
@@ -56,7 +56,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'Australia',
     slug: 'australia',
     visa: 'Subclass 500',
-    flag: 'https://www.worldometers.info/images/flags/original/au.webp',
+    flag: 'https://flagcdn.com/w80/au.png',
     
     highlights: ['Regional study options', 'Post-study work pathways', 'Practical learning'],
   },
@@ -64,7 +64,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'Canada',
     slug: 'canada',
     visa: 'SDS / Regular',
-    flag: 'https://www.worldometers.info/images/flags/original/ca.webp',
+    flag: 'https://flagcdn.com/w80/ca.png',
     
     highlights: ['Applied learning', 'Public colleges and universities', 'Structured visa pathways'],
   },
@@ -72,7 +72,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'Germany',
     slug: 'germany',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/de.webp',
+    flag: 'https://flagcdn.com/w80/de.png',
     
     highlights: ['Affordable tuition', 'Public universities', 'Engineering strength'],
   },
@@ -80,7 +80,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'Japan',
     slug: 'japan',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/jp.webp',
+    flag: 'https://flagcdn.com/w80/jp.png',
     
     highlights: ['Affordable study options', 'Technology focus', 'Growing scholarship support'],
   },
@@ -88,7 +88,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'New Zealand',
     slug: 'new-zealand',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/nz.webp',
+    flag: 'https://flagcdn.com/w80/nz.png',
    
     highlights: ['Safe environment', 'Quality institutions', 'Lifestyle appeal'],
   },
@@ -96,7 +96,7 @@ const DEFAULT_DESTINATIONS = [
     name: 'South Korea',
     slug: 'south-korea',
     visa: 'D-2 Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/kr.webp',
+    flag: 'https://flagcdn.com/w80/kr.png',
     
     highlights: ['Innovation-driven education', 'Modern campuses', 'Scholarship potential'],
   },

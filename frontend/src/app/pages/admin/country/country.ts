@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DestinationService } from '../../../services/destination.service';
 import { Destination } from '../../../shared/data/destinations';
@@ -16,46 +16,49 @@ export class AdminCountryComponent implements OnInit {
   protected selectedCountry = signal<Destination | null>(null);
   protected isLoading = signal(true);
   protected isSaving = signal(false);
+  protected successMessage = signal('');
+  protected errorMsg = signal('');
 
-  // Form values
   protected formData = {
     livingCost: '',
     tuition: '',
     visaFee: '',
     partTimeWork: '',
     ieltsRequirement: '',
-    costBreakdown: {
-      rent: 0,
-      food: 0,
-      transport: 0,
-      bills: 0,
-      personal: 0
-    },
+    costBreakdown: { rent: 0, food: 0, transport: 0, bills: 0, personal: 0 },
     roadmap: [] as any[]
   };
 
-  constructor(private destinationService: DestinationService) { }
+  protected totalCost = computed(() => {
+    const cb = this.formData.costBreakdown;
+    const total = (cb.rent || 0) + (cb.food || 0) + (cb.transport || 0) + (cb.bills || 0) + (cb.personal || 0);
+    return total > 0 ? total.toLocaleString() : '—';
+  });
+
+  constructor(private destinationService: DestinationService) {}
 
   ngOnInit(): void {
     this.loadCountries();
   }
 
-  loadCountries() {
+  loadCountries(): void {
     this.isLoading.set(true);
     this.destinationService.listDestinations().subscribe({
       next: (res) => {
         this.countries.set(res.destinations);
         this.isLoading.set(false);
       },
-      error: (err) => {
-        console.error('Error loading countries:', err);
+      error: () => {
+        this.errorMsg.set('Failed to load countries.');
         this.isLoading.set(false);
       }
     });
   }
 
-  onSelectCountry(country: Destination) {
+  onSelectCountry(country: Destination): void {
     this.selectedCountry.set(country);
+    this.successMessage.set('');
+    this.errorMsg.set('');
     this.formData = {
       livingCost: country.livingCost || '',
       tuition: country.tuition || '',
@@ -67,36 +70,30 @@ export class AdminCountryComponent implements OnInit {
         food: country.costBreakdown?.food || 0,
         transport: country.costBreakdown?.transport || 0,
         bills: country.costBreakdown?.bills || 0,
-      personal: country.costBreakdown?.personal || 0
+        personal: country.costBreakdown?.personal || 0
       },
       roadmap: country.roadmap ? JSON.parse(JSON.stringify(country.roadmap)) : []
-    } as any;
+    };
   }
 
-  addRoadmapStep() {
-    this.formData.roadmap.push({
-      title: '',
-      duration: '',
-      description: '',
-      tags: [],
-      checklist: []
-    });
+  addRoadmapStep(): void {
+    this.formData.roadmap.push({ title: '', duration: '', description: '', tags: [], checklist: [] });
   }
 
-  removeRoadmapStep(index: number) {
+  removeRoadmapStep(index: number): void {
     this.formData.roadmap.splice(index, 1);
   }
 
-  addChecklistItem(stepIndex: number) {
+  addChecklistItem(stepIndex: number): void {
     this.formData.roadmap[stepIndex].checklist.push({ task: '' });
   }
 
-  removeChecklistItem(stepIndex: number, itemIndex: number) {
+  removeChecklistItem(stepIndex: number, itemIndex: number): void {
     this.formData.roadmap[stepIndex].checklist.splice(itemIndex, 1);
   }
 
-  addTag(stepIndex: number, event: any) {
-    const value = event.target.value.trim();
+  addTag(stepIndex: number, event: any): void {
+    const value = (event.target.value || '').trim();
     if (value) {
       if (!this.formData.roadmap[stepIndex].tags) {
         this.formData.roadmap[stepIndex].tags = [];
@@ -106,27 +103,30 @@ export class AdminCountryComponent implements OnInit {
     }
   }
 
-  removeTag(stepIndex: number, tagIndex: number) {
+  removeTag(stepIndex: number, tagIndex: number): void {
     this.formData.roadmap[stepIndex].tags.splice(tagIndex, 1);
   }
 
-  saveCountry() {
+  saveCountry(): void {
     const country = this.selectedCountry();
-    if (!country || !country._id) return;
+    if (!country?._id) return;
 
     this.isSaving.set(true);
+    this.successMessage.set('');
+    this.errorMsg.set('');
+
     this.destinationService.updateDestination(country._id, this.formData).subscribe({
       next: (res) => {
-        // Update local state
         this.countries.set(
           this.countries().map(c => c._id === res.destination._id ? res.destination : c)
         );
         this.selectedCountry.set(res.destination);
         this.isSaving.set(false);
-        // Optional: show success message
+        this.successMessage.set(`${res.destination.name} updated successfully.`);
+        setTimeout(() => this.successMessage.set(''), 3500);
       },
-      error: (err) => {
-        console.error('Error saving country:', err);
+      error: () => {
+        this.errorMsg.set('Failed to save changes. Please try again.');
         this.isSaving.set(false);
       }
     });

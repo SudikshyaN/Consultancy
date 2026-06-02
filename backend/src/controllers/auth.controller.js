@@ -1,4 +1,5 @@
 const userStore = require('../models/user.store');
+const crypto = require('crypto');
 const { createToken } = require('../utils/jwt');
 const { hashPassword, verifyPassword } = require('../utils/password');
 const { sanitizeUser } = require('../utils/user');
@@ -6,6 +7,13 @@ const {
   validateLogin,
   validateRegister,
 } = require('../validators/auth.validator');
+
+const PASSWORD_RESET_TOKEN_BYTES = 32;
+const PASSWORD_RESET_TOKEN_TTL_MS = 1000 * 60 * 20;
+
+function hashResetToken(token) {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
 
 async function register(req, res, next) {
   try {
@@ -167,6 +175,65 @@ async function loginAdmin(req, res, next) {
   }
 }
 
+async function forgotPassword(req, res, next) {
+  try {
+    const email = typeof req.body.email === 'string'
+      ? req.body.email.trim().toLowerCase()
+      : '';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ message: 'A valid email is required' });
+    }
+
+    const token = crypto.randomBytes(PASSWORD_RESET_TOKEN_BYTES).toString('hex');
+    const tokenHash = hashResetToken(token);
+    const expiresAt = new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL_MS);
+    const user = await userStore.setPasswordResetToken(email, tokenHash, expiresAt);
+
+    const response = {
+      message: 'If an account exists for that email, a password reset link has been prepared.',
+      expiresInMinutes: PASSWORD_RESET_TOKEN_TTL_MS / 1000 / 60,
+    };
+
+    if (user) {
+      response.resetToken = token;
+    }
+
+    return res.json(response);
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function resetPassword(req, res, next) {
+  try {
+    const token = typeof req.body.token === 'string' ? req.body.token.trim() : '';
+    const password = typeof req.body.password === 'string' ? req.body.password : '';
+
+    if (!token) {
+      return res.status(400).json({ message: 'Reset token is required' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
+    const tokenHash = hashResetToken(token);
+    const existingUser = await userStore.findByPasswordResetToken(tokenHash);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: 'Reset link is invalid or has expired' });
+    }
+
+    const passwordHash = await hashPassword(password);
+    await userStore.updatePasswordByResetToken(tokenHash, passwordHash);
+
+    return res.json({ message: 'Password has been reset. You can now log in.' });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function me(req, res, next) {
   try {
     const user = await userStore.findById(req.user.sub);
@@ -237,6 +304,8 @@ module.exports = {
   register,
   loginAdmin,
   login,
+  forgotPassword,
   me,
+  resetPassword,
   updateProfile,
 };

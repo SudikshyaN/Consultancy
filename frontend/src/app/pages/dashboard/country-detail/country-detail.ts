@@ -3,6 +3,8 @@ import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DestinationService } from '../../../services/destination.service';
 import { Destination } from '../../../shared/data/destinations';
+import { UniversityService } from '../../../services/university.service';
+import { University } from '../../../services/university.connector';
 
 @Component({
   selector: 'app-dashboard-country-detail',
@@ -13,13 +15,16 @@ import { Destination } from '../../../shared/data/destinations';
 })
 export class DashboardCountryDetailComponent implements OnInit {
   protected country = signal<Destination | null>(null);
+  protected universities = signal<University[]>([]);
+  protected universitiesLoading = signal(false);
   protected isLoading = signal(true);
   protected error = signal('');
   protected expandedStepIndex = signal<number>(0);
 
   constructor(
     private route: ActivatedRoute,
-    private destinationService: DestinationService
+    private destinationService: DestinationService,
+    private universityService: UniversityService
   ) {}
 
   ngOnInit(): void {
@@ -37,11 +42,26 @@ export class DashboardCountryDetailComponent implements OnInit {
       next: (res) => {
         this.country.set(res.destination);
         this.isLoading.set(false);
+        this.loadUniversities(res.destination.name);
       },
       error: (err) => {
         console.error('Error loading country details:', err);
         this.error.set('Failed to load country details.');
         this.isLoading.set(false);
+      }
+    });
+  }
+
+  private loadUniversities(countryName: string): void {
+    this.universitiesLoading.set(true);
+    this.universityService.getByCountry(countryName).subscribe({
+      next: (res) => {
+        this.universities.set(res.universities || []);
+        this.universitiesLoading.set(false);
+      },
+      error: () => {
+        this.universities.set([]);
+        this.universitiesLoading.set(false);
       }
     });
   }

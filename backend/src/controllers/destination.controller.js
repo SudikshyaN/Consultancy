@@ -33,7 +33,7 @@ async function updateDestination(req, res, next) {
     const destination = await destinationStore.Destination.findByIdAndUpdate(
       id,
       { $set: update },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!destination) {

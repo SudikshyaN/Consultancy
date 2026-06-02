@@ -70,3 +70,219 @@
 ul {
   padding-left: 20px;
 }
+
+/* ── UNIVERSITIES SECTION ─────────────────────────────── */
+
+.unis-section {
+  margin-bottom: 48px;
+}
+
+.unis-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.unis-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.unis-badge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+
+.unis-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  padding: 24px 0;
+}
+
+.unis-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #334155;
+  border-top-color: #10b981;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.unis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.uni-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: #10b981;
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15);
+  }
+}
+
+.uni-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.uni-avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #0891b2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.uni-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.uni-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.uni-city {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.uni-link {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #10b981;
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: #10b981;
+    color: #fff;
+  }
+}
+
+.uni-tuition {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.tuition-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.tuition-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.uni-programs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.programs-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0;
+}
+
+.programs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.program-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.prog-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.prog-degree {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  background: #1e293b;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #334155;
+}
+
+.uni-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.uni-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  padding: 3px 10px;
+}

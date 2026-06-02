@@ -1,167 +1,257 @@
-<div class="admin-country-container">
-  <header class="page-header">
-    <div class="header-content">
-      <!-- <h1>Manage Country Details</h1>
-      <p>Select a country to update its living costs, tuition, and visa requirements.</p> -->
-    </div>
-  </header>
+<div class="admin-country-page">
 
-  <div class="admin-content">
-    <!-- Country Selector Sidebar -->
-    <aside class="country-selector">
-      <h3>Select Country</h3>
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <div class="admin-hero">
+    <div class="hero-left">
+      <p class="eyebrow">Admin Panel</p>
+      <h1>Manage Countries</h1>
+      <p class="hero-copy">Select a country to edit its costs, visa details, and step-by-step roadmap.</p>
+    </div>
+    <div class="hero-stats">
+      <span>{{ countries().length }}</span>
+      <small>Destinations</small>
+    </div>
+  </div>
+
+  <!-- ── Alerts ─────────────────────────────────────────────── -->
+  @if (successMessage()) {
+    <div class="alert success">✓ {{ successMessage() }}</div>
+  }
+  @if (errorMsg()) {
+    <div class="alert error">✕ {{ errorMsg() }}</div>
+  }
+
+  <!-- ── Main Grid ──────────────────────────────────────────── -->
+  <div class="admin-grid">
+
+    <!-- Country List Panel -->
+    <aside class="list-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Countries</h2>
+          <p>{{ countries().length }} available</p>
+        </div>
+      </div>
+
       @if (isLoading()) {
-      <div class="loading-mini">Loading...</div>
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Loading countries...</span>
+        </div>
       } @else {
-      <ul class="country-list">
-        @for (country of countries(); track country._id) {
-        <li [class.active]="selectedCountry()?._id === country._id" (click)="onSelectCountry(country)">
-          <!-- <span class="flag">{{ country.flag.startsWith('http') ? '🌐' : country.flag }}</span> -->
-          <span class="name">{{ country.name }}</span>
-        </li>
-        }
-      </ul>
+        <ul class="country-list" aria-label="Country list">
+          @for (country of countries(); track country._id) {
+            <li
+              class="country-item"
+              [class.active]="selectedCountry()?._id === country._id"
+              (click)="onSelectCountry(country)"
+              role="button"
+              [attr.aria-pressed]="selectedCountry()?._id === country._id"
+            >
+              <div class="country-flag-wrap">
+                <img [src]="country.flag" [alt]="country.name + ' flag'" />
+              </div>
+              <div class="country-item-info">
+                <strong>{{ country.name }}</strong>
+                <span>{{ country.visa }}</span>
+              </div>
+              @if (selectedCountry()?._id === country._id) {
+                <span class="active-dot"></span>
+              }
+            </li>
+          }
+        </ul>
       }
     </aside>
 
-    <!-- Form Area -->
-    <main class="form-area">
-      @if (selectedCountry()) {
-      <div class="edit-header">
-        <h2>Country:{{ selectedCountry()?.name }}</h2>
-        <button class="save-btn" (click)="saveCountry()" [disabled]="isSaving()">
-          {{ isSaving() ? 'Saving...' : 'Save Changes' }}
-        </button>
-      </div>
-
-      <!-- Preview/Edit Cards -->
-      <div class="cards-preview">
-        <div class="preview-card">
-          <div class="card-label">Monthly living cost</div>
-          <input type="text" [(ngModel)]="formData.livingCost" placeholder="e.g. £ 1,430/mo">
-          <div class="card-sub">Avg for student</div>
+    <!-- Edit Panel -->
+    <main class="edit-panel">
+      @if (!selectedCountry()) {
+        <div class="empty-state">
+          <div class="empty-icon">🌍</div>
+          <h3>No country selected</h3>
+          <p>Choose a country from the list to edit its details.</p>
         </div>
-
-        <div class="preview-card">
-          <div class="card-label">Tuition</div>
-          <input type="text" [(ngModel)]="formData.tuition" placeholder="e.g. £15,000–35,000/yr">
-          <div class="card-sub">Per year</div>
-        </div>
-
-        <div class="preview-card">
-          <div class="card-label">Visa fee</div>
-          <input type="text" [(ngModel)]="formData.visaFee" placeholder="e.g. Student visa (Tier 4)">
-          <div class="card-sub">3–8 weeks processing</div>
-        </div>
-
-        <div class="preview-card">
-          <div class="card-label">Part-time work</div>
-          <input type="text" [(ngModel)]="formData.partTimeWork" placeholder="e.g. 20 hrs/week">
-          <div class="card-sub">Allowed on student visa</div>
-        </div>
-
-        <div class="preview-card">
-          <div class="card-label">IELTS requirement</div>
-          <input type="text" [(ngModel)]="formData.ieltsRequirement" placeholder="e.g. 6.5+">
-          <div class="card-sub">Minimum score</div>
-        </div>
-      </div>
-
-      <div class="cost-breakdown-editor">
-        <h3>Monthly Cost Breakdown ($)</h3>
-        <div class="breakdown-grid">
-          <div class="breakdown-item">
-            <label>Rent</label>
-            <input type="number" [(ngModel)]="formData.costBreakdown.rent">
-          </div>
-          <div class="breakdown-item">
-            <label>Food & Groceries</label>
-            <input type="number" [(ngModel)]="formData.costBreakdown.food">
-          </div>
-          <div class="breakdown-item">
-            <label>Transport</label>
-            <input type="number" [(ngModel)]="formData.costBreakdown.transport">
-          </div>
-          <div class="breakdown-item">
-            <label>Bills & Utilities</label>
-            <input type="number" [(ngModel)]="formData.costBreakdown.bills">
-          </div>
-          <div class="breakdown-item">
-            <label>Personal / Misc</label>
-            <input type="number" [(ngModel)]="formData.costBreakdown.personal">
-          </div>
-        </div>
-      </div>
-
-      <div class="roadmap-manager">
-        <div class="section-header">
-          <h3>Step-by-step Roadmap</h3>
-          <button class="add-step-btn" (click)="addRoadmapStep()">+ Add Step</button>
-        </div>
-
-        <div class="steps-list">
-          @for (step of formData.roadmap; track $index; let sIdx = $index) {
-          <div class="roadmap-step-card">
-            <div class="step-header">
-              <span class="step-num">{{ sIdx + 1 }}</span>
-              <input type="text" [(ngModel)]="step.title" placeholder="Step Title (e.g. IELTS / English test)" name="title-{{sIdx}}">
-              <button class="remove-btn" (click)="removeRoadmapStep(sIdx)">×</button>
-            </div>
-
-            <div class="step-body">
-              <div class="input-row">
-                <div class="input-group">
-                  <label>Duration</label>
-                  <input type="text" [(ngModel)]="step.duration" placeholder="e.g. 2-3 months" name="dur-{{sIdx}}">
-                </div>
-                <div class="input-group">
-                  <label>Description</label>
-                  <textarea [(ngModel)]="step.description" placeholder="Brief overview of this step..." name="desc-{{sIdx}}"></textarea>
-                </div>
-              </div>
-
-              <div class="tags-manager">
-                <label>Tags (Press Enter to add)</label>
-                <div class="tags-container">
-                  @for (tag of step.tags; track $index; let tIdx = $index) {
-                  <span class="admin-tag">
-                    {{ tag }}
-                    <span class="remove-tag" (click)="removeTag(sIdx, tIdx)">×</span>
-                  </span>
-                  }
-                  <input type="text" (keyup.enter)="addTag(sIdx, $event)" placeholder="Add tag...">
-                </div>
-              </div>
-
-              <div class="checklist-manager">
-                <div class="checklist-header">
-                  <label>Checklist Items</label>
-                  <button (click)="addChecklistItem(sIdx)">+ Add Item</button>
-                </div>
-                <div class="checklist-items">
-                  @for (item of step.checklist; track $index; let iIdx = $index) {
-                  <div class="checklist-row">
-                    <input type="text" [(ngModel)]="item.task" placeholder="Task description..." name="item-{{sIdx}}-{{iIdx}}">
-                    <button class="remove-item" (click)="removeChecklistItem(sIdx, iIdx)">×</button>
-                  </div>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-          }
-        </div>
-      </div>
       } @else {
-      <!-- <div class="empty-state">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0"
-          stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <path d="m16 12-4-4-4 4" />
-          <path d="M12 16V8" />
-        </svg>
-        <p>Please select a country from the left to start editing.</p>
-      </div> -->
+
+        <!-- Panel Header -->
+        <div class="edit-header">
+          <div class="edit-title-group">
+            <div class="edit-flag">
+              <img [src]="selectedCountry()!.flag" [alt]="selectedCountry()!.name" />
+            </div>
+            <div>
+              <p class="eyebrow">Editing</p>
+              <h2>{{ selectedCountry()!.name }}</h2>
+            </div>
+          </div>
+          <button class="save-btn primary" (click)="saveCountry()" [disabled]="isSaving()">
+            @if (isSaving()) { <span class="btn-spinner"></span> Saving... }
+            @else { Save changes }
+          </button>
+        </div>
+
+        <!-- ── Quick Stats ───────────────────────────────── -->
+        <section class="form-section">
+          <div class="section-label">
+            <span class="section-icon">📊</span>
+            <h3>Quick stats</h3>
+          </div>
+          <div class="stats-grid">
+            <label class="stat-card">
+              <span>Monthly living cost</span>
+              <input type="text" [(ngModel)]="formData.livingCost" placeholder="e.g. £ 1,430/mo" />
+              <small>Avg for students</small>
+            </label>
+            <label class="stat-card">
+              <span>Tuition range</span>
+              <input type="text" [(ngModel)]="formData.tuition" placeholder="e.g. £15,000–35,000/yr" />
+              <small>Per year</small>
+            </label>
+            <label class="stat-card">
+              <span>Visa fee / type</span>
+              <input type="text" [(ngModel)]="formData.visaFee" placeholder="e.g. Student visa (Tier 4)" />
+              <small>3–8 weeks processing</small>
+            </label>
+            <label class="stat-card">
+              <span>Part-time work</span>
+              <input type="text" [(ngModel)]="formData.partTimeWork" placeholder="e.g. 20 hrs/week" />
+              <small>Allowed on student visa</small>
+            </label>
+            <label class="stat-card">
+              <span>IELTS requirement</span>
+              <input type="text" [(ngModel)]="formData.ieltsRequirement" placeholder="e.g. 6.5+" />
+              <small>Minimum score</small>
+            </label>
+          </div>
+        </section>
+
+        <!-- ── Cost Breakdown ────────────────────────────── -->
+        <section class="form-section">
+          <div class="section-label">
+            <span class="section-icon">💰</span>
+            <h3>Monthly cost breakdown</h3>
+          </div>
+          <div class="breakdown-grid">
+            <label class="breakdown-field">
+              <span>Rent</span>
+              <div class="num-input">
+                <input type="number" [(ngModel)]="formData.costBreakdown.rent" min="0" />
+                <small>/mo</small>
+              </div>
+            </label>
+            <label class="breakdown-field">
+              <span>Food & Groceries</span>
+              <div class="num-input">
+                <input type="number" [(ngModel)]="formData.costBreakdown.food" min="0" />
+                <small>/mo</small>
+              </div>
+            </label>
+            <label class="breakdown-field">
+              <span>Transport</span>
+              <div class="num-input">
+                <input type="number" [(ngModel)]="formData.costBreakdown.transport" min="0" />
+                <small>/mo</small>
+              </div>
+            </label>
+            <label class="breakdown-field">
+              <span>Bills & Utilities</span>
+              <div class="num-input">
+                <input type="number" [(ngModel)]="formData.costBreakdown.bills" min="0" />
+                <small>/mo</small>
+              </div>
+            </label>
+            <label class="breakdown-field">
+              <span>Personal / Misc</span>
+              <div class="num-input">
+                <input type="number" [(ngModel)]="formData.costBreakdown.personal" min="0" />
+                <small>/mo</small>
+              </div>
+            </label>
+            <div class="breakdown-total">
+              <span>Total / month</span>
+              <strong>{{ totalCost() }}</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Roadmap ────────────────────────────────────── -->
+        <section class="form-section">
+          <div class="section-label">
+            <span class="section-icon">🗺️</span>
+            <h3>Step-by-step roadmap</h3>
+            <button class="add-step-btn" (click)="addRoadmapStep()">+ Add step</button>
+          </div>
+
+          @if (formData.roadmap.length === 0) {
+            <div class="roadmap-empty">No steps yet. Click "+ Add step" to begin.</div>
+          }
+
+          <div class="steps-list">
+            @for (step of formData.roadmap; track $index; let sIdx = $index) {
+              <div class="step-card">
+                <div class="step-card-header">
+                  <span class="step-num">{{ sIdx + 1 }}</span>
+                  <input class="step-title-input" type="text" [(ngModel)]="step.title"
+                    placeholder="Step title, e.g. IELTS / English test" [name]="'title-' + sIdx" />
+                  <button class="remove-step-btn" (click)="removeRoadmapStep(sIdx)" title="Remove step">×</button>
+                </div>
+
+                <div class="step-card-body">
+                  <div class="step-row">
+                    <label class="step-field">
+                      <span>Duration</span>
+                      <input type="text" [(ngModel)]="step.duration" placeholder="e.g. 2-3 months" [name]="'dur-' + sIdx" />
+                    </label>
+                    <label class="step-field wide">
+                      <span>Description</span>
+                      <textarea [(ngModel)]="step.description" placeholder="Brief overview..." rows="2" [name]="'desc-' + sIdx"></textarea>
+                    </label>
+                  </div>
+
+                  <!-- Tags -->
+                  <div class="tags-section">
+                    <span class="field-label">Tags <em>(press Enter)</em></span>
+                    <div class="tags-wrap">
+                      @for (tag of step.tags; track $index; let tIdx = $index) {
+                        <span class="tag-chip">
+                          {{ tag }}
+                          <button (click)="removeTag(sIdx, tIdx)" aria-label="Remove tag">×</button>
+                        </span>
+                      }
+                      <input class="tag-input" type="text" (keyup.enter)="addTag(sIdx, $event)" placeholder="Add tag..." />
+                    </div>
+                  </div>
+
+                  <!-- Checklist -->
+                  <div class="checklist-section">
+                    <div class="checklist-head">
+                      <span class="field-label">Checklist items</span>
+                      <button class="add-item-btn" (click)="addChecklistItem(sIdx)">+ Add item</button>
+                    </div>
+                    @for (item of step.checklist; track $index; let iIdx = $index) {
+                      <div class="checklist-row">
+                        <span class="check-icon">☐</span>
+                        <input type="text" [(ngModel)]="item.task" placeholder="Task description..."
+                          [name]="'item-' + sIdx + '-' + iIdx" />
+                        <button class="remove-item-btn" (click)="removeChecklistItem(sIdx, iIdx)">×</button>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- Floating Save -->
+        <div class="save-bar">
+          <button class="primary save-btn full-width" (click)="saveCountry()" [disabled]="isSaving()">
+            @if (isSaving()) { <span class="btn-spinner"></span> Saving changes... }
+            @else { Save all changes for {{ selectedCountry()!.name }} }
+          </button>
+        </div>
+
       }
     </main>
   </div>

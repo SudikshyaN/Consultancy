@@ -183,6 +183,14 @@
   text-align: center;
 }
 
+.login-helper {
+  color: #5a7a85;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: -1rem 0 1.5rem;
+  text-align: center;
+}
+
 /* ─── Form ───────────────────────────────────────────────────── */
 
 .login-form {
@@ -239,6 +247,24 @@
   font-weight: 600;
   color: #e53e3e;
   margin-top: 0.1rem;
+}
+
+.forgot-link {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: #0d9488;
+  cursor: pointer;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-top: -0.65rem;
+  padding: 0.15rem 0;
+
+  &:hover {
+    color: #0f766e;
+    text-decoration: underline;
+  }
 }
 
 /* ─── Terms ──────────────────────────────────────────────────── */

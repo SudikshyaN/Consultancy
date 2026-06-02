@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    resetPasswordTokenHash: {
+      type: String,
+      default: null,
+      index: true,
+    },
+    resetPasswordExpiresAt: {
+      type: Date,
+      default: null,
+    },
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -186,6 +195,106 @@ async function create({ name, email, passwordHash, role }) {
   });
 }
 
+async function setPasswordResetToken(email, tokenHash, expiresAt) {
+  const normalizedEmail = email.toLowerCase();
+
+  if (!databaseIsConnected()) {
+    const existingUser = memoryUsers.get(normalizedEmail);
+
+    if (!existingUser) {
+      return null;
+    }
+
+    const updatedUser = {
+      ...existingUser,
+      resetPasswordTokenHash: tokenHash,
+      resetPasswordExpiresAt: expiresAt.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    memoryUsers.set(normalizedEmail, updatedUser);
+    saveLocalUsers();
+    return cloneUser(updatedUser);
+  }
+
+  return User.findOneAndUpdate(
+    { email: normalizedEmail },
+    {
+      $set: {
+        resetPasswordTokenHash: tokenHash,
+        resetPasswordExpiresAt: expiresAt,
+      },
+    },
+    { returnDocument: 'after' }
+  );
+}
+
+async function findByPasswordResetToken(tokenHash) {
+  const now = new Date();
+
+  if (!databaseIsConnected()) {
+    const user = [...memoryUsers.values()].find((currentUser) => {
+      if (currentUser.resetPasswordTokenHash !== tokenHash) {
+        return false;
+      }
+
+      return new Date(currentUser.resetPasswordExpiresAt || 0) > now;
+    });
+
+    return cloneUser(user || null);
+  }
+
+  return User.findOne({
+    resetPasswordTokenHash: tokenHash,
+    resetPasswordExpiresAt: { $gt: now },
+  });
+}
+
+async function updatePasswordByResetToken(tokenHash, passwordHash) {
+  const now = new Date();
+
+  if (!databaseIsConnected()) {
+    const existingUser = [...memoryUsers.values()].find((currentUser) => {
+      if (currentUser.resetPasswordTokenHash !== tokenHash) {
+        return false;
+      }
+
+      return new Date(currentUser.resetPasswordExpiresAt || 0) > now;
+    });
+
+    if (!existingUser) {
+      return null;
+    }
+
+    const updatedUser = {
+      ...existingUser,
+      passwordHash,
+      resetPasswordTokenHash: null,
+      resetPasswordExpiresAt: null,
+      updatedAt: new Date().toISOString(),
+    };
+
+    memoryUsers.set(updatedUser.email, updatedUser);
+    saveLocalUsers();
+    return cloneUser(updatedUser);
+  }
+
+  return User.findOneAndUpdate(
+    {
+      resetPasswordTokenHash: tokenHash,
+      resetPasswordExpiresAt: { $gt: now },
+    },
+    {
+      $set: { passwordHash },
+      $unset: {
+        resetPasswordTokenHash: '',
+        resetPasswordExpiresAt: '',
+      },
+    },
+    { returnDocument: 'after' }
+  );
+}
+
 async function updateProfile(id, profileData) {
   if (!databaseIsConnected() || !mongoose.Types.ObjectId.isValid(id)) {
     const existingUser = [...memoryUsers.values()].find((currentUser) => currentUser.id === id);
@@ -209,7 +318,7 @@ async function updateProfile(id, profileData) {
   return User.findByIdAndUpdate(
     id,
     { $set: { profile: profileData, name: profileData.name } },
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   );
 }
 
@@ -288,7 +397,7 @@ async function removeSavedDestination(id, slug) {
   return User.findByIdAndUpdate(
     id,
     { $pull: { savedDestinations: { slug } } },
-    { new: true }
+    { returnDocument: 'after' }
   );
 }
 
@@ -323,7 +432,7 @@ async function syncPreferredCountries(id, countryName, action) {
     ? { $addToSet: { 'profile.preferredCountries': countryName } }
     : { $pull: { 'profile.preferredCountries': countryName } };
 
-  return User.findByIdAndUpdate(id, update, { new: true });
+  return User.findByIdAndUpdate(id, update, { returnDocument: 'after' });
 }
 
 
@@ -333,8 +442,11 @@ module.exports = {
   create,
   findByEmail,
   findById,
+  findByPasswordResetToken,
   listSavedDestinations,
   removeSavedDestination,
+  setPasswordResetToken,
+  updatePasswordByResetToken,
   updateProfile,
   syncPreferredCountries,
 };

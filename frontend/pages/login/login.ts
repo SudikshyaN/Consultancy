@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { finalize, timeout } from 'rxjs';
 import { AuthService } from '../../services/auth.services';
 import { Layout } from '../layout/layout';
 
@@ -71,32 +72,28 @@ export class LoginComponent {
 
     const { firstName, lastName, email, password } = this.authForm.value;
 
-    if (this.isLoginMode) {
-      this.authService.login({ email, password }).subscribe({
-        next: (res) => {
-          this.isLoading = false;
-          this.successMessage = res.message;
-          this.router.navigate(['/dashboard/main']);
-        },
-        error: (err: any) => {
-          this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Login failed. Please try again.';
-        }
-      });
-    } else {
-      const name = `${firstName} ${lastName}`.trim();
+    const name = `${firstName} ${lastName}`.trim();
+    const request = this.isLoginMode
+      ? this.authService.login({ email, password })
+      : this.authService.register({ name, email, password });
 
-      this.authService.register({ name, email, password }).subscribe({
-        next: (res) => {
-          this.isLoading = false;
-          this.successMessage = res.message;
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err: any) => {
-          this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
-        }
-      });
-    }
+    request.pipe(
+      timeout(8000),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe({
+      next: (res) => {
+        this.successMessage = res.message;
+        this.router.navigate(['/dashboard/main']);
+      },
+      error: (err: any) => {
+        this.errorMessage = err.name === 'TimeoutError'
+          ? 'Request timed out. Please check that the backend is running.'
+          : err.error?.message || (this.isLoginMode
+            ? 'Login failed. Please try again.'
+            : 'Registration failed. Please try again.');
+      }
+    });
   }
 }

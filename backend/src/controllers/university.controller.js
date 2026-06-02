@@ -176,6 +176,22 @@ async function listUniversities(req, res, next) {
   }
 }
 
+async function listByCountry(req, res, next) {
+  try {
+    const country = normalizeCountry(req.query.country || '');
+
+    if (!country) {
+      return res.status(400).json({ message: 'country query parameter is required' });
+    }
+
+    const universities = await universityStore.findByCountry(country);
+
+    return res.json({ country, universities });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function createUniversity(req, res, next) {
   try {
     const university = await universityStore.create(buildUniversityPayload(req.body));
@@ -218,6 +234,7 @@ module.exports = {
   createUniversity,
   deleteUniversity,
   getRecommendedUniversities,
+  listByCountry,
   listUniversities,
   updateUniversity,
 };

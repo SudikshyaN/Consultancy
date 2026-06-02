@@ -47,7 +47,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'USA',
     slug: 'usa',
     visa: 'F-1 Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/us.webp',
+    flag: 'https://flagcdn.com/w80/us.png',
     overview: 'Best for students targeting research-driven universities, flexible majors, and broad scholarship opportunities.',
     highlights: ['Top-ranked universities', 'STEM-friendly programs', 'Strong scholarship ecosystem'],
     steps: [
@@ -78,7 +78,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'UK',
     slug: 'uk',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/gb.webp',
+    flag: 'https://flagcdn.com/w80/gb.png',
     overview: 'A strong option for one-year master’s programs and globally recognized degrees with faster academic timelines.',
     highlights: ['One-year master programs', 'Global recognition', 'Clear intake cycles'],
     steps: [
@@ -109,7 +109,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'Australia',
     slug: 'australia',
     visa: 'Subclass 500',
-    flag: 'https://www.worldometers.info/images/flags/original/au.webp',
+    flag: 'https://flagcdn.com/w80/au.png',
     overview: 'Popular for practical education, post-study work opportunities, and quality institutions across major and regional cities.',
     highlights: ['Regional study options', 'Post-study work pathways', 'Practical learning'],
     steps: [
@@ -140,7 +140,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'Canada',
     slug: 'canada',
     visa: 'SDS / Regular',
-    flag: 'https://www.worldometers.info/images/flags/original/ca.webp',
+    flag: 'https://flagcdn.com/w80/ca.png',
     overview: 'Known for applied learning, welcoming student environments, and a wide mix of college and university choices.',
     highlights: ['Applied learning', 'Public colleges and universities', 'Structured visa pathways'],
     steps: [
@@ -171,7 +171,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'Germany',
     slug: 'germany',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/de.webp',
+    flag: 'https://flagcdn.com/w80/de.png',
     overview: 'A great route for affordability, technical education, and public universities with strong engineering reputation.',
     highlights: ['Affordable tuition', 'Public universities', 'Engineering strength'],
     steps: [
@@ -202,7 +202,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'Japan',
     slug: 'japan',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/jp.webp',
+    flag: 'https://flagcdn.com/w80/jp.png',
     overview: 'Emerging as a smart option for affordability, technology-focused education, and scholarship-backed pathways.',
     highlights: ['Affordable study options', 'Technology focus', 'Growing scholarship support'],
     steps: [
@@ -233,7 +233,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'New Zealand',
     slug: 'new-zealand',
     visa: 'Student Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/nz.webp',
+    flag: 'https://flagcdn.com/w80/nz.png',
     overview: 'A balanced destination for quality education, safety, and lifestyle-focused student experience.',
     highlights: ['Safe environment', 'Quality institutions', 'Lifestyle appeal'],
     steps: [
@@ -264,7 +264,7 @@ export const DESTINATIONS: Destination[] = [
     name: 'South Korea',
     slug: 'south-korea',
     visa: 'D-2 Visa',
-    flag: 'https://www.worldometers.info/images/flags/original/kr.webp',
+    flag: 'https://flagcdn.com/w80/kr.png',
     overview: 'Ideal for students seeking innovation-led education, modern campuses, and rising scholarship opportunities.',
     highlights: ['Innovation-driven education', 'Modern campuses', 'Scholarship potential'],
     steps: [

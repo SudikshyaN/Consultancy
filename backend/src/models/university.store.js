@@ -84,7 +84,7 @@ function update(id, data) {
     return null;
   }
 
-  return University.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+  return University.findByIdAndUpdate(id, data, { returnDocument: 'after', runValidators: true });
 }
 
 function remove(id) {

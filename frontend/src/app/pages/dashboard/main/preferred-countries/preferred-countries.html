@@ -1,9 +1,4 @@
-<div class="preferred-countries-card">
-  <div class="header">
-    <!-- <h2>Preferred countries</h2> -->
-    <a routerLink="/dashboard/profile" class="edit-link">Edit →</a>
-  </div>
-
+<div class="preferred-countries-card" *ngIf="countries.length > 0">
   <div class="countries-grid">
     <div 
       class="country-item" 
@@ -22,7 +17,7 @@
     </div>
   </div>
 
-  <div class="view-more-container" *ngIf="countries.length > 0">
+  <div class="view-more-container">
     <button class="view-more-btn" (click)="viewMore()">View More</button>
   </div>
 </div>

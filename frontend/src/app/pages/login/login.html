@@ -35,8 +35,15 @@
       <div class="login-form-box">
 
         <h2 class="login-title">
-          {{ isLoginMode ? 'Login' : 'Sign Up' }}
+          {{ title }}
         </h2>
+
+        <p *ngIf="isForgotMode" class="login-helper">
+          Enter your email address and we'll prepare a secure password reset.
+        </p>
+        <p *ngIf="isResetMode" class="login-helper">
+          Create a new password for {{ resetEmail }}.
+        </p>
 
         <p *ngIf="errorMessage" class="login-feedback-message error">{{ errorMessage }}</p>
         <p *ngIf="successMessage" class="login-feedback-message success">{{ successMessage }}</p>
@@ -44,7 +51,7 @@
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="login-form">
 
           <!-- First & Last Name Fields (only in registration mode) -->
-          <div class="login-name-group" *ngIf="!isLoginMode">
+          <div class="login-name-group" *ngIf="isRegisterMode">
             <div class="login-field">
               <label>First Name</label>
               <input type="text" formControlName="firstName" placeholder="First Name" />
@@ -63,7 +70,7 @@
           </div>
 
           <!-- Email Address Field -->
-          <div class="login-field">
+          <div class="login-field" *ngIf="!isResetMode">
             <label>Email Address</label>
             <input type="email" formControlName="email" placeholder="email@address.com" autocomplete="email" />
             <small *ngIf="authForm.get('email')?.touched && authForm.get('email')?.invalid" class="field-error">
@@ -72,16 +79,33 @@
           </div>
 
           <!-- Password Field -->
-          <div class="login-field">
+          <div class="login-field" *ngIf="!isForgotMode">
             <label>Password</label>
-            <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" />
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="••••••••"
+              [autocomplete]="isResetMode ? 'new-password' : 'current-password'"
+            />
             <small *ngIf="authForm.get('password')?.touched && authForm.get('password')?.invalid" class="field-error">
               Password must be at least 6 characters.
             </small>
           </div>
 
-          <!-- Terms Checkbox (only in registration mode) -->
-          <div class="login-terms-group" *ngIf="!isLoginMode">
+          <div class="login-field" *ngIf="isResetMode">
+            <label>Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" placeholder="••••••••" autocomplete="new-password" />
+            <small *ngIf="authForm.get('confirmPassword')?.touched && authForm.get('confirmPassword')?.invalid" class="field-error">
+              Confirm your new password.
+            </small>
+          </div>
+
+          <button type="button" *ngIf="isLoginMode" class="forgot-link" (click)="startForgotPassword()">
+            Forgot password?
+          </button>
+
+          
+          <div class="login-terms-group" *ngIf="isRegisterMode">
             <label class="login-terms">
               <input type="checkbox" formControlName="terms" />
               <span>Accept Terms & Conditions</span>
@@ -93,7 +117,19 @@
 
           <!-- Submit Button -->
           <button type="submit" class="login-button" [disabled]="isLoading">
-            <span>{{ isLoading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Create Account') }}</span>
+            <span>
+              {{
+                isLoading
+                  ? 'Please wait...'
+                  : isForgotMode
+                    ? 'Send reset link'
+                    : isResetMode
+                      ? 'Reset password'
+                      : isLoginMode
+                        ? 'Login'
+                        : 'Create Account'
+              }}
+            </span>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" *ngIf="!isLoading">
               <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
             </svg>
@@ -105,8 +141,11 @@
           <span>or continue with</span>
         </div>
 
-        <button type="button" (click)="toggleMode()" class="login-switch">
+        <button type="button" *ngIf="!isForgotMode && !isResetMode" (click)="toggleMode()" class="login-switch">
           {{ isLoginMode ? "Don't have an account? Sign up" : 'Already have an account? Login' }}
+        </button>
+        <button type="button" *ngIf="isForgotMode || isResetMode" (click)="backToLogin()" class="login-switch">
+          Back to login
         </button>
 
       </div>

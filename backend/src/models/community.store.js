@@ -86,7 +86,7 @@ async function addComment(postId, commentData) {
   return CommunityPost.findByIdAndUpdate(
     postId,
     { $push: { comments: commentData } },
-    { new: true }
+    { returnDocument: 'after' }
   ).populate('comments.author', 'name');
 }
 
