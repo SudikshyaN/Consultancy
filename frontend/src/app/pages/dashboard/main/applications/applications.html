@@ -1,24 +1,37 @@
-<div class="applications-card">
+<div class="universities-card">
   <div class="header">
-    <h2>My applications</h2>
+    <div class="header-left">
+      <span class="header-icon">🏛️</span>
+      <h2>Top Global Rank Universities</h2>
+    </div>
     <a class="view-all">View all →</a>
   </div>
 
-  <div class="application-list">
+  <div class="university-list">
 
-    <div class="app-item" *ngFor="let app of applications">
+    <div class="uni-item" *ngFor="let uni of universities"
+         [class.top-three]="uni.rank <= 3">
 
-      <div class="left">
-        <div class="logo">{{ app.short }}</div>
-
-        <div class="info">
-          <h3>{{ app.university }}</h3>
-          <p>{{ app.course }}</p>
-        </div>
+      <!-- Rank Badge -->
+      <div class="rank-badge"
+           [class.gold]="uni.rank === 1"
+           [class.silver]="uni.rank === 2"
+           [class.bronze]="uni.rank === 3">
+        #{{ uni.rank }}
       </div>
 
-      <div class="status" [ngClass]="app.status">
-        {{ app.status }}
+      <!-- University Logo -->
+      <div class="logo" [style.background]="uni.gradient">
+        {{ uni.short }}
+      </div>
+
+      <!-- Info -->
+      <div class="info">
+        <h3>{{ uni.university }}</h3>
+        <p>
+          <span class="flag">{{ uni.flag }}</span>
+          {{ uni.course }}
+        </p>
       </div>
 
     </div>

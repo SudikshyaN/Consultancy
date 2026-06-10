@@ -127,9 +127,70 @@
                 <h3>{{ item.title }}</h3>
                 <span>{{ item.department || 'General' }} • {{ item.author.name }}</span>
               </div>
-              <time>{{ item.createdAt | date:'mediumDate' }}</time>
+              <div class="meta-right">
+                <time>{{ item.createdAt | date:'mediumDate' }}</time>
+                @if (currentUser?.id === item.author._id || currentUser?.role === 'admin') {
+                  <button type="button" class="delete-btn" (click)="deleteSubmission(item._id)" title="Delete submission">
+                    Delete
+                  </button>
+                }
+              </div>
             </div>
             <p>{{ item.content }}</p>
+            @if (item.aiReview) {
+              <div class="submission-review-section">
+                <button type="button" class="toggle-review-btn" (click)="toggleReview(item._id)">
+                  <svg class="chevron-icon" [class.expanded]="expandedReviews()[item._id]" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                  </svg>
+                  {{ expandedReviews()[item._id] ? 'Hide Profile Review Notes' : 'Show Profile Review Notes' }}
+                </button>
+                @if (expandedReviews()[item._id]) {
+                  <pre class="submission-review-content">{{ item.aiReview }}</pre>
+                }
+              </div>
+            }
+
+            <div class="community-reviews-section">
+              <button type="button" class="toggle-reviews-btn" (click)="toggleComments(item._id)">
+                <svg class="comment-icon" viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+                </svg>
+                Community Reviews ({{ item.comments?.length || 0 }})
+              </button>
+
+              @if (expandedComments()[item._id]) {
+                <div class="comments-container">
+                  @if (item.comments?.length) {
+                    <div class="comments-list">
+                      @for (comment of item.comments; track comment._id) {
+                        <div class="comment-item">
+                          <div class="comment-header">
+                            <span class="comment-author">{{ comment.author.name }}</span>
+                            <div class="comment-meta">
+                              <time class="comment-time">{{ comment.createdAt | date:'shortDate' }}</time>
+                              @if (currentUser?.id === comment.author._id || currentUser?.role === 'admin') {
+                                <button type="button" class="delete-comment-btn" (click)="deleteComment(item._id, comment._id)" title="Delete review">
+                                  &times;
+                                </button>
+                              }
+                            </div>
+                          </div>
+                          <p class="comment-content">{{ comment.content }}</p>
+                        </div>
+                      }
+                    </div>
+                  } @else {
+                    <p class="no-comments">No reviews yet. Be the first to review!</p>
+                  }
+
+                  <form class="comment-form" (submit)="addComment(item._id, commentText.value, commentText); $event.preventDefault();">
+                    <textarea #commentText placeholder="Write your review or feedback on this SOP..." rows="2" required></textarea>
+                    <button type="submit" class="submit-comment-btn">Submit Review</button>
+                  </form>
+                </div>
+              }
+            </div>
           </article>
         }
       </div>

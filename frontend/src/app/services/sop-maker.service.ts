@@ -28,6 +28,15 @@ export interface SopCommunitySubmission {
     email: string;
   };
   createdAt: string;
+  comments?: Array<{
+    _id: string;
+    author: {
+      _id: string;
+      name: string;
+    };
+    content: string;
+    createdAt: string;
+  }>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -50,6 +59,18 @@ export class SopMakerService {
     aiReview: string;
   }): Observable<{ submission: SopCommunitySubmission }> {
     return this.http.post<{ submission: SopCommunitySubmission }>(`${this.baseUrl}/community`, payload);
+  }
+
+  deleteFromCommunity(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/community/${id}`);
+  }
+
+  addComment(id: string, content: string): Observable<{ comments: any[] }> {
+    return this.http.post<{ comments: any[] }>(`${this.baseUrl}/community/${id}/comment`, { content });
+  }
+
+  deleteComment(id: string, commentId: string): Observable<{ comments: any[] }> {
+    return this.http.delete<{ comments: any[] }>(`${this.baseUrl}/community/${id}/comment/${commentId}`);
   }
 
   async generateStream(

@@ -65,6 +65,14 @@ export class CommunityService {
     );
   }
 
+  deletePost(postId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/${postId}`).pipe(
+      tap(() => {
+        this.posts.set(this.posts().filter(p => p._id !== postId));
+      })
+    );
+  }
+
   likePost(postId: string): Observable<{ likes: string[] }> {
     return this.http.post<{ message: string; likes: string[] }>(`${this.baseUrl}/${postId}/like`, {}).pipe(
       tap(res => {

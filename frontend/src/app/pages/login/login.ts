@@ -151,16 +151,18 @@ export class LoginComponent {
       : this.authService.register({ name, email, password });
 
     request.pipe(
-      timeout(8000),
+      timeout(15000),
       finalize(() => {
         this.isLoading = false;
       })
     ).subscribe({
       next: (res) => {
+        this.isLoading = false;
         this.successMessage = res.message;
         this.router.navigate(['/dashboard/main']);
       },
       error: (err: any) => {
+        this.isLoading = false;
         this.errorMessage = err.name === 'TimeoutError'
           ? 'Request timed out. Please check that the backend is running.'
           : err.error?.message || (this.isLoginMode
@@ -174,7 +176,7 @@ export class LoginComponent {
     const email = this.authForm.get('email')?.value;
 
     this.authService.forgotPassword(email).pipe(
-      timeout(8000),
+      timeout(15000),
       finalize(() => {
         this.isLoading = false;
       })
@@ -210,7 +212,7 @@ export class LoginComponent {
     }
 
     this.authService.resetPassword(this.resetToken, password).pipe(
-      timeout(8000),
+      timeout(15000),
       finalize(() => {
         this.isLoading = false;
       })

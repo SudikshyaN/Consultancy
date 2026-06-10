@@ -1,6 +1,6 @@
-.applications-card {
+.universities-card {
   background: var(--color-surface);
-  padding: 32px;
+  padding: 32px 36px 36px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-line);
   box-shadow: var(--shadow-soft);
@@ -9,16 +9,28 @@
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: var(--shadow-medium);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
   }
 }
+
+/* ── Header ──────────────────────────────────────────────── */
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  color: var(--color-ink);
+  margin-bottom: 28px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .header h2 {
@@ -27,6 +39,7 @@
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--color-ink);
 }
 
 .view-all {
@@ -37,9 +50,6 @@
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
 
   &:hover {
     color: var(--color-brand-strong);
@@ -47,55 +57,124 @@
   }
 }
 
-.application-list {
+/* ── University List ─────────────────────────────────────── */
+
+.university-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
-.app-item {
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
+.uni-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--color-line);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: var(--color-surface);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.03), rgba(99, 102, 241, 0.03));
+    transition: opacity 0.3s ease;
+  }
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(13, 148, 136, 0.18);
-    box-shadow: 0 10px 25px -8px rgba(15, 23, 42, 0.08);
+    border-color: rgba(13, 148, 136, 0.15);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.07);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &.top-three {
+    background: linear-gradient(135deg, rgba(255, 251, 235, 0.5), rgba(254, 243, 199, 0.2));
+    border-color: rgba(245, 158, 11, 0.12);
   }
 }
 
-.left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+/* ── Rank Badge ──────────────────────────────────────────── */
 
-.logo {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #ffffff;
-  border-radius: 12px;
+.rank-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
-  font-size: 14px;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  flex-shrink: 0;
+  color: var(--color-ink-soft);
+  background: #f1f5f9;
+  border: 1.5px solid #e2e8f0;
+  transition: all 0.3s ease;
+
+  &.gold {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #fbbf24;
+    color: #92400e;
+    box-shadow: 0 4px 14px rgba(251, 191, 36, 0.25);
+  }
+
+  &.silver {
+    background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+    border-color: #94a3b8;
+    color: #334155;
+    box-shadow: 0 4px 14px rgba(148, 163, 184, 0.2);
+  }
+
+  &.bronze {
+    background: linear-gradient(135deg, #fed7aa, #fdba74);
+    border-color: #f97316;
+    color: #9a3412;
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.2);
+  }
 }
+
+/* ── University Logo ─────────────────────────────────────── */
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+
+  .uni-item:hover & {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ── University Info ─────────────────────────────────────── */
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .info h3 {
@@ -105,6 +184,9 @@
   font-weight: 700;
   color: var(--color-ink);
   letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .info p {
@@ -113,45 +195,59 @@
   font-size: 0.8rem;
   color: var(--color-ink-soft);
   font-weight: 500;
-}
-
-/* STATUS BADGES */
-
-.status {
-  padding: 6px 14px;
-  border-radius: 99px;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
+  gap: 6px;
 }
 
-.under-review {
-  background: rgba(245, 158, 11, 0.08);
-  color: #d97706;
-  border-color: rgba(245, 158, 11, 0.15);
+.flag {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
-.applied {
-  background: rgba(59, 130, 246, 0.08);
-  color: #2563eb;
-  border-color: rgba(59, 130, 246, 0.15);
+
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .universities-card {
+    padding: 22px 18px 26px;
+  }
+
+  .uni-item {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .score-pill {
+    width: 100%;
+    min-width: unset;
+    margin-left: 100px;
+  }
+
+  .info h3 {
+    font-size: 0.88rem;
+    white-space: normal;
+  }
 }
 
-.accepted {
-  background: rgba(16, 185, 129, 0.08);
-  color: #059669;
-  border-color: rgba(16, 185, 129, 0.15);
-}
+@media (max-width: 480px) {
+  .score-pill {
+    margin-left: 0;
+  }
 
-.rejected {
-  background: rgba(239, 68, 68, 0.08);
-  color: #dc2626;
-  border-color: rgba(239, 68, 68, 0.15);
+  .logo {
+    width: 40px;
+    height: 40px;
+    font-size: 11px;
+    border-radius: 10px;
+  }
+
+  .rank-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.72rem;
+    border-radius: 8px;
+  }
 }

@@ -104,6 +104,10 @@ async function updatePost(postId, authorId, content, tags) {
     .populate('comments.author', 'name');
 }
 
+async function deletePost(postId, authorId) {
+  return CommunityPost.findOneAndDelete({ _id: postId, author: authorId });
+}
+
 async function updateComment(postId, commentId, authorId, content) {
   // Fetch WITHOUT populate so Mongoose saves the raw ObjectId reference correctly
   const post = await CommunityPost.findById(postId);
@@ -133,5 +137,6 @@ module.exports = {
   toggleLike,
   addComment,
   updatePost,
+  deletePost,
   updateComment,
 };

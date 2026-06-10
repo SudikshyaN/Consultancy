@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SopCommunitySubmission, SopMakerService } from '../../../services/sop-maker.service';
+import { AuthService } from '../../../services/auth.services';
 
 @Component({
   selector: 'app-dashboard-sop-maker',
@@ -13,6 +14,11 @@ import { SopCommunitySubmission, SopMakerService } from '../../../services/sop-m
 export class DashboardSopMakerComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly sopMakerService = inject(SopMakerService);
+  private readonly authService = inject(AuthService);
+
+  protected readonly currentUser = this.authService.getUser();
+  protected readonly expandedReviews = signal<Record<string, boolean>>({});
+  protected readonly expandedComments = signal<Record<string, boolean>>({});
 
   protected readonly isGenerating = signal(false);
   protected readonly isReviewing = signal(false);
@@ -133,6 +139,74 @@ export class DashboardSopMakerComponent implements OnInit {
         this.isLoadingFeed.set(false);
       },
       error: () => this.isLoadingFeed.set(false),
+    });
+  }
+
+  deleteSubmission(id: string): void {
+    if (!confirm('Are you sure you want to delete this resume summary?')) {
+      return;
+    }
+
+    this.sopMakerService.deleteFromCommunity(id).subscribe({
+      next: () => {
+        this.communityFeed.update((items) => items.filter((item) => item._id !== id));
+        this.successMessage.set('Resume summary deleted successfully.');
+      },
+      error: (err) => {
+        this.errorMessage.set(err?.error?.message || 'Unable to delete resume summary.');
+      },
+    });
+  }
+
+  toggleReview(id: string): void {
+    this.expandedReviews.update((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }
+
+  toggleComments(id: string): void {
+    this.expandedComments.update((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }
+
+  addComment(id: string, content: string, inputElement: HTMLTextAreaElement): void {
+    const trimmed = content.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    this.sopMakerService.addComment(id, trimmed).subscribe({
+      next: ({ comments }) => {
+        this.communityFeed.update((submissions) =>
+          submissions.map((item) => (item._id === id ? { ...item, comments } : item))
+        );
+        inputElement.value = '';
+        this.successMessage.set('Review submitted successfully.');
+      },
+      error: (err) => {
+        this.errorMessage.set(err?.error?.message || 'Unable to submit review.');
+      },
+    });
+  }
+
+  deleteComment(id: string, commentId: string): void {
+    if (!confirm('Are you sure you want to delete this review?')) {
+      return;
+    }
+
+    this.sopMakerService.deleteComment(id, commentId).subscribe({
+      next: ({ comments }) => {
+        this.communityFeed.update((submissions) =>
+          submissions.map((item) => (item._id === id ? { ...item, comments } : item))
+        );
+        this.successMessage.set('Review deleted successfully.');
+      },
+      error: (err) => {
+        this.errorMessage.set(err?.error?.message || 'Unable to delete review.');
+      },
     });
   }
 

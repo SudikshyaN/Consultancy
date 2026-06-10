@@ -28,6 +28,8 @@ export class DashboardCommunityComponent implements OnInit {
   protected editPostContent = signal('');
   protected editPostTags = signal<string[]>([]);
   protected isSavingPost = signal(false);
+  protected deletingPostId = signal<string | null>(null);
+  protected postPendingDelete = signal<CommunityPost | null>(null);
 
   // Edit comment signals
   protected editingCommentKey = signal<string | null>(null); // format: "postId::commentId"
@@ -141,6 +143,39 @@ export class DashboardCommunityComponent implements OnInit {
       error: (err) => {
         this.isSavingPost.set(false);
         this.saveError.set(err?.error?.message || 'Failed to save. Please try again.');
+      }
+    });
+  }
+
+  openDeleteConfirm(post: CommunityPost): void {
+    if (!this.isMyPost(post) || this.deletingPostId()) return;
+    this.postPendingDelete.set(post);
+    this.saveError.set('');
+  }
+
+  closeDeleteConfirm(): void {
+    if (this.deletingPostId()) return;
+    this.postPendingDelete.set(null);
+    this.saveError.set('');
+  }
+
+  deletePost(): void {
+    const post = this.postPendingDelete();
+    if (!post || !this.isMyPost(post) || this.deletingPostId()) return;
+
+    this.saveError.set('');
+    this.deletingPostId.set(post._id);
+    this.communityService.deletePost(post._id).subscribe({
+      next: () => {
+        if (this.editingPostId() === post._id) {
+          this.cancelEditPost();
+        }
+        this.deletingPostId.set(null);
+        this.postPendingDelete.set(null);
+      },
+      error: (err) => {
+        this.deletingPostId.set(null);
+        this.saveError.set(err?.error?.message || 'Failed to delete post. Please try again.');
       }
     });
   }

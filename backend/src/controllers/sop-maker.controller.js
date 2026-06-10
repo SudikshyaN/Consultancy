@@ -341,9 +341,73 @@ async function listCommunitySubmissions(req, res, next) {
   }
 }
 
+async function deleteSubmission(req, res, next) {
+  try {
+    const submissionId = req.params.id;
+    const authorId = req.user.sub;
+    const isAdmin = req.user.role === 'admin';
+
+    const deleted = await sopMakerStore.deleteSubmission(submissionId, authorId, isAdmin);
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'Submission not found or not authorized' });
+    }
+
+    return res.json({ message: 'Submission deleted' });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function addComment(req, res, next) {
+  try {
+    const submissionId = req.params.id;
+    const authorId = req.user.sub;
+    const { content } = req.body;
+
+    if (!content || !content.trim()) {
+      return res.status(400).json({ message: 'Review content is required' });
+    }
+
+    const updated = await sopMakerStore.addComment(submissionId, {
+      author: authorId,
+      content: content.trim(),
+    });
+
+    if (!updated) {
+      return res.status(404).json({ message: 'Submission not found' });
+    }
+
+    return res.json({ comments: updated.comments });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function deleteComment(req, res, next) {
+  try {
+    const { id: submissionId, commentId } = req.params;
+    const authorId = req.user.sub;
+    const isAdmin = req.user.role === 'admin';
+
+    const updated = await sopMakerStore.deleteComment(submissionId, commentId, authorId, isAdmin);
+
+    if (!updated) {
+      return res.status(404).json({ message: 'Comment not found or not authorized' });
+    }
+
+    return res.json({ comments: updated.comments });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 module.exports = {
   generateSop,
   listCommunitySubmissions,
   reviewSop,
   submitToCommunity,
+  deleteSubmission,
+  addComment,
+  deleteComment,
 };

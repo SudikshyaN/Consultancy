@@ -1,26 +1,32 @@
-<div class="applications-card">
+<div class="universities-card">
   <div class="card-header">
     <div class="card-header-left">
-      <h2>My Applications</h2>
-      <span class="app-count">{{ applications.length }} active</span>
+      <span class="card-icon">🌍</span>
+      <h2>Top 10 Global Universities</h2>
     </div>
-    <a class="view-all-btn">View all →</a>
+    <span class="qs-badge">QS Rankings 2025</span>
   </div>
 
-  <div class="application-list">
-    <div class="app-item" *ngFor="let app of applications">
+  <div class="university-list">
+    <div class="uni-item" *ngFor="let uni of universities">
 
-      <div class="app-left">
-        <div class="app-logo">{{ app.short }}</div>
-        <div class="app-info">
-          <h3>{{ app.university }}</h3>
-          <p>{{ app.course }}</p>
-        </div>
+      <div class="uni-rank" [class.gold]="uni.rank === 1" [class.silver]="uni.rank === 2" [class.bronze]="uni.rank === 3">
+        #{{ uni.rank }}
       </div>
 
-      <div class="app-status" [ngClass]="app.status">
-        <span class="status-dot"></span>
-        {{ app.statusLabel || app.status }}
+      <div class="uni-logo">{{ uni.short }}</div>
+
+      <div class="uni-info">
+        <h3>{{ uni.name }}</h3>
+        <p>{{ uni.field }}</p>
+      </div>
+
+      <div class="uni-right">
+        <span class="uni-flag">{{ uni.flag }}</span>
+        <div class="uni-score">
+          <span class="score-value">{{ uni.score }}</span>
+          <span class="score-bar-wrap"><span class="score-bar" [style.width.%]="uni.score"></span></span>
+        </div>
       </div>
 
     </div>

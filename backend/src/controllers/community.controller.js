@@ -62,6 +62,20 @@ async function editPost(req, res, next) {
   }
 }
 
+async function deletePost(req, res, next) {
+  try {
+    const deleted = await communityStore.deletePost(req.params.id, req.user.sub);
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'Post not found or not authorized' });
+    }
+
+    return res.json({ message: 'Post deleted' });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function likePost(req, res, next) {
   try {
     const post = await communityStore.toggleLike(req.params.id, req.user.sub);
@@ -118,6 +132,7 @@ module.exports = {
   listPosts,
   createPost,
   editPost,
+  deletePost,
   likePost,
   commentOnPost,
   editComment,

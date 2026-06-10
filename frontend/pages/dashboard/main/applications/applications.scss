@@ -1,4 +1,4 @@
-.applications-card {
+.universities-card {
   background: #ffffff;
   border: 1px solid rgba(8, 31, 38, 0.08);
   border-radius: 20px;
@@ -23,6 +23,11 @@
   gap: 10px;
 }
 
+.card-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
 .card-header h2 {
   color: #0a1f26;
   font-family: var(--font-heading, 'Outfit', sans-serif);
@@ -32,64 +37,61 @@
   letter-spacing: -0.01em;
 }
 
-.app-count {
+.qs-badge {
   background: rgba(13, 148, 136, 0.1);
   border: 1px solid rgba(13, 148, 136, 0.2);
   border-radius: 999px;
   color: #0d9488;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  padding: 3px 10px;
-}
-
-.view-all-btn {
-  color: #0d9488;
-  cursor: pointer;
-  font-size: 0.88rem;
-  font-weight: 600;
-  opacity: 0.85;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 1;
-  }
+  padding: 4px 12px;
+  white-space: nowrap;
 }
 
 /* ─── List ──────────────────────────────────────────────────── */
 
-.application-list {
+.university-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-.app-item {
+.uni-item {
   align-items: center;
   background: #f8fbfc;
   border: 1px solid rgba(8, 31, 38, 0.07);
   border-radius: 14px;
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 40px 46px 1fr auto;
+  gap: 12px;
+  padding: 12px 14px;
   transition: all 0.2s ease;
 
   &:hover {
     background: #f0f8f7;
-    border-color: rgba(13, 148, 136, 0.2);
-    box-shadow: 0 2px 8px rgba(8, 31, 38, 0.05);
+    border-color: rgba(13, 148, 136, 0.22);
+    box-shadow: 0 2px 8px rgba(8, 31, 38, 0.06);
     transform: translateY(-1px);
   }
 }
 
-.app-left {
-  align-items: center;
-  display: flex;
-  gap: 14px;
-  min-width: 0;
+/* ─── Rank ──────────────────────────────────────────────────── */
+
+.uni-rank {
+  color: #6b8a94;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-align: center;
+
+  &.gold   { color: #b8860b; }
+  &.silver { color: #708090; }
+  &.bronze { color: #a0522d; }
 }
 
-.app-logo {
+/* ─── Logo ──────────────────────────────────────────────────── */
+
+.uni-logo {
   align-items: center;
   background: linear-gradient(135deg, #0a2833 0%, #0d3040 100%);
   border-radius: 12px;
@@ -97,7 +99,7 @@
   color: #3ddad7;
   display: flex;
   flex-shrink: 0;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
   height: 46px;
   justify-content: center;
@@ -105,12 +107,14 @@
   width: 46px;
 }
 
-.app-info {
+/* ─── Info ──────────────────────────────────────────────────── */
+
+.uni-info {
   min-width: 0;
 
   h3 {
     color: #0a1f26;
-    font-size: 0.93rem;
+    font-size: 0.9rem;
     font-weight: 700;
     margin: 0;
     overflow: hidden;
@@ -120,7 +124,7 @@
 
   p {
     color: #6b8a94;
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     font-weight: 500;
     margin: 3px 0 0;
     overflow: hidden;
@@ -129,63 +133,67 @@
   }
 }
 
-/* ─── Status Badges ─────────────────────────────────────────── */
+/* ─── Right (flag + score) ──────────────────────────────────── */
 
-.app-status {
-  align-items: center;
-  border-radius: 999px;
-  display: inline-flex;
+.uni-right {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   flex-shrink: 0;
-  font-size: 0.75rem;
+}
+
+.uni-flag {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.uni-score {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.score-value {
+  color: #0d9488;
+  font-size: 0.72rem;
   font-weight: 700;
-  gap: 6px;
-  letter-spacing: 0.02em;
-  padding: 5px 12px;
-  text-transform: capitalize;
+  text-align: right;
 }
 
-.status-dot {
-  border-radius: 50%;
-  height: 6px;
-  width: 6px;
+.score-bar-wrap {
+  background: rgba(13, 148, 136, 0.12);
+  border-radius: 999px;
+  height: 4px;
+  overflow: hidden;
+  width: 60px;
 }
 
-.under-review {
-  background: #fff7ed;
-  color: #c2410c;
-  border: 1px solid rgba(194, 65, 12, 0.15);
+.score-bar {
+  background: linear-gradient(90deg, #0d9488, #3ddad7);
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+  transition: width 0.6s ease;
+}
 
-  .status-dot {
-    background: #f97316;
+/* ─── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .uni-item {
+    grid-template-columns: 36px 40px 1fr auto;
+    gap: 8px;
+    padding: 10px 12px;
   }
-}
 
-.applied {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid rgba(29, 78, 216, 0.15);
-
-  .status-dot {
-    background: #3b82f6;
+  .uni-logo {
+    height: 40px;
+    width: 40px;
+    font-size: 0.66rem;
   }
-}
 
-.accepted {
-  background: #f0fdf4;
-  color: #15803d;
-  border: 1px solid rgba(21, 128, 61, 0.15);
-
-  .status-dot {
-    background: #22c55e;
-  }
-}
-
-.rejected {
-  background: #fff1f2;
-  color: #be123c;
-  border: 1px solid rgba(190, 18, 60, 0.15);
-
-  .status-dot {
-    background: #f43f5e;
+  .score-bar-wrap {
+    width: 44px;
   }
 }

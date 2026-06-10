@@ -7,6 +7,9 @@ router.use(requireAuth);
 
 router.get('/', communityController.listPosts);
 router.post('/', communityController.createPost);
+router.delete('/post/:id', communityController.deletePost);
+router.delete('/posts/:id', communityController.deletePost);
+router.delete('/:id', communityController.deletePost);
 router.put('/post/:id', communityController.editPost);
 router.patch('/post/:id', communityController.editPost);
 router.put('/posts/:id', communityController.editPost);
