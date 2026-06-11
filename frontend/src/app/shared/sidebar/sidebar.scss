@@ -24,16 +24,19 @@
   padding: 8px 20px 24px;
 }
 
-.brand-mark {
+.brand-mark,
+.logo-box {
   background: transparent;
   border-radius: 0;
   display: block;
   aspect-ratio: 998 / 713;
   height: auto;
   width: 64px;
+  max-width: 64px;
   object-fit: contain;
   object-position: center;
   box-shadow: none;
+  flex-shrink: 0;
 }
 
 .brand-copy {

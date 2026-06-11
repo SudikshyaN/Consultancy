@@ -50,6 +50,14 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`[Backend] ${req.method} ${req.path}`);
+  if (req.method === 'PUT' || req.method === 'POST' || req.method === 'PATCH') {
+    console.log('[Backend] Body:', JSON.stringify(req.body));
+  }
+  next();
+});
+
 app.get('/', (req, res) => {
   res.json({
     message: 'Consultancy application API is running',

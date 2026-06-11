@@ -74,15 +74,64 @@ export class DashboardCountryDetailComponent implements OnInit {
     }
   }
 
-  protected getTotalMonthlyCost(): number {
+  protected getTotalMonthlyCost(): string {
     const cb = this.country()?.costBreakdown;
-    if (!cb) return 0;
-    return (cb.rent || 0) + (cb.food || 0) + (cb.transport || 0) + (cb.bills || 0) + (cb.personal || 0);
+    if (!cb) return '0';
+    
+    let totalMin = 0;
+    let totalMax = 0;
+    
+    const fields = [cb.rent, cb.food, cb.transport, cb.bills, cb.personal];
+    for (const field of fields) {
+      const [min, max] = this.getRangeBounds(field);
+      totalMin += min;
+      totalMax += max;
+    }
+    
+    if (totalMin === 0 && totalMax === 0) return '0';
+    if (totalMin === totalMax) return totalMin.toLocaleString();
+    return `${totalMin.toLocaleString()}–${totalMax.toLocaleString()}`;
   }
 
-  protected getCostPercentage(value: number): number {
-    const total = this.getTotalMonthlyCost();
-    if (total === 0) return 0;
-    return (value / total) * 100;
+  protected getCostPercentage(value: any): number {
+    const cb = this.country()?.costBreakdown;
+    if (!cb) return 0;
+    
+    let totalAvg = 0;
+    const fields = [cb.rent, cb.food, cb.transport, cb.bills, cb.personal];
+    for (const field of fields) {
+      const [min, max] = this.getRangeBounds(field);
+      totalAvg += (min + max) / 2;
+    }
+    
+    if (totalAvg === 0) return 0;
+    const [min, max] = this.getRangeBounds(value);
+    const avg = (min + max) / 2;
+    return (avg / totalAvg) * 100;
+  }
+
+  private getRangeBounds(value: any): [number, number] {
+    if (value === null || value === undefined) return [0, 0];
+    if (typeof value === 'number') return [value, value];
+    
+    const cleanStr = String(value).replace(/,/g, '');
+    const matches = cleanStr.match(/\d+(\.\d+)?/g);
+    if (!matches || matches.length === 0) return [0, 0];
+    
+    const numbers = matches.map(Number);
+    if (numbers.length === 1) return [numbers[0], numbers[0]];
+    return [numbers[0], numbers[1]];
+  }
+
+  protected getCurrencySymbol(): string {
+    const name = this.country()?.name?.toLowerCase() || '';
+    if (name === 'usa' || name === 'canada') return '$';
+    if (name === 'uk') return '£';
+    if (name === 'australia' || name === 'new zealand') return 'A$';
+    if (name === 'japan') return '¥';
+    if (name === 'south korea') return '₩';
+    if (name === 'germany') return '€';
+    if (name === 'singapore') return 'S$';
+    return '$';
   }
 }

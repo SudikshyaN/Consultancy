@@ -2,7 +2,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService, AuthUser } from '../../../services/auth.services';
-import { DashboardCard } from '../../../services/dashboard.service';
 import { DestinationService } from '../../../services/destination.service';
 import { WishlistService } from '../../../services/wishlist.service';
 import { forkJoin, of } from 'rxjs';
@@ -27,9 +26,7 @@ export class ProfileComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
 
-  statCards: DashboardCard[] = [
-    { title: 'GPA', value: '0.0', caption: '', icon: '⭐', iconTone: 'lavender' }
-  ];
+
 
   availableStudyFields = [
     'Artificial Intelligence', 'Data Science', 'Machine Learning',
@@ -212,9 +209,7 @@ export class ProfileComponent implements OnInit {
         preferredCountries: profile['preferredCountries'] || [],
         intakeYear: profile['intakeYear'] || []
       });
-      if (profile['gpa']) {
-        this.statCards[0].value = profile['gpa'];
-      }
+
     } catch (e) {
       console.error(e);
     }
@@ -239,9 +234,7 @@ export class ProfileComponent implements OnInit {
         this.isSaving = false;
         this.successMessage = 'Profile updated successfully';
         this.user = res.user;
-        if (this.user.profile?.['gpa']) {
-          this.statCards[0].value = this.user.profile['gpa'];
-        }
+
         this.loadCountriesAndSyncWishlist(this.user);
         setTimeout(() => this.successMessage = '', 3000);
       },

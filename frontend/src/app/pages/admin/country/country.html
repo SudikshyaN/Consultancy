@@ -136,41 +136,41 @@
             <label class="breakdown-field">
               <span>Rent</span>
               <div class="num-input">
-                <input type="number" [(ngModel)]="formData.costBreakdown.rent" min="0" />
+                <input type="text" [(ngModel)]="formData.costBreakdown.rent" placeholder="e.g. 900-1,400" />
                 <small>/mo</small>
               </div>
             </label>
             <label class="breakdown-field">
               <span>Food & Groceries</span>
               <div class="num-input">
-                <input type="number" [(ngModel)]="formData.costBreakdown.food" min="0" />
+                <input type="text" [(ngModel)]="formData.costBreakdown.food" placeholder="e.g. 300-500" />
                 <small>/mo</small>
               </div>
             </label>
             <label class="breakdown-field">
               <span>Transport</span>
               <div class="num-input">
-                <input type="number" [(ngModel)]="formData.costBreakdown.transport" min="0" />
+                <input type="text" [(ngModel)]="formData.costBreakdown.transport" placeholder="e.g. 80-150" />
                 <small>/mo</small>
               </div>
             </label>
             <label class="breakdown-field">
               <span>Bills & Utilities</span>
               <div class="num-input">
-                <input type="number" [(ngModel)]="formData.costBreakdown.bills" min="0" />
+                <input type="text" [(ngModel)]="formData.costBreakdown.bills" placeholder="e.g. 60-100" />
                 <small>/mo</small>
               </div>
             </label>
             <label class="breakdown-field">
               <span>Personal / Misc</span>
               <div class="num-input">
-                <input type="number" [(ngModel)]="formData.costBreakdown.personal" min="0" />
+                <input type="text" [(ngModel)]="formData.costBreakdown.personal" placeholder="e.g. 150-250" />
                 <small>/mo</small>
               </div>
             </label>
             <div class="breakdown-total">
               <span>Total / month</span>
-              <strong>{{ totalCost() }}</strong>
+              <strong>{{ getTotalCost() }}</strong>
             </div>
           </div>
         </section>

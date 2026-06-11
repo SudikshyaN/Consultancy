@@ -35,9 +35,10 @@
   <div class="video-grid" *ngIf="filteredVideos().length > 0; else noVideos">
     <a *ngFor="let video of filteredVideos()" [href]="video.url" target="_blank" class="video-card">
       <div class="thumbnail-container">
-        <img [src]="video.thumbnailUrl || 'assets/placeholder-video.jpg'" alt="{{ video.title }}"
+        <img class="thumbnail-img" [src]="video.thumbnailUrl || 'assets/placeholder-video.jpg'" alt="{{ video.title }}"
           onerror="this.src='https://placehold.co/400x225?text=No+Image'">
 
+        <div class="thumbnail-overlay"></div>
 
         <div class="play-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
@@ -48,7 +49,6 @@
         <div class="duration-badge">{{ video.duration || '0:00' }}</div>
 
         <div class="country-flag-badge" *ngIf="video.country !== 'All'">
-
           <span>{{ video.country }}</span>
         </div>
       </div>

@@ -36,12 +36,12 @@
       <div class="stats-grid">
         <div class="stat-card">
           <p class="label">Monthly living cost</p>
-          <h3>{{ c.livingCost || '£ 0/mo' }}</h3>
+          <h3>{{ c.livingCost || getCurrencySymbol() + ' 0/mo' }}</h3>
           <p class="sub">Avg for student</p>
         </div>
         <div class="stat-card">
           <p class="label">Tuition</p>
-          <h3>{{ c.tuition || '£ 0/yr' }}</h3>
+          <h3>{{ c.tuition || getCurrencySymbol() + ' 0/yr' }}</h3>
           <p class="sub">Per year</p>
         </div>
         <div class="stat-card">
@@ -106,14 +106,14 @@
 
       <section class="breakdown-section">
         <div class="breakdown-header">
-          <h2>Monthly cost breakdown — £/month</h2>
+          <h2>Monthly cost breakdown — {{ getCurrencySymbol() }}/month</h2>
         </div>
         
         <div class="breakdown-list">
           <div class="breakdown-item">
             <div class="item-info">
               <span>Rent</span>
-              <span class="price">£ {{ c.costBreakdown?.rent || 0 }}</span>
+              <span class="price">{{ getCurrencySymbol() }}{{ c.costBreakdown?.rent || 0 }}/mo</span>
             </div>
             <div class="progress-container">
               <div class="progress-bar rent" [style.width.%]="getCostPercentage(c.costBreakdown?.rent || 0)"></div>
@@ -123,7 +123,7 @@
           <div class="breakdown-item">
             <div class="item-info">
               <span>Food & groceries</span>
-              <span class="price">£ {{ c.costBreakdown?.food || 0 }}</span>
+              <span class="price">{{ getCurrencySymbol() }}{{ c.costBreakdown?.food || 0 }}/mo</span>
             </div>
             <div class="progress-container">
               <div class="progress-bar food" [style.width.%]="getCostPercentage(c.costBreakdown?.food || 0)"></div>
@@ -133,7 +133,7 @@
           <div class="breakdown-item">
             <div class="item-info">
               <span>Transport</span>
-              <span class="price">£ {{ c.costBreakdown?.transport || 0 }}</span>
+              <span class="price">{{ getCurrencySymbol() }}{{ c.costBreakdown?.transport || 0 }}/mo</span>
             </div>
             <div class="progress-container">
               <div class="progress-bar transport" [style.width.%]="getCostPercentage(c.costBreakdown?.transport || 0)"></div>
@@ -143,7 +143,7 @@
           <div class="breakdown-item">
             <div class="item-info">
               <span>Bills & utilities</span>
-              <span class="price">£ {{ c.costBreakdown?.bills || 0 }}</span>
+              <span class="price">{{ getCurrencySymbol() }}{{ c.costBreakdown?.bills || 0 }}/mo</span>
             </div>
             <div class="progress-container">
               <div class="progress-bar bills" [style.width.%]="getCostPercentage(c.costBreakdown?.bills || 0)"></div>
@@ -153,7 +153,7 @@
           <div class="breakdown-item">
             <div class="item-info">
               <span>Personal</span>
-              <span class="price">£ {{ c.costBreakdown?.personal || 0 }}</span>
+              <span class="price">{{ getCurrencySymbol() }}{{ c.costBreakdown?.personal || 0 }}/mo</span>
             </div>
             <div class="progress-container">
               <div class="progress-bar personal" [style.width.%]="getCostPercentage(c.costBreakdown?.personal || 0)"></div>
@@ -163,7 +163,7 @@
 
         <div class="breakdown-footer">
           <span class="total-label">Total per month</span>
-          <span class="total-price">£ {{ getTotalMonthlyCost() }}/month</span>
+          <span class="total-price">{{ getCurrencySymbol() }}{{ getTotalMonthlyCost() }}/mo</span>
         </div>
       </section>
 

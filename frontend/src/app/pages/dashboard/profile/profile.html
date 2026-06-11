@@ -1,19 +1,4 @@
 <section class="dashboard-page profile-page">
-  <div class="stats-grid">
-    <button
-      *ngFor="let card of statCards; let i = index"
-      type="button"
-      class="stat-card"
-    >
-      <span class="stat-icon" [class]="'stat-icon tone-' + card.iconTone">
-        {{ card.icon }}
-      </span>
-      <div class="stat-copy">
-        <strong class="stat-value">{{ card.value }}</strong>
-        <span class="stat-title">{{ card.title }}</span>
-      </div>
-    </button>
-  </div>
 
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-content-grid">
     <!-- Left Column -->

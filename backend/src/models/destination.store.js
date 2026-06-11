@@ -34,11 +34,11 @@ const destinationSchema = new mongoose.Schema(
     partTimeWork: String,
     ieltsRequirement: String,
     costBreakdown: {
-      rent: { type: Number, default: 0 },
-      food: { type: Number, default: 0 },
-      transport: { type: Number, default: 0 },
-      bills: { type: Number, default: 0 },
-      personal: { type: Number, default: 0 },
+      rent: { type: String, default: '0' },
+      food: { type: String, default: '0' },
+      transport: { type: String, default: '0' },
+      bills: { type: String, default: '0' },
+      personal: { type: String, default: '0' },
     },
     roadmap: [
       {

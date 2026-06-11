@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DestinationService } from '../../../services/destination.service';
 import { Destination } from '../../../shared/data/destinations';
@@ -25,15 +25,41 @@ export class AdminCountryComponent implements OnInit {
     visaFee: '',
     partTimeWork: '',
     ieltsRequirement: '',
-    costBreakdown: { rent: 0, food: 0, transport: 0, bills: 0, personal: 0 },
+    costBreakdown: { rent: '', food: '', transport: '', bills: '', personal: '' },
     roadmap: [] as any[]
   };
 
-  protected totalCost = computed(() => {
+  getTotalCost(): string {
     const cb = this.formData.costBreakdown;
-    const total = (cb.rent || 0) + (cb.food || 0) + (cb.transport || 0) + (cb.bills || 0) + (cb.personal || 0);
-    return total > 0 ? total.toLocaleString() : '—';
-  });
+    if (!cb) return '—';
+    
+    let totalMin = 0;
+    let totalMax = 0;
+    
+    const fields = [cb.rent, cb.food, cb.transport, cb.bills, cb.personal];
+    for (const field of fields) {
+      const [min, max] = this.getRangeBounds(field);
+      totalMin += min;
+      totalMax += max;
+    }
+    
+    if (totalMin === 0 && totalMax === 0) return '—';
+    if (totalMin === totalMax) return totalMin.toLocaleString();
+    return `${totalMin.toLocaleString()}–${totalMax.toLocaleString()}`;
+  }
+
+  private getRangeBounds(value: any): [number, number] {
+    if (value === null || value === undefined) return [0, 0];
+    if (typeof value === 'number') return [value, value];
+    
+    const cleanStr = String(value).replace(/,/g, '');
+    const matches = cleanStr.match(/\d+(\.\d+)?/g);
+    if (!matches || matches.length === 0) return [0, 0];
+    
+    const numbers = matches.map(Number);
+    if (numbers.length === 1) return [numbers[0], numbers[0]];
+    return [numbers[0], numbers[1]];
+  }
 
   constructor(private destinationService: DestinationService) {}
 
@@ -66,11 +92,11 @@ export class AdminCountryComponent implements OnInit {
       partTimeWork: country.partTimeWork || '',
       ieltsRequirement: country.ieltsRequirement || '',
       costBreakdown: {
-        rent: country.costBreakdown?.rent || 0,
-        food: country.costBreakdown?.food || 0,
-        transport: country.costBreakdown?.transport || 0,
-        bills: country.costBreakdown?.bills || 0,
-        personal: country.costBreakdown?.personal || 0
+        rent: (country.costBreakdown?.rent !== undefined && country.costBreakdown?.rent !== null && country.costBreakdown?.rent !== 0 && country.costBreakdown?.rent !== '0') ? String(country.costBreakdown.rent) : '',
+        food: (country.costBreakdown?.food !== undefined && country.costBreakdown?.food !== null && country.costBreakdown?.food !== 0 && country.costBreakdown?.food !== '0') ? String(country.costBreakdown.food) : '',
+        transport: (country.costBreakdown?.transport !== undefined && country.costBreakdown?.transport !== null && country.costBreakdown?.transport !== 0 && country.costBreakdown?.transport !== '0') ? String(country.costBreakdown.transport) : '',
+        bills: (country.costBreakdown?.bills !== undefined && country.costBreakdown?.bills !== null && country.costBreakdown?.bills !== 0 && country.costBreakdown?.bills !== '0') ? String(country.costBreakdown.bills) : '',
+        personal: (country.costBreakdown?.personal !== undefined && country.costBreakdown?.personal !== null && country.costBreakdown?.personal !== 0 && country.costBreakdown?.personal !== '0') ? String(country.costBreakdown.personal) : ''
       },
       roadmap: country.roadmap ? JSON.parse(JSON.stringify(country.roadmap)) : []
     };

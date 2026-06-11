@@ -21,11 +21,11 @@ export interface Destination {
   partTimeWork?: string;
   ieltsRequirement?: string;
   costBreakdown?: {
-    rent: number;
-    food: number;
-    transport: number;
-    bills: number;
-    personal: number;
+    rent: number | string;
+    food: number | string;
+    transport: number | string;
+    bills: number | string;
+    personal: number | string;
   };
   roadmap?: RoadmapStep[];
 }
